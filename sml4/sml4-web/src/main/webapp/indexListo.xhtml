@@ -1,0 +1,62 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <h:head>
+        <meta charset="UTF-8"/>     
+        <title>
+            Servicio Médico Legal
+        </title>
+
+        <!--  Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <!--  Custom CSS -->
+        <link href="css/shop-item.css" rel="stylesheet" />
+    </h:head>
+    <nav100>
+        <div align="center">
+            <p class="lead">
+                <img class="img-responsive" src="imagenes/sintitulo1.png" alt="" />
+            </p>
+        </div>
+    </nav100>
+    <h:body>
+
+
+        <div align="center">
+            <div class="thumbnail" style="width:350px">                          
+                <div class="pull-center">
+                    <h4>Ingresar</h4>
+                </div>
+
+                <h:form>
+                    <h:panelGrid columns="2" cellpadding="100" class="ui-grid">
+                        <h:outputLabel value="Usuario: " for="usuario" style="width:120px"></h:outputLabel>                            
+                        <p:inputText id="usuario" value="#{inicioSesionMB.user}" required="false"></p:inputText>
+
+                        <h:outputLabel for="contrasena" value="Contraseña: " style="width:120px"></h:outputLabel>                            
+                        <p:password id="contrasena" value="#{inicioSesionMB.pass}" required="false"></p:password>
+
+                    </h:panelGrid><br />
+                    <div align="center"><h:commandButton value="Ingresar" action="#{inicioSesionMB.login()}"/></div><br />
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                </h:form>
+                
+            </div>
+        </div>
+
+
+        <h:body>
+            <div align="center">
+                <img class="img-responsive" src="imagenes/si.png" alt="" />
+            </div>
+        </h:body>
+    </h:body>
+</html>
