@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+    <!-- head -->
+    <h:head>
+        <meta content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>
+            Servicio Médico Legal
+        </title>
+        <!--  Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <!--  Custom CSS -->
+        <link href="css/shop-item.css" rel="stylesheet" />
+    </h:head>
+    <!-- head -->
+
+    <h:body>
+
+        <div class="container">
+
+
+            <!-- Usuario logeado -->
+            
+                <h:form>
+                    <div class="thumbnail">
+                    <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{crearFormularioMB.usuarioSesion.nombreUsuario}"></h:outputLabel></div>
+                    </div>
+                </h:form> 
+            
+            <hr />
+            <!-- usuario logeado -->
+            <!-- Nav -->
+            <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
+                <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
+                    <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
+                </div>
+                <div class="col-md-9"> <!-- Barra de navegación -->
+                    <ul class="nav nav-tabs nav-justified">
+                        
+                        <li role="presentation" class="active"><a href="#">Cadena de Custodia</a></li>
+                        
+                        <li role="presentation"><a href="indexListo.xhtml">Cerrar Sesion</a></li>
+
+                        
+                    </ul>
+                </div>
+            </div>   	
+
+            <!-- Nav -->
+            <!-- Barra lateral izquierda -->
+
+            <div class="container-fluid">       
+                <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:10px">
+                    <div class="col-md-3">
+                        <p class="lead">
+                            <a href="http://www.sml.cl/sml/" target="_blank" ><img class="img-responsive" src="imagenes/logoSML.jpg" alt="" /> </a>
+                        </p><hr />
+                        <p class="lead">
+                            <img class="img-responsive" src="imagenes/camioneta.jpg" alt="" />
+                        </p><hr />
+
+                        <p class="lead">
+                            <a href="https://www.facebook.com/smlchile" target="_blank"><img class="img-responsive" src="imagenes/fb_logo1.png" alt=" "/></a>
+                        </p><hr />                       
+                    </div>
+
+                    <!-- Barra lateral izquierda -->
+
+
+
+
+                    <!--fin usuario logeado --> 
+                    <div class="col-md-9">
+                        <div class="thumbnail" style="width: 785px; padding: 15px;">
+                            <!-- Barra de navegación -->
+                            <h4 style="text-align: center;" >Formulario Único de cadena de custodia</h4><hr />
+                            <div align="center">
+                            <h:form >
+                                
+                                <h:panelGrid columns="4" cellpadding="5" class="ui-grid">  
+                                    
+                                    <h:outputLabel  for="ruc" value="R.U.C.:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="ruc" value="#{crearFormularioMB.formulario.ruc}" label="rucz" ></p:inputText>
+                                    <p:message for="ruc" display="text"/> 
+                                    <br />
+                                    
+                                    <h:outputLabel  for="rit" value="R.I.T.:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="rit" value="#{crearFormularioMB.formulario.rit}" label="rit" ></p:inputText>
+                                    <p:message for="rit" display="text"/> 
+                                    <br />
+                                    
+                                    <h:outputLabel  for="parte" value="N° Parte:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="parte" value="#{crearFormularioMB.formulario.numeroParte}" label="N° Parte" ></p:inputText>
+                                    <p:message for="parte" display="text"/> 
+                                    <br />
+                                                                                                   
+                                    <h:outputLabel  for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="nue" value="#{crearFormularioMB.formulario.nue}" label="nue" required="true" type="number" requiredMessage="Debe ingresar NUE">                                          
+                                    </p:inputText>
+                                    <p:message for="nue" display="text"/> 
+                                    <br />
+                                    
+                                    <h:outputLabel  for="cargo" value="Cargo:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="cargo" value="#{crearFormularioMB.cargoInicia}" label="Cargo" required="true" requiredMessage="Debe ingresar el cargo"></p:inputText>
+                                    <p:message for="cargo" display="text"/> 
+                                    <br />
+
+                                    <h:outputLabel  for="del" value="Delito:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="del" value="#{crearFormularioMB.formulario.delitoRef}" label="Delito" required="true" requiredMessage="Debe ingresaar el delito"></p:inputText>
+                                    <p:message for="del" display="text"/> 
+                                    <br />
+
+                                    <h:outputLabel  for="dir" value="Dirección:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="dir" value="#{crearFormularioMB.formulario.direccionSS}" label="Dirección" required="true" requiredMessage="Debe ingresar la dirección"></p:inputText>
+                                    <p:message for="dir" display="text"/> 
+                                    <br />
+
+                                    <h:outputLabel  for="lu" value="Lugar:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="lu" value="#{crearFormularioMB.formulario.lugarLevantamiento}" label="Lugar" required="true" requiredMessage="Debe ingresar el lugar"></p:inputText>
+                                    <p:message for="lu" display="text"/> 
+                                    <br />
+                                    
+      
+
+
+                                    <h:outputLabel  for="uni" value="Unidad:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="uni" value="#{crearFormularioMB.usuarioInicia.unidad}" label="Unidad" required="true" requiredMessage="Debe ingresar la unidad"></p:inputText>
+                                    <p:message for="uni" display="text"/> 
+                                    <br />
+                                    
+                                    <h:outputLabel  for="lev" value="Levantada por:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="lev" value="#{crearFormularioMB.usuarioInicia.nombreUsuario}" label="Levantada por" required="true" requiredMessage="Debe ingresar quien levanto la evidencia"></p:inputText>
+                                    <p:message for="lev" display="text"/> 
+                                    <br />
+                                    
+                                    <h:outputLabel  for="run" value="R.U.N.:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="run" value="#{crearFormularioMB.usuarioInicia.rutUsuario}" label="R.U.N." required="true"  requiredMessage="Debe ingresar R.U.N." ></p:inputText>
+                                    <p:message for="run" display="text"/> 
+                                    <br />
+                                    
+                                    <h:outputLabel for="fecha" value="Fecha: " style="width:120px" />
+                                    <p:calendar id="fecha" pattern="dd/MM/yyyy HH:mm" locale="es" value="#{crearFormularioMB.formulario.fechaOcurrido}" required="true" requiredMessage="Debe ingresar la fecha" />
+                                    <p:message for="fecha" display="text"/>
+                                    <br />
+                                    
+                                </h:panelGrid> <br />
+
+
+                                <h:panelGrid columns="1" cellpadding="5" class="ui-grid">
+                                    
+                                    <h:outputLabel  for="Observaciones" value="Observaciones:" style="width:120px"></h:outputLabel>
+                                    <p:inputTextarea id="Observaciones" rows="3" cols="90" value="#{crearFormularioMB.formulario.observaciones}" queryDelay="750" minQueryLength="4" />
+
+                                    <h:outputLabel  for="descripcion" value="Descripción:" style="width:120px"></h:outputLabel>
+                                    <p:inputTextarea id="descripcion" rows="3" cols="90" value="#{crearFormularioMB.formulario.descripcionEspecieFormulario}" queryDelay="750" minQueryLength="4" />
+                                </h:panelGrid>                                
+
+                                <h:commandButton id="btnAceptar" value="Aceptar" action="#{crearFormularioMB.iniciarFormulario()}" />
+                                <p:messages id="messages" closable="true" />
+                            </h:form> <br />
+                        </div>
+                            </div>
+                    </div>
+
+                    <!-- Footer -->
+
+                </div>
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="col-md-3" style="margin-top: 20px">
+                        <p class="lead">
+                            <img class="img-responsive" src="imagenes/footer2.jpg" alt="" />
+                        </p><br />
+                    </div>
+                    <div class="col-md-9">
+
+                        <h5 class="pull-right">
+                            Servicio Médico Legal - Avda. La Paz 1012, Independencia,
+                            Santiago - Teléfono Mesa Central:
+                        </h5>
+                        <h5 class="pull-right">
+                            (2) 27823500 Fono OIRS: (2) 2782 3662 - 2782 3663 - 2782 3664 - 800
+                            800 006
+                        </h5>
+                    </div>                    
+                </nav>        
+            </div>
+        </div>
+        <!-- Footer -->
+
+    </h:body>
+</html>
+
