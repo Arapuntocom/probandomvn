@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Aracelly
+ * @author Alan
  */
 @Entity
 @Table(name = "evidencia")
@@ -36,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Evidencia.findByIdEvidencia", query = "SELECT e FROM Evidencia e WHERE e.idEvidencia = :idEvidencia"),
     @NamedQuery(name = "Evidencia.findByNombreEvidencia", query = "SELECT e FROM Evidencia e WHERE e.nombreEvidencia = :nombreEvidencia")})
 public class Evidencia implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,10 +47,10 @@ public class Evidencia implements Serializable {
     @Size(max = 45)
     @Column(name = "nombreEvidencia")
     private String nombreEvidencia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evidencia")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evidencia", fetch = FetchType.EAGER)
     private List<FormularioEvidencia> formularioEvidenciaList;
     @JoinColumn(name = "Tipo_Evidencia_idTipo_Evidencia", referencedColumnName = "idTipoEvidencia")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private TipoEvidencia tipoEvidenciaidTipoEvidencia;
 
     public Evidencia() {

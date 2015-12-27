@@ -7,6 +7,7 @@ package ejb;
 
 import entity.Area;
 import entity.Cargo;
+import entity.EdicionFormulario;
 import entity.Formulario;
 import entity.TipoMotivo;
 import entity.TipoUsuario;
@@ -14,6 +15,7 @@ import entity.Traslado;
 import entity.Usuario;
 import facade.AreaFacadeLocal;
 import facade.CargoFacadeLocal;
+import facade.EdicionFormularioFacadeLocal;
 import facade.FormularioFacadeLocal;
 import facade.TipoMotivoFacadeLocal;
 import facade.TipoUsuarioFacadeLocal;
@@ -24,6 +26,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -48,13 +52,78 @@ public class FormularioEJB implements FormularioEJBLocal {
     private TipoMotivoFacadeLocal tipoMotivoFacade;
     @EJB
     private FormularioFacadeLocal formularioFacade;
+    @EJB
+    private EdicionFormularioFacadeLocal edicionFormularioFacade;
 
     static final Logger logger = Logger.getLogger(FormularioEJB.class.getName());
 
     @Override
+    public Usuario obtenerPoseedorFormulario(Formulario formulario) {
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "obtenerPoseedorFormulario", formulario.getNue());
+        //Busco todo slos traslados del formulario
+        List<Traslado> trasladoList = traslados(formulario);
+        Usuario usuarioPoseedor = formulario.getUsuarioidUsuario1(); //usuario que inicia el formulario
+        //Comparando fechas entre traslados
+        if (!trasladoList.isEmpty()) {
+            usuarioPoseedor = trasladoList.get(trasladoList.size() - 1).getUsuarioidUsuario();  //último usuario que recibió            
+        }
+        logger.exiting(this.getClass().getName(), "obtenerPoseedorFormulario", usuarioPoseedor.toString());
+        return usuarioPoseedor;
+    }
+
+    //** trabajar en la consulta sql
+    // por qué es necesario tener las ediciones de un solo usuario ?
+    //@Override 
+    public List<EdicionFormulario> listaEdiciones(int nue, int idUser) {
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "listaEdiciones", nue + " " + idUser);
+        List<EdicionFormulario> lista = new ArrayList();
+        List<EdicionFormulario> response = new ArrayList();
+        lista = edicionFormularioFacade.findAll();
+
+        for (int i = 0; i < lista.size(); i++) {
+
+            if (lista.get(i).getUsuarioidUsuario().getIdUsuario() == idUser && lista.get(i).getFormularioNUE().getNue() == nue) {
+                response.add(lista.get(i));
+            }
+        }
+
+        if (response.isEmpty()) {
+            //response = null;
+            logger.exiting(this.getClass().getName(), "listaEdiciones", "sin elementos");
+            return response;
+        }
+        logger.exiting(this.getClass().getName(), "listaEdiciones", response.size());
+        return response;
+    }
+
+    //observacion: se pueden reducir la cant de consultas usando como parametro de entrada un Formulario.
+    @Override
+    public List<EdicionFormulario> listaEdiciones(int nue) {
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "listaEdiciones");
+        List<EdicionFormulario> retorno = new ArrayList<>();
+        Formulario f = formularioFacade.findByNue(nue);
+        if (f != null) {
+            retorno = edicionFormularioFacade.listaEdiciones(f);
+            if (retorno == null) {
+                logger.severe("lista de ediciones es null");
+                retorno = new ArrayList<>();
+            }
+        } else {
+            logger.severe("formulario no encontrado");
+        }
+        logger.exiting(this.getClass().getName(), "listaEdiciones", retorno.size());
+        return retorno;
+    }
+
+    @Override
     public Formulario findFormularioByNue(int nueAbuscar) {
+
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "findFormularioByNue", nueAbuscar);
+
         Formulario formulario = formularioFacade.findByNue(nueAbuscar);
         if (formulario != null) {
             logger.exiting(this.getClass().getName(), "findFormularioByNue", formulario.toString());
@@ -65,73 +134,124 @@ public class FormularioEJB implements FormularioEJBLocal {
     }
 
     @Override
-    public String crearTraslado(int nue, Usuario usuarioEntrega, Usuario usuarioRecibe, Date fechaT, Date fechaFormulario, String obs, String motivo) {
+    public String crearTraslado(Formulario formulario, String usuarioEntrega, String usuarioEntregaUnidad, String usuarioEntregaCargo, String usuarioEntregaRut, String usuarioRecibe, String usuarioRecibeUnidad, String usuarioRecibeCargo, String usuarioRecibeRut, Date fechaT, String observaciones, String motivo, Usuario uSesion) {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "crearTraslado");
-        if (nue > 0 && usuarioEntrega != null && usuarioRecibe != null && motivo != null) {
-            Formulario formulario = formularioFacade.find(nue);
-            if (formulario == null) {
-                logger.exiting(this.getClass().getName(), "crearTraslado", "Error con Formulario");
-                return "Error. Formulario no existe.";
-            }            
-            List<Traslado> trasladoList = traslados(formulario);
-            if( !trasladoList.isEmpty() && !compareFechas(fechaT, trasladoList.get(trasladoList.size() -1).getFechaEntrega()) ){
-                logger.exiting(this.getClass().getName(), "crearTraslado", "Error con Fecha");
-                return "Error, la fecha del nuevo traslado debe ser igual o posterior a la ultima fecha de traslado.";
-            }
-            
-            if(!compareFechas(fechaT, fechaFormulario)){
-                logger.exiting(this.getClass().getName(), "crearTraslado", "Error con Fecha");
-                return "Error, la fecha de traslado debe ser igual o posterior a la fecha del formulario.";
-            }
-            //traer usuarios, motivo
-            TipoMotivo motivoP = tipoMotivoFacade.findByTipoMotivo(motivo);
-            if (motivoP == null) {
-                logger.exiting(this.getClass().getName(), "crearTraslado", "Error con Motivo de Traslado");
-                return "Error, se requiere especificar Motivo del traslado.";
-            }
 
-            Usuario usuarioEntregaP = null;
-            Usuario usuarioRecibeP = null;
-            //Validando rut de los usuarios ingresados
-            if (val(usuarioEntrega.getRutUsuario()) && val(usuarioRecibe.getRutUsuario())) {
-                usuarioEntregaP = usuarioFacade.findByRUN(usuarioEntrega.getRutUsuario());
-                usuarioRecibeP = usuarioFacade.findByRUN(usuarioRecibe.getRutUsuario());
-            } else {
-                logger.exiting(this.getClass().getName(), "crearTraslado", "Error con ruts de usuarios");
-                return "Error. Verificar run.";
-            }
-
-            if (usuarioEntregaP == null) { //el usuario no esta en la bd
-                usuarioEntregaP = crearExterno(usuarioEntrega);
-                if (usuarioEntregaP == null) {
-                    logger.exiting(this.getClass().getName(), "crearTraslado", "Error con Usuario Entrega");
-                    return "Error con datos de la persona que entrega.";
-                }
-            }
-            if (usuarioRecibeP == null) {
-                usuarioRecibeP = crearExterno(usuarioRecibe);
-                if (usuarioRecibeP == null) {
-                    logger.exiting(this.getClass().getName(), "crearTraslado", "Error con Usuario Recibe");
-                    return "Error con datos de la persona que recibe.";
-                }
-            }
-            
-            Traslado nuevoTraslado = new Traslado();
-            nuevoTraslado.setFechaEntrega(fechaT);
-            nuevoTraslado.setFormularioNUE(formulario);
-            nuevoTraslado.setObservaciones(obs);
-            nuevoTraslado.setTipoMotivoidMotivo(motivoP);
-            nuevoTraslado.setUsuarioidUsuario(usuarioRecibeP);
-            nuevoTraslado.setUsuarioidUsuario1(usuarioEntregaP);
-            logger.info("se inicia insercion del nuevo traslado");
-            trasladoFacade.create(nuevoTraslado);
-            logger.info("se finaliza insercion del nuevo traslado");
-            logger.exiting(this.getClass().getName(), "crearTraslado", "Exito");
-            return "Exito";
+        if (formulario == null) {
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Formulario nulo");
+            return "Imposible agregar traslado, ocurrió un problema al cargar el formulario, por favor intente más tarde.";
         }
-        logger.exiting(this.getClass().getName(), "crearTraslado", "Erro. Faltan datos");
-        return "Error. Faltan datos.";
+
+        //verificamos que el formulario no se encuentre bloqueado.
+        if (formulario.getBloqueado()) {
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Formulario bloqueado");
+            return "Imposible agregar traslado, esta cadena de custodia se encuentra cerrada.";
+        }
+
+        if (usuarioEntrega == null || usuarioEntregaUnidad == null || usuarioEntregaCargo == null || usuarioEntregaRut == null || usuarioRecibe == null || usuarioRecibeUnidad == null || usuarioRecibeCargo == null || usuarioRecibeRut == null || motivo == null) {
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Campos null");
+            return "Faltan campos";
+        }
+
+        //Validando usuario que entrega
+        if (!val(usuarioEntregaRut) || !soloCaracteres(usuarioEntrega) || !soloCaracteres(usuarioEntregaUnidad) || !soloCaracteres(usuarioEntregaCargo)) {
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Error verificacion datos usuario entrega");
+            return "Error datos usuario entrega";
+        }
+
+        //Validando usuario que recibe
+        if (!val(usuarioRecibeRut) || !soloCaracteres(usuarioRecibe) || !soloCaracteres(usuarioRecibeUnidad) || !soloCaracteres(usuarioRecibeCargo)) {
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Error verificacion datos usuario recibe");
+            return "Error datos usuario recibe";
+        }
+
+        //Busco todos los traslados del formulario
+        List<Traslado> trasladoList = traslados(formulario);
+
+        //Comparando fechas entre traslados
+        if (!trasladoList.isEmpty() && !compareFechas(fechaT, trasladoList.get(trasladoList.size() - 1).getFechaEntrega())) {
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Error con Fecha");
+            return "Error, la fecha del nuevo traslado debe ser igual o posterior a la ultima fecha de traslado.";
+        }
+
+        //Comparando fecha entre traslado y formulario
+        if (!compareFechas(fechaT, formulario.getFechaOcurrido())) {
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Error con Fecha");
+            return "Error, la fecha de traslado debe ser igual o posterior a la fecha del formulario.";
+        }
+
+        //traer usuarios, motivo
+        TipoMotivo motivoP = tipoMotivoFacade.findByTipoMotivo(motivo);
+        if (motivoP == null) {
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Error con Motivo de Traslado");
+            return "Error, se requiere especificar Motivo del traslado.";
+        }
+
+        Usuario usuarioEntregaP = null;
+        Usuario usuarioRecibeP = null;
+
+        //Verificando usuario Entrega
+        usuarioEntregaP = usuarioFacade.findByRUN(usuarioEntregaRut);
+
+        if (usuarioEntregaP == null) {
+            usuarioEntregaP = crearExterno1(usuarioEntregaCargo, usuarioEntregaUnidad, usuarioEntrega, usuarioEntregaRut);
+            if (usuarioEntregaP == null) {
+                logger.exiting(this.getClass().getName(), "crearTraslado", "Error con creacion Usuario Entrega");
+                return "Error con datos de la persona que entrega.";
+            }
+        } else if (!usuarioEntregaP.getNombreUsuario().equals(usuarioEntrega) || !usuarioEntregaP.getUnidad().equals(usuarioEntregaUnidad) || !usuarioEntregaP.getCargoidCargo().getNombreCargo().equals(usuarioEntregaCargo)) {
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Error con verificacion Usuario Entrega");
+            return "Datos no coinciden con el rut ingresado";
+        }
+        //Verificando usuario Recibe
+        usuarioRecibeP = usuarioFacade.findByRUN(usuarioRecibeRut);
+        if (usuarioRecibeP == null) {
+            usuarioRecibeP = crearExterno1(usuarioRecibeCargo, usuarioRecibeUnidad, usuarioRecibe, usuarioRecibeRut);
+            if (usuarioRecibeP == null) {
+                logger.exiting(this.getClass().getName(), "crearTraslado", "Error con creacion usuario Recibe");
+                return "Error con datos de la persona que recibe.";
+            }
+        } else if (!usuarioRecibeP.getNombreUsuario().equals(usuarioRecibe) || !usuarioRecibeP.getUnidad().equals(usuarioRecibeUnidad) || !usuarioRecibeP.getCargoidCargo().getNombreCargo().equals(usuarioRecibeCargo)) {
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Error con verificacion usuario Recibe");
+            return "Datos no corresponden al rut";
+        }
+
+        //verificando que usuario recibe sea distinto del usuario que entrega
+        if (usuarioEntregaP.equals(usuarioRecibeP)) { //si se trata del mismo usuario 
+            logger.exiting(this.getClass().getName(), "crearTraslado", "Usuario Entrega y Recibe son el mismo");
+            return "El usuario que recibe la cadena de custodia debe ser distinto al usuario que la entrega.";
+        }
+
+        //Creando traslado
+        Traslado nuevoTraslado = new Traslado();
+        nuevoTraslado.setFechaEntrega(fechaT);
+        nuevoTraslado.setFormularioNUE(formulario);
+        nuevoTraslado.setObservaciones(observaciones);
+        nuevoTraslado.setTipoMotivoidMotivo(motivoP);
+        nuevoTraslado.setUsuarioidUsuario(usuarioRecibeP);
+        nuevoTraslado.setUsuarioidUsuario1(usuarioEntregaP);
+
+        logger.info("se inicia insercion del nuevo traslado");
+        trasladoFacade.create(nuevoTraslado);
+        logger.info("se finaliza insercion del nuevo traslado");
+
+        //verificamos si se se trata de un peritaje, lo cual finaliza la cc.
+        if (nuevoTraslado.getTipoMotivoidMotivo().getTipoMotivo().equals("Peritaje")) {
+            if (uSesion.getCargoidCargo().getNombreCargo().equals("Tecnico") || uSesion.getCargoidCargo().getNombreCargo().equals("Perito")) {
+                logger.info("se realiza peritaje, por tanto se finaliza la cc.");
+
+                formulario.setBloqueado(true);
+                logger.info("se inicia la edición del formulario para bloquearlo");
+                formularioFacade.edit(formulario);
+                logger.info("se finaliza la edición del formulario para bloquearlo");
+
+            }
+        }
+
+        logger.exiting(this.getClass().getName(), "crearTraslado", "Exito");
+        return "Exito";
+
     }
 
     private boolean compareFechas(Date fechaT, Date fechaFormulario) {
@@ -194,14 +314,37 @@ public class FormularioEJB implements FormularioEJBLocal {
         return false;
     }
 
-    private Usuario crearExterno(Usuario usuario) {
+    private boolean soloCaracteres(String palabra) {
+
+        Pattern patron = Pattern.compile("[^A-Za-z ]");
+        Matcher encaja = patron.matcher(palabra);
+
+        if (!encaja.find()) {
+            System.out.println("solo tiene letras y espacio!");
+            return true;
+        } else {
+            System.out.println("tiene otra cosa");
+            return false;
+        }
+
+    }
+
+    private Usuario crearExterno(Usuario usuario, String cargo) {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "crearExterno");
+
         if (usuario != null) {
             Usuario nuevoExterno = usuario;
             Area areaExterno = areaFacade.findByArea("Otro");
             TipoUsuario tue = tipoUsuarioFacade.findByTipo("Externo");
-            Cargo cargoExterno = cargoFacade.findByCargo("Externo");
+            Cargo cargoExterno = cargoFacade.findByCargo(cargo);
+            if (cargoExterno == null) {
+                Cargo nuevo = new Cargo();
+                nuevo.setNombreCargo(cargo);
+                cargoFacade.create(nuevo);
+                cargoExterno = cargoFacade.findByCargo(cargo);
+            }
+
             nuevoExterno.setAreaidArea(areaExterno);
             nuevoExterno.setCargoidCargo(cargoExterno);
             nuevoExterno.setTipoUsuarioidTipoUsuario(tue);
@@ -221,10 +364,50 @@ public class FormularioEJB implements FormularioEJBLocal {
         logger.exiting(this.getClass().getName(), "crearExterno", null);
         return null;
     }
-    
+
+    //ZACK
+    private Usuario crearExterno1(String cargo, String unidad, String nombre, String rut) {
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "crearExterno");
+
+        Usuario nuevoExterno = new Usuario();
+        Area areaExterno = areaFacade.findByArea("Otro");
+        TipoUsuario tue = tipoUsuarioFacade.findByTipo("Externo");
+        //buscando cargo, en el caso que no exista se crea
+        Cargo cargoExterno = cargoFacade.findByCargo(cargo);
+        if (cargoExterno == null) {
+            Cargo nuevo = new Cargo();
+            nuevo.setNombreCargo(cargo);
+            cargoFacade.create(nuevo);
+            cargoExterno = cargoFacade.findByCargo(cargo);
+        }
+
+        //APELLIDO ? -> se lo comio el perro 
+        nuevoExterno.setUnidad(unidad);
+        nuevoExterno.setNombreUsuario(nombre);
+        nuevoExterno.setRutUsuario(rut);
+        nuevoExterno.setAreaidArea(areaExterno);
+        nuevoExterno.setCargoidCargo(cargoExterno);
+        nuevoExterno.setTipoUsuarioidTipoUsuario(tue);
+        nuevoExterno.setEstadoUsuario(Boolean.TRUE);
+        nuevoExterno.setMailUsuario("na");
+        nuevoExterno.setPassUsuario("na");
+        logger.finest("se inicia la persistencia del nuevo usuario externo");
+        usuarioFacade.create(nuevoExterno);
+        logger.finest("se finaliza la persistencia del nuevo usuario externo");
+
+        nuevoExterno = usuarioFacade.findByRUN(rut);
+        if (nuevoExterno != null) {
+            logger.exiting(this.getClass().getName(), "crearExterno", nuevoExterno.toString());
+            return nuevoExterno;
+        }
+        logger.exiting(this.getClass().getName(), "crearExterno", null);
+        return null;
+    }
+
     //Función que verifica el ruc y el rit, solamente entrega true en los siguientes casos (513-21321) y ().
     private boolean checkRucOrRit(String rucOrRit) {
- 
+
         if (rucOrRit.equals("")) {
             return true;
         }
@@ -234,7 +417,7 @@ public class FormularioEJB implements FormularioEJBLocal {
         int largoN = numeros.length;
         int largoInterno = 0;
         System.out.println("Largo: " + largoN);
- 
+
         if (lastGuion.equals("-")) {
             return false;
         }
@@ -253,78 +436,156 @@ public class FormularioEJB implements FormularioEJBLocal {
             return true;
         }
         return false;
- 
+
     }
 
-    
-     @Override
+    //** modificada para retornar una lista vacía si no encuentra resultados.
+    @Override
     public List<Traslado> traslados(Formulario formulario) {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "traslados", formulario.toString());
         List<Traslado> retorno = trasladoFacade.findByNue(formulario);
         if (retorno == null) {
-            logger.exiting(this.getClass().getName(), "traslados", null);
-            return null;
+            retorno = new ArrayList<>();
+            logger.exiting(this.getClass().getName(), "traslados", retorno.size());
+            return retorno;
         } else {
             logger.exiting(this.getClass().getName(), "traslados", retorno.size());
             return retorno;
         }
     }
 
+    //ZACK
+    //Función que crea el formulario 
+    // el String de retorno se muentra como mensaje en la vista.
     @Override
-    public String crearFormulario(Formulario formulario, Usuario usuarioInicia, Usuario usuarioSesion) {
-        logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "crearFormulario");
-        if (formulario != null && usuarioInicia != null && formulario.getNue() > 0) {
-            Formulario formularioP = formularioFacade.find(formulario.getNue()); //verificamos que no haya otro formulario con el mismo nue
-            if (formularioP == null) { //significa que no hay otro formulario con el mismo nue
-                
-                if(!(checkRucOrRit(formulario.getRuc()) && checkRucOrRit(formulario.getRit()))){
-                    logger.exiting(this.getClass().getName(), "crearFormulario", "Error con RUC o RIT");
-                    return "Error con RUC o RIT.";
-                } 
-                
-                Usuario usuarioIniciaP = null;
-               
-                if (val(usuarioInicia.getRutUsuario())) { //Verificando el rut
-                    usuarioIniciaP = usuarioFacade.findByRUN(usuarioInicia.getRutUsuario()); //buscamos al usuario que ingresa el formulario
-                }
-                else{
-                    logger.exiting(this.getClass().getName(), "crearFormulario", "Error con Usuario que inicia");
-                    return "Error con datos de la persona que levanta el formulario.";
-                }
- 
-                if (usuarioIniciaP == null) { //significa que el usuario no existe en la bd.
-                    usuarioIniciaP = crearExterno(usuarioInicia);
-                    if(usuarioIniciaP == null){
-                        logger.exiting(this.getClass().getName(), "crearFormulario", "Error con usuario iniciante externo");
-                        return "Error con datos de la persona que levanta el formulario.";
-                    }
-                }
-                
-                               
-                
-                Formulario nuevoFormulario = formulario;
-               
-                nuevoFormulario.setDireccionFotografia("C:");
-                nuevoFormulario.setFechaIngreso(new Date(System.currentTimeMillis()));
-                nuevoFormulario.setUltimaEdicion(nuevoFormulario.getFechaIngreso());
-                nuevoFormulario.setUsuarioidUsuario(usuarioIniciaP);
-                nuevoFormulario.setUsuarioidUsuario1(usuarioIniciaP);
- 
-                logger.finest("se inicia la persistencia del nuevo formulario");
-                formularioFacade.create(nuevoFormulario);
-                logger.finest("se finaliza la persistencia del nuevo formulario");
-                logger.exiting(this.getClass().getName(), "crearFormulario", true);
-                return "Exito";
-            } else { //ya existe un forulario con el mismo nue.
-                logger.exiting(this.getClass().getName(), "crearFormulario", "Error con Formulario");
-                return "Error. Formulario ya existe.";
+    public String crearFormulario(String ruc, String rit, int nue, int nParte, String cargo, String delito, String direccionSS, String lugar, String unidad, String levantadoPor, String rut, Date fecha, String observacion, String descripcion, Usuario digitador) {
+
+        //Verificando nue
+        if (nue > 0) {
+            //Verificando si existe un formulario con ese nue
+            Formulario verificar = formularioFacade.findByNue(nue);
+            if (verificar != null) {
+                return "Formulario existente";
             }
         } else {
-            logger.exiting(this.getClass().getName(), "crearFormulario", false);
+            return "Nue inválido";
         }
-        return "Error. Faltan datos.";
+
+        //Verificando rit y ruc
+        //checkeo ruc y rit
+        if (!checkRucOrRit(ruc) || !checkRucOrRit(rit)) {
+            logger.exiting(this.getClass().getName(), "crearFormulario", "Error con RUC o RIT");
+            return "Error con RUC o RIT.";
+        }
+
+        //Verificando que los campos sean string
+        if (!soloCaracteres(cargo) || !soloCaracteres(delito) || !soloCaracteres(unidad) || !soloCaracteres(levantadoPor) || !val(rut)) {
+
+            return "Campos erróneos.";
+        }
+
+        //ruc - rit- nparte - obs y descripcion no son obligatorios
+        Usuario usuarioIngresar = new Usuario();
+        //Verificando en la base de datos si existe el usuario con ese rut
+        usuarioIngresar = usuarioFacade.findByRUN(rut);
+
+        if (usuarioIngresar == null) {
+            //quiero decir que no existe
+            usuarioIngresar = crearExterno1(cargo, unidad, levantadoPor, rut);
+
+            if (usuarioIngresar == null) {
+                return "No se pudo crear el nuevo usuario";
+            }
+        } else //Existe, y hay que verificar que los datos ingresador concuerdan con los que hay en la base de datos
+        if (!usuarioIngresar.getCargoidCargo().getNombreCargo().equals(cargo) || !usuarioIngresar.getUnidad().equals(unidad) || !usuarioIngresar.getNombreUsuario().equals(levantadoPor)) {
+            return "Datos nos coinciden con el rut";
+        }
+
+        Formulario nuevoFormulario = new Formulario();
+
+        nuevoFormulario.setDireccionFotografia("C:");
+        nuevoFormulario.setFechaIngreso(new Date(System.currentTimeMillis()));
+        nuevoFormulario.setFechaOcurrido(fecha);
+        nuevoFormulario.setUltimaEdicion(nuevoFormulario.getFechaIngreso());
+        nuevoFormulario.setUsuarioidUsuario(digitador); // Usuario digitador
+        nuevoFormulario.setUsuarioidUsuario1(usuarioIngresar); //Usuario inicia
+        nuevoFormulario.setDescripcionEspecieFormulario(descripcion);
+        nuevoFormulario.setObservaciones(observacion);
+        nuevoFormulario.setDelitoRef(delito);
+        nuevoFormulario.setNue(nue);
+        nuevoFormulario.setNumeroParte(nParte);
+        nuevoFormulario.setDelitoRef(delito);
+        nuevoFormulario.setRuc(ruc);
+        nuevoFormulario.setRit(rit);
+        nuevoFormulario.setLugarLevantamiento(lugar);
+        nuevoFormulario.setDireccionSS(direccionSS);
+        nuevoFormulario.setBloqueado(false);
+
+        logger.finest("se inicia la persistencia del nuevo formulario");
+        formularioFacade.create(nuevoFormulario);
+        logger.finest("se finaliza la persistencia del nuevo formulario");
+        logger.exiting(this.getClass().getName(), "crearFormulario", true);
+        return "Exito";
+
+    }
+
+    //se crea una nueva edicion para el formulario indicado.
+    @Override
+    public String edicionFormulario(Formulario formulario, String obsEdicion, Usuario usuarioSesion) {
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "edicionFormulario");
+        if (obsEdicion == null) {
+            logger.exiting(this.getClass().getName(), "edicionFormulario", "falta observación.");
+            return "Se requiere la observación.";
+        }
+
+        //verificando que el usuario que edita si haya participado en la cc.
+        if(!esParticipanteCC(formulario, usuarioSesion)){
+            logger.exiting(this.getClass().getName(), "edicionFormulario", "usuario no ha participado en cc");
+            return "Ud no ha participado en esta cadena de custodia.";
+        }
+        
+        //Creando el objeto edicion
+        EdicionFormulario edF = new EdicionFormulario();
+
+        edF.setFormularioNUE(formulario);
+        edF.setUsuarioidUsuario(usuarioSesion);
+        edF.setObservaciones(obsEdicion);
+        edF.setFechaEdicion(new Date(System.currentTimeMillis()));
+
+        //Actualizando ultima edicion formulario
+        formulario.setUltimaEdicion(edF.getFechaEdicion());
+
+        edicionFormularioFacade.edit(edF);
+        formularioFacade.edit(formulario);
+        
+        logger.exiting(this.getClass().getName(), "edicionFormulario", "Exito");
+        return "Exito";
+    }
+
+    //retorna true cuando el usuario si ha particiado en la cc.
+    private boolean esParticipanteCC(Formulario formulario, Usuario usuario) {
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "obtenerParticipantesCC");
+        if (usuario.equals(formulario.getUsuarioidUsuario1())) {
+            logger.exiting(this.getClass().getName(), "obtenerParticipantesCC", true);
+            return true;
+        }
+        List<Traslado> traslados = trasladoFacade.findByNue(formulario);
+        if (traslados.get(0).getUsuarioidUsuario().equals(usuario)) { //valida 1er traslado, útil para digitador.
+            logger.exiting(this.getClass().getName(), "obtenerParticipantesCC", true);
+            return true;
+        }
+
+        for (int i = 0; i < traslados.size(); i++) {
+            if (traslados.get(i).getUsuarioidUsuario1().equals(usuario)) {
+                logger.exiting(this.getClass().getName(), "obtenerParticipantesCC", true);
+                return true;
+            }
+        }
+        logger.exiting(this.getClass().getName(), "obtenerParticipantesCC", false);
+        return false;
     }
 
 }

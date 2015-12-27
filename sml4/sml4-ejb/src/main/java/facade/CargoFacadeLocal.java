@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 @Local
 public interface CargoFacadeLocal {
@@ -29,7 +29,7 @@ public interface CargoFacadeLocal {
     List<Cargo> findRange(int[] range);
 
     int count();
-
-    public Cargo findByCargo(String externo);
+    
+     Cargo findByCargo(String cargo);
     
 }

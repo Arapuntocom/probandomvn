@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package facade;
-
+ 
 import entity.Usuario;
 import static facade.AbstractFacade.logger;
 import java.util.logging.Level;
@@ -19,7 +19,7 @@ import javax.persistence.PessimisticLockException;
 import javax.persistence.Query;
 import javax.persistence.QueryTimeoutException;
 import javax.persistence.TransactionRequiredException;
-
+ 
 /**
  *
  * @author Aracelly
@@ -28,20 +28,21 @@ import javax.persistence.TransactionRequiredException;
 public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFacadeLocal {
     @PersistenceContext(unitName = "com.pingeso_sml4-ejb_ejb_3.0-SNAPSHOTPU")
     private EntityManager em;
-
+ 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-
+ 
     public UsuarioFacade() {
         super(Usuario.class);
     }
-
+ 
+    //@NamedQuery(name = "Usuario.findByCuentaUsuario", query = "SELECT u FROM Usuario u WHERE u.cuentaUsuario = :cuentaUsuario")s
     @Override
     public Usuario findByCuentaUsuario(String name) {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "findByName", name);
+        logger.entering(this.getClass().getName(), "findByCuentaUsuario", name);
         Usuario retorno = null;
         try {
             Query q = em.createNamedQuery("Usuario.findByCuentaUsuario", Usuario.class).setParameter("cuentaUsuario", name);
@@ -76,14 +77,15 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
             retorno = null;
         }
         if (retorno == null) {
-            logger.exiting(this.getClass().getName(), "findByName", null);
+            logger.exiting(this.getClass().getName(), "findByCuentaUsuario", null);
             return null;
         } else {
-            logger.exiting(this.getClass().getName(), "findByName", retorno.toString());
+            logger.exiting(this.getClass().getName(), "findByCuentaUsuario", retorno.toString());
             return retorno;
         }
     }
-
+ 
+    //@NamedQuery(name = "Usuario.findByRutUsuario", query = "SELECT u FROM Usuario u WHERE u.rutUsuario = :rutUsuario")
     @Override
     public Usuario findByRUN(String run) {
         logger.setLevel(Level.ALL);
@@ -129,5 +131,5 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
             return retorno;
         }
     }
-    
+   
 }

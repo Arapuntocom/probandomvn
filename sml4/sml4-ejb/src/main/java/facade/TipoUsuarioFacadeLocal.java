@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 @Local
 public interface TipoUsuarioFacadeLocal {
@@ -29,7 +29,7 @@ public interface TipoUsuarioFacadeLocal {
     List<TipoUsuario> findRange(int[] range);
 
     int count();
-
-    public TipoUsuario findByTipo(String externo);
+    
+    TipoUsuario findByTipo(String nombreTipo);
     
 }

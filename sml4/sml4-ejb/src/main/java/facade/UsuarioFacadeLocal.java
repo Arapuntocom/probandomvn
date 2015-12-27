@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 @Local
 public interface UsuarioFacadeLocal {
@@ -30,8 +30,8 @@ public interface UsuarioFacadeLocal {
 
     int count();
 
-    public Usuario findByCuentaUsuario(String user);
+    Usuario findByCuentaUsuario(String name);
 
-    public Usuario findByRUN(String rutUsuario);
-    
+    Usuario findByRUN(String run);
+
 }

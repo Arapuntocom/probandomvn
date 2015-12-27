@@ -10,6 +10,9 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,12 +21,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Aracelly
+ * @author Alan
  */
 @Entity
 @Table(name = "edicion_formulario")
@@ -31,22 +34,29 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "EdicionFormulario.findAll", query = "SELECT e FROM EdicionFormulario e"),
     @NamedQuery(name = "EdicionFormulario.findByIdEdicion", query = "SELECT e FROM EdicionFormulario e WHERE e.idEdicion = :idEdicion"),
-    @NamedQuery(name = "EdicionFormulario.findByFechaEdicion", query = "SELECT e FROM EdicionFormulario e WHERE e.fechaEdicion = :fechaEdicion")})
+    @NamedQuery(name = "EdicionFormulario.findByFechaEdicion", query = "SELECT e FROM EdicionFormulario e WHERE e.fechaEdicion = :fechaEdicion"),
+    @NamedQuery(name = "EdicionFormulario.findByObservaciones", query = "SELECT e FROM EdicionFormulario e WHERE e.observaciones = :observaciones"),
+    @NamedQuery(name = "EdicionFormulario.findByFormulario", query = "SELECT e FROM EdicionFormulario e WHERE e.formularioNUE = :formularioNUE")
+})
 public class EdicionFormulario implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "idEdicion")
     private Integer idEdicion;
     @Column(name = "fechaEdicion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaEdicion;
+    @Size(max = 400)
+    @Column(name = "observaciones")
+    private String observaciones;
     @JoinColumn(name = "Usuario_idUsuario", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario usuarioidUsuario;
     @JoinColumn(name = "Formulario_NUE", referencedColumnName = "NUE")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Formulario formularioNUE;
 
     public EdicionFormulario() {
@@ -70,6 +80,14 @@ public class EdicionFormulario implements Serializable {
 
     public void setFechaEdicion(Date fechaEdicion) {
         this.fechaEdicion = fechaEdicion;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
     public Usuario getUsuarioidUsuario() {

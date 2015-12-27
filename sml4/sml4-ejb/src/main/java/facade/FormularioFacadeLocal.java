@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 @Local
 public interface FormularioFacadeLocal {
@@ -30,6 +30,6 @@ public interface FormularioFacadeLocal {
 
     int count();
     
-    public Formulario findByNue(int nue);
+    Formulario findByNue(int nue);
     
 }

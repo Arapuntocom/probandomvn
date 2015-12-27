@@ -16,9 +16,9 @@
             Servicio Médico Legal
         </title>
         <!--  Bootstrap Core CSS -->
-        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href=".../css/bootstrap.min.css" rel="stylesheet" />
         <!--  Custom CSS -->
-        <link href="css/shop-item.css" rel="stylesheet" />
+        <link href=".../css/shop-item.css" rel="stylesheet" />
     </h:head>
     <!-- head -->
 
@@ -43,14 +43,15 @@
                     <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
                 </div>
                 <div class="col-md-9"> <!-- Barra de navegación -->
-                    <ul class="nav nav-tabs nav-justified">
+                    <h:form>
+                        <ul class="nav nav-tabs nav-justified">
 
-                        <li role="presentation" class="active"><a href="#">Cadena de Custodia</a></li>
-                        <li role="presentation"><a href="digitadorFormularioHU11.xhtml">Nueva Cadena de custodia</a></li>
-                        <li role="presentation"><a href="indexListo.xhtml">Cerrar Sesion</a></li>
+                            <li role="presentation" class="active"><a href="#">Cadena de Custodia</a></li>
+                            <li role="presentation"><a href="digitadorFormularioHU11.xhtml">Nueva Cadena de custodia</a></li>                        
+                            <li role="presentation"> <h:commandLink id="cs" action="#{todoChoferMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>                    
 
-
-                    </ul>
+                        </ul>
+                    </h:form>
                 </div>
             </div>      
 
@@ -61,14 +62,14 @@
                 <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:10px">
                     <div class="col-md-3">
                         <p class="lead">
-                            <a href="http://www.sml.cl/sml/" target="_blank" ><img class="img-responsive" src="imagenes/logoSML.jpg" alt="" /> </a>
+                            <a href="http://www.sml.cl/sml/" target="_blank" ><img class="img-responsive" src=".../imagenes/logoSML.jpg" alt="" /> </a>
                         </p><hr />
                         <p class="lead">
-                            <img class="img-responsive" src="imagenes/camioneta.jpg" alt="" />
+                            <img class="img-responsive" src=".../imagenes/camioneta.jpg" alt="" />
                         </p><hr />
 
                         <p class="lead">
-                            <a href="https://www.facebook.com/smlchile" target="_blank"><img class="img-responsive" src="imagenes/fb_logo1.png" alt=" "/></a>
+                            <a href="https://www.facebook.com/smlchile" target="_blank"><img class="img-responsive" src=".../imagenes/fb_logo1.png" alt=" "/></a>
                         </p><hr />                       
                     </div>
 
@@ -143,20 +144,31 @@
                                 <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
 
                                     <h:outputLabel  style="width:120px" for="UnE" value="Unidad:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
-                                    <p:inputText id="UnE" value="#{todoMB.usuarioEntrega.unidad}" label="Unidad" required="true" requiredMessage="Debe ingresar la unidad"></p:inputText> <!-- nose si poner la misma etiqueta -->
+                                    <p:inputText id="UnE" value="#{todoMB.usuarioEntregaUnidad}" label="Unidad" required="true" requiredMessage="Debe ingresar la unidad"></p:inputText> <!-- nose si poner la misma etiqueta -->
                                     <p:message for="UnE" display="text"/>
                                 </h:panelGrid>
+
+
+                                <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
+
+                                    <h:outputLabel  style="width:120px" for="CE" value="Cargo:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                                    <p:inputText id="CE" value="#{todoMB.usuarioEntregaCargo}" label="Cargo" required="true" requiredMessage="Debe ingresar el cargo">
+                                    </p:inputText>
+                                    <p:message for="CE" display="text"/> 
+
+                                </h:panelGrid>
+
                                 <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
 
                                     <h:outputLabel  style="width:120px" for="nomE" value="Nombre:"></h:outputLabel>
-                                    <p:inputText id="nomE" value="#{todoMB.usuarioEntrega.nombreUsuario}" label="Nombre" required="true" requiredMessage="Debe Ingresar el nombre"></p:inputText>
+                                    <p:inputText id="nomE" value="#{todoMB.usuarioEntrega}" label="Nombre" required="true" requiredMessage="Debe Ingresar el nombre"></p:inputText>
                                     <p:message for="nomE" display="text"/>
                                 </h:panelGrid>
 
                                 <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
 
                                     <h:outputLabel  style="width:120px" for="runE" value="R.U.N.:"></h:outputLabel>
-                                    <p:inputText id="runE" value="#{todoMB.usuarioEntrega.rutUsuario}" label="R.U.N." required="true" requiredMessage="Debe ingresar el R.U.N."></p:inputText>
+                                    <p:inputText id="runE" value="#{todoMB.usuarioEntregaRut}" label="R.U.N." required="true" requiredMessage="Debe ingresar el R.U.N."></p:inputText>
                                     <p:message for="runE" display="text"/>
                                 </h:panelGrid>
                                 <br />
@@ -164,39 +176,49 @@
 
                                 <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
                                     <h:outputLabel  style="width:120px" for="UnR" value="Unidad:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
-                                    <p:inputText id="UnR" value="#{todoMB.usuarioRecibe.unidad}" label="Unidad" required="true" requiredMessage="Debe ingresar la unidad"></p:inputText> <!-- nose si poner la misma etiqueta -->
+                                    <p:inputText id="UnR" value="#{todoMB.usuarioRecibeUnidad}" label="Unidad" required="true" requiredMessage="Debe ingresar la unidad"></p:inputText> <!-- nose si poner la misma etiqueta -->
                                     <p:message for="UnR" display="text"/>
+                                </h:panelGrid>
+
+
+                                <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
+
+                                    <h:outputLabel  style="width:120px" for="CR" value="Cargo:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                                    <p:inputText id="CR" value="#{todoMB.usuarioRecibeCargo}" label="Cargo" required="true" requiredMessage="Debe ingresar la cargo">
+                                    </p:inputText>
+                                    <p:message for="CR" display="text"/> 
+
                                 </h:panelGrid>
 
                                 <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
                                     <h:outputLabel  style="width:120px" for="nomR" value="Nombre:"></h:outputLabel>
-                                    <p:inputText id="nomR" value="#{todoMB.usuarioRecibe.nombreUsuario}" label="Nombre" required="true" requiredMessage="Debe ingresar el nombre"></p:inputText>
+                                    <p:inputText id="nomR" value="#{todoMB.usuarioRecibe}" label="Nombre" required="true" requiredMessage="Debe ingresar el nombre"></p:inputText>
                                     <p:message for="nomR" display="text"/>
                                 </h:panelGrid>
 
                                 <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
 
                                     <h:outputLabel  style="width:120px" for="runR" value="R.U.N.:"></h:outputLabel>
-                                    <p:inputText id="runR" value="#{todoMB.usuarioRecibe.rutUsuario}" label="R.U.N." required="true" requiredMessage="Debe ingresar el R.U.N."></p:inputText>
+                                    <p:inputText id="runR" value="#{todoMB.usuarioRecibeRut}" label="R.U.N." required="true" requiredMessage="Debe ingresar el R.U.N."></p:inputText>
                                     <p:message for="runR" display="text"/>
                                 </h:panelGrid>
                                 <br />
                                 <div align="center">
-                                <h:selectOneRadio id="mot" value="#{todoMB.motivo}" required="true" requiredMessage="Debe ingresar el motivo">
-                                    <f:selectItem itemValue="Peritaje" itemLabel="Peritaje" /> <!-- agregar libreria arriba-->
-                                    <f:selectItem itemValue="Traslado" itemLabel="Traslado" />
-                                    <f:selectItem itemValue="Custodia" itemLabel="Custodia" />
-                                </h:selectOneRadio><br />
-                                <p:message for="mot" display="text"/>
+                                    <h:selectOneRadio id="mot" value="#{todoMB.motivo}" required="true" requiredMessage="Debe ingresar el motivo">
+                                        <f:selectItem itemValue="Peritaje" itemLabel="Peritaje" /> <!-- agregar libreria arriba-->
+                                        <f:selectItem itemValue="Traslado" itemLabel="Traslado" />
+                                        <f:selectItem itemValue="Custodia" itemLabel="Custodia" />
+                                    </h:selectOneRadio><br />
+                                    <p:message for="mot" display="text"/>
                                 </div><br />
-                                
-                                
+
+
 
                                 <h:outputLabel  for="obsCC" value="Observaciones:" style="width:120px"></h:outputLabel>
-                                <p:inputTextarea id="ObsCC" rows="3" cols="90" value="#{todoMB.obs}" queryDelay="750" minQueryLength="4" />
+                                <p:inputTextarea id="ObsCC" rows="3" cols="90" value="#{todoMB.observacionesT}" queryDelay="750" minQueryLength="4" />
                                 <br />    
                                 <h:commandButton id="btnAceptar" value="Aceptar" action="#{todoMB.agregarTraslado()}"/>
-                                
+
                                 <br />
 
                             </h:form> <br />
@@ -236,7 +258,7 @@
                 <nav class="navbar navbar-default" role="navigation">
                     <div class="col-md-3" style="margin-top: 20px">
                         <p class="lead">
-                            <img class="img-responsive" src="imagenes/footer2.jpg" alt="" />
+                            <img class="img-responsive" src=".../imagenes/footer2.jpg" alt="" />
                         </p><br />
                     </div>
                     <div class="col-md-9">

@@ -12,7 +12,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 @Local
 public interface TrasladoFacadeLocal {
@@ -31,6 +31,6 @@ public interface TrasladoFacadeLocal {
 
     int count();
     
-    public List<Traslado> findByNue(Formulario formulario);
+    List<Traslado> findByNue(Formulario formulario);
     
 }

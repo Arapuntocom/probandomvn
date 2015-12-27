@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 @Local
 public interface TipoEvidenciaFacadeLocal {

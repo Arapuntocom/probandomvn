@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Aracelly
+ * @author Alan
  */
 @Entity
 @Table(name = "traslado")
@@ -35,14 +36,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Traslado.findByIdInvolucrado", query = "SELECT t FROM Traslado t WHERE t.idInvolucrado = :idInvolucrado"),
     @NamedQuery(name = "Traslado.findByFechaEntrega", query = "SELECT t FROM Traslado t WHERE t.fechaEntrega = :fechaEntrega"),
     @NamedQuery(name = "Traslado.findByObservaciones", query = "SELECT t FROM Traslado t WHERE t.observaciones = :observaciones"),
-
-    @NamedQuery(name = "Traslado.findByNue", query="SELECT t FROM Traslado t WHERE t.formularioNUE = :nue")
-})
+    @NamedQuery(name = "Traslado.findByNue", query = "SELECT t FROM Traslado t WHERE t.formularioNUE = :nue")})
 public class Traslado implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idInvolucrado")
     private Integer idInvolucrado;
@@ -53,16 +52,16 @@ public class Traslado implements Serializable {
     @Column(name = "observaciones")
     private String observaciones;
     @JoinColumn(name = "Usuario_idUsuario", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario usuarioidUsuario;
     @JoinColumn(name = "Usuario_idUsuario1", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario usuarioidUsuario1;
     @JoinColumn(name = "Tipo_Motivo_idMotivo", referencedColumnName = "idMotivo")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private TipoMotivo tipoMotivoidMotivo;
     @JoinColumn(name = "Formulario_NUE", referencedColumnName = "NUE")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Formulario formularioNUE;
 
     public Traslado() {

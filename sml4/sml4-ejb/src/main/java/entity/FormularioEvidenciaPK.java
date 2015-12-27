@@ -13,10 +13,11 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Aracelly
+ * @author Alan
  */
 @Embeddable
 public class FormularioEvidenciaPK implements Serializable {
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "Formulario_NUE")

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package facade;
-
+ 
 import entity.Formulario;
 import entity.Traslado;
 import static facade.AbstractFacade.logger;
@@ -19,26 +19,27 @@ import javax.persistence.PessimisticLockException;
 import javax.persistence.Query;
 import javax.persistence.QueryTimeoutException;
 import javax.persistence.TransactionRequiredException;
-
+ 
 /**
  *
  * @author Aracelly
  */
 @Stateless
 public class TrasladoFacade extends AbstractFacade<Traslado> implements TrasladoFacadeLocal {
-
+ 
     @PersistenceContext(unitName = "com.pingeso_sml4-ejb_ejb_3.0-SNAPSHOTPU")
     private EntityManager em;
-
+ 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-
+ 
     public TrasladoFacade() {
         super(Traslado.class);
     }
-
+ 
+    //@NamedQuery(name = "Traslado.findByNue", query = "SELECT t FROM Traslado t WHERE t.formularioNUE = :nue")
     @Override
     public List<Traslado> findByNue(Formulario formulario) {
         logger.setLevel(Level.ALL);
@@ -69,5 +70,5 @@ public class TrasladoFacade extends AbstractFacade<Traslado> implements Traslado
             return retorno;
         }
     }
-
+ 
 }

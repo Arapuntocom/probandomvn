@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -30,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Aracelly
+ * @author Alan
  */
 @Entity
 @Table(name = "formulario")
@@ -50,8 +51,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Formulario.findByDelitoRef", query = "SELECT f FROM Formulario f WHERE f.delitoRef = :delitoRef"),
     @NamedQuery(name = "Formulario.findByDescripcionEspecieFormulario", query = "SELECT f FROM Formulario f WHERE f.descripcionEspecieFormulario = :descripcionEspecieFormulario"),
     @NamedQuery(name = "Formulario.findByUltimaEdicion", query = "SELECT f FROM Formulario f WHERE f.ultimaEdicion = :ultimaEdicion"),
-    @NamedQuery(name = "Formulario.findByDescripcionEspecieCC", query = "SELECT f FROM Formulario f WHERE f.descripcionEspecieCC = :descripcionEspecieCC")})
+    @NamedQuery(name = "Formulario.findByBloqueado", query = "SELECT f FROM Formulario f WHERE f.bloqueado = :bloqueado")})
 public class Formulario implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -93,29 +95,28 @@ public class Formulario implements Serializable {
     @Column(name = "ultimaEdicion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ultimaEdicion;
-    @Size(max = 300)
-    @Column(name = "descripcionEspecieCC")
-    private String descripcionEspecieCC;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "bloqueado")
+    private boolean bloqueado;
     @JoinTable(name = "formulario_relacionado", joinColumns = {
         @JoinColumn(name = "Formulario_NUE", referencedColumnName = "NUE")}, inverseJoinColumns = {
         @JoinColumn(name = "Formulario_NUE1", referencedColumnName = "NUE")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Formulario> formularioList;
-    @ManyToMany(mappedBy = "formularioList")
+    @ManyToMany(mappedBy = "formularioList", fetch = FetchType.EAGER)
     private List<Formulario> formularioList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulario", fetch = FetchType.EAGER)
     private List<FormularioEvidencia> formularioEvidenciaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formularioNUE")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formularioNUE", fetch = FetchType.EAGER)
     private List<Traslado> trasladoList;
     @JoinColumn(name = "Usuario_idUsuario1", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario usuarioidUsuario1;
     @JoinColumn(name = "Usuario_idUsuario", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario usuarioidUsuario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formularioNUE")
-    private List<Peritaje> peritajeList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formularioNUE")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formularioNUE", fetch = FetchType.EAGER)
     private List<EdicionFormulario> edicionFormularioList;
 
     public Formulario() {
@@ -123,6 +124,11 @@ public class Formulario implements Serializable {
 
     public Formulario(Integer nue) {
         this.nue = nue;
+    }
+
+    public Formulario(Integer nue, boolean bloqueado) {
+        this.nue = nue;
+        this.bloqueado = bloqueado;
     }
 
     public Integer getNue() {
@@ -229,12 +235,12 @@ public class Formulario implements Serializable {
         this.ultimaEdicion = ultimaEdicion;
     }
 
-    public String getDescripcionEspecieCC() {
-        return descripcionEspecieCC;
+    public boolean getBloqueado() {
+        return bloqueado;
     }
 
-    public void setDescripcionEspecieCC(String descripcionEspecieCC) {
-        this.descripcionEspecieCC = descripcionEspecieCC;
+    public void setBloqueado(boolean bloqueado) {
+        this.bloqueado = bloqueado;
     }
 
     @XmlTransient
@@ -287,15 +293,6 @@ public class Formulario implements Serializable {
 
     public void setUsuarioidUsuario(Usuario usuarioidUsuario) {
         this.usuarioidUsuario = usuarioidUsuario;
-    }
-
-    @XmlTransient
-    public List<Peritaje> getPeritajeList() {
-        return peritajeList;
-    }
-
-    public void setPeritajeList(List<Peritaje> peritajeList) {
-        this.peritajeList = peritajeList;
     }
 
     @XmlTransient

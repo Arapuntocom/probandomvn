@@ -15,8 +15,8 @@ import javax.ejb.Local;
 @Local
 public interface UsuarioEJBLocal {
 
-    public boolean verificarUsuario(String user, String pass);
-
     public Usuario findUsuarioSesionByCuenta(String cuentaUsuario);
+    
+    public String verificarUsuario(String user, String pass);
     
 }

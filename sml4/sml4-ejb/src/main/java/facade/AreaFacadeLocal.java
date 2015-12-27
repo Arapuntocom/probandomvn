@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 @Local
 public interface AreaFacadeLocal {
@@ -29,7 +29,7 @@ public interface AreaFacadeLocal {
     List<Area> findRange(int[] range);
 
     int count();
-
-    public Area findByArea(String otro);
+    
+    Area findByArea(String nombreArea);
     
 }

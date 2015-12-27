@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 @Local
 public interface TipoMotivoFacadeLocal {
@@ -29,7 +29,7 @@ public interface TipoMotivoFacadeLocal {
     List<TipoMotivo> findRange(int[] range);
 
     int count();
-
-    public TipoMotivo findByTipoMotivo(String motivo);
+    
+    TipoMotivo findByTipoMotivo(String motivo);
     
 }

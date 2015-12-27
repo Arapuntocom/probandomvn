@@ -18,43 +18,54 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class UsuarioEJB implements UsuarioEJBLocal {
-    
+
     @EJB
-    private UsuarioFacadeLocal usuarioFacade;    
-    
+    private UsuarioFacadeLocal usuarioFacade;
+
     static final Logger logger = Logger.getLogger(UsuarioEJB.class.getName());
-    
-    //Función para verificar la existencia de un usuario en el sistema
+
+    //Función para verificar la existencia del usuario en el sistema
     @Override
-    public boolean verificarUsuario(String user, String pass) {
+    public String verificarUsuario(String user, String pass) {
+
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(),"verificarUsuario", user);
-        boolean correcto = false;
+        logger.entering(this.getClass().getName(), "Función verificarUsuario", user);
         //Buscamos al usuario segun su cuenta usuario
         Usuario foundUser = usuarioFacade.findByCuentaUsuario(user);
-        
+        String direccion = "";
         //Si lo encuentro verifico si la contraseña es igual a la que se ingreso
         if (foundUser != null) {
             if (foundUser.getPassUsuario().equals(pass)) {
-                correcto = true;                    
+                //Redirecciono según el cargo a su respectiva vista
+                if (foundUser.getCargoidCargo().getNombreCargo().equals("Perito")) {
+                    direccion = "/perito/peritoFormulario.xhtml?faces-redirect=true";
+                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Chofer")) {
+                    direccion = "/chofer/choferFormulario.xhtml?faces-redirect=true";
+                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Digitador")) {
+                    direccion = "/digitador/digitadorFormularioHU11.xhtml?faces-redirect=true";
+                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Tecnico")) {
+                    direccion = "/tecnico/buscadorTecnico.xhtml?faces-redirect=true";
+                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Jefe de area")){
+                    direccion = "/jefeArea/buscadorJefeArea.xhtml?faces-redirect=true";
+                }
             }
         }
-        logger.exiting(this.getClass().getName(), "verificarUsuario", correcto);
-        return correcto;
-    }  
+        logger.exiting(this.getClass().getName(), "Función verificarUsuario", direccion);
+        return direccion;
+    }
 
     @Override
     public Usuario findUsuarioSesionByCuenta(String cuentaUsuario) {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(),"findUsuarioSesionByCuenta", cuentaUsuario);
+        logger.entering(this.getClass().getName(), "findUsuarioSesionByCuenta", cuentaUsuario);
         Usuario foundUser = usuarioFacade.findByCuentaUsuario(cuentaUsuario);
-        if(foundUser != null){
-            logger.exiting(this.getClass().getName(),"findUsuarioSesionByCuenta", foundUser.toString());
+        if (foundUser != null) {
+            logger.exiting(this.getClass().getName(), "findUsuarioSesionByCuenta", foundUser.toString());
             return foundUser;
-        }else{
-            logger.exiting(this.getClass().getName(),"findUsuarioSesionByCuenta", "Error con usuario");
+        } else {
+            logger.exiting(this.getClass().getName(), "findUsuarioSesionByCuenta", "Error con usuario");
             return null;
         }
     }
-    
+
 }

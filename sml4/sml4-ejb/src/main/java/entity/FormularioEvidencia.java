@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -18,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Aracelly
+ * @author Alan
  */
 @Entity
 @Table(name = "formulario_evidencia")
@@ -29,16 +30,17 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "FormularioEvidencia.findByEvidenciaidEvidencia", query = "SELECT f FROM FormularioEvidencia f WHERE f.formularioEvidenciaPK.evidenciaidEvidencia = :evidenciaidEvidencia"),
     @NamedQuery(name = "FormularioEvidencia.findByCantidad", query = "SELECT f FROM FormularioEvidencia f WHERE f.cantidad = :cantidad")})
 public class FormularioEvidencia implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected FormularioEvidenciaPK formularioEvidenciaPK;
     @Column(name = "cantidad")
     private Integer cantidad;
     @JoinColumn(name = "Formulario_NUE", referencedColumnName = "NUE", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Formulario formulario;
     @JoinColumn(name = "Evidencia_idEvidencia", referencedColumnName = "idEvidencia", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Evidencia evidencia;
 
     public FormularioEvidencia() {

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package facade;
-
+ 
 import entity.Area;
 import static facade.AbstractFacade.logger;
 import java.util.logging.Level;
@@ -19,7 +19,7 @@ import javax.persistence.PessimisticLockException;
 import javax.persistence.Query;
 import javax.persistence.QueryTimeoutException;
 import javax.persistence.TransactionRequiredException;
-
+ 
 /**
  *
  * @author Aracelly
@@ -28,16 +28,17 @@ import javax.persistence.TransactionRequiredException;
 public class AreaFacade extends AbstractFacade<Area> implements AreaFacadeLocal {
     @PersistenceContext(unitName = "com.pingeso_sml4-ejb_ejb_3.0-SNAPSHOTPU")
     private EntityManager em;
-
+ 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-
+ 
     public AreaFacade() {
         super(Area.class);
     }
-
+    
+ //@NamedQuery(name = "Area.findByNombreArea", query = "SELECT a FROM Area a WHERE a.nombreArea = :nombreArea")
     @Override
     public Area findByArea(String nombreArea) {
         logger.setLevel(Level.ALL);
@@ -90,5 +91,5 @@ public class AreaFacade extends AbstractFacade<Area> implements AreaFacadeLocal 
             return retorno;
         }
     }
-    
+   
 }

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package facade;
-
+ 
 import entity.TipoUsuario;
 import static facade.AbstractFacade.logger;
 import java.util.logging.Level;
@@ -19,7 +19,7 @@ import javax.persistence.PessimisticLockException;
 import javax.persistence.Query;
 import javax.persistence.QueryTimeoutException;
 import javax.persistence.TransactionRequiredException;
-
+ 
 /**
  *
  * @author Aracelly
@@ -28,16 +28,17 @@ import javax.persistence.TransactionRequiredException;
 public class TipoUsuarioFacade extends AbstractFacade<TipoUsuario> implements TipoUsuarioFacadeLocal {
     @PersistenceContext(unitName = "com.pingeso_sml4-ejb_ejb_3.0-SNAPSHOTPU")
     private EntityManager em;
-
+ 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-
+ 
     public TipoUsuarioFacade() {
         super(TipoUsuario.class);
     }
-
+ 
+    //@NamedQuery(name = "TipoUsuario.findByNombreTipo", query = "SELECT t FROM TipoUsuario t WHERE t.nombreTipo = :nombreTipo")
     @Override
     public TipoUsuario findByTipo(String nombreTipo) {
         logger.setLevel(Level.ALL);
@@ -83,5 +84,5 @@ public class TipoUsuarioFacade extends AbstractFacade<TipoUsuario> implements Ti
             return retorno;
         }
     }
-    
+   
 }

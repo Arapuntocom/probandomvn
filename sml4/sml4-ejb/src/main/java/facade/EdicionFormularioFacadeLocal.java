@@ -6,12 +6,13 @@
 package facade;
 
 import entity.EdicionFormulario;
+import entity.Formulario;
 import java.util.List;
 import javax.ejb.Local;
 
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 @Local
 public interface EdicionFormularioFacadeLocal {
@@ -29,5 +30,7 @@ public interface EdicionFormularioFacadeLocal {
     List<EdicionFormulario> findRange(int[] range);
 
     int count();
-    
+
+    public List<EdicionFormulario> listaEdiciones(Formulario formulario);
+
 }

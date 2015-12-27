@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Aracelly
+ * @author Alan
  */
 @Entity
 @Table(name = "tipo_motivo")
@@ -34,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoMotivo.findByIdMotivo", query = "SELECT t FROM TipoMotivo t WHERE t.idMotivo = :idMotivo"),
     @NamedQuery(name = "TipoMotivo.findByTipoMotivo", query = "SELECT t FROM TipoMotivo t WHERE t.tipoMotivo = :tipoMotivo")})
 public class TipoMotivo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +45,7 @@ public class TipoMotivo implements Serializable {
     @Size(max = 45)
     @Column(name = "tipoMotivo")
     private String tipoMotivo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoMotivoidMotivo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoMotivoidMotivo", fetch = FetchType.EAGER)
     private List<Traslado> trasladoList;
 
     public TipoMotivo() {
