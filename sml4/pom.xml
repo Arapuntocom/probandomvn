@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.pingeso</groupId>
   <artifactId>sml4</artifactId>
-  <version>3.0-SNAPSHOT</version>
+  <version>4</version>
   <packaging>pom</packaging>
   <name>sml4</name>
   <modules>
@@ -13,6 +13,7 @@
   </modules>
   <scm>
     <developerConnection>scm:git:https://github.com/Arapuntocom/probandomvn/</developerConnection>
+    <tag>sml4listo</tag>
   </scm>
   
   <build>
