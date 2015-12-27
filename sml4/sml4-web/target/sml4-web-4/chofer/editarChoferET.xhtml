@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <title>Formulario</title>
+        <link href=".../css/bootstrap.min.css" rel="stylesheet" />
+        <link href=".../css/shop-item.css" rel="stylesheet" />
+    </h:head>
+    <h:body>
+
+        <!-- Usuario logeado -->
+
+        <h:form>
+            <div class="thumbnail">
+                <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{editarChoferETMB.usuarioSesion.nombreUsuario}"></h:outputLabel></div>
+            </div>
+        </h:form> 
+
+        <hr />
+        <!-- usuario logeado -->
+
+        <!-- Nav -->
+        <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
+            <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
+                <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
+            </div>
+            <div class="col-md-9"> <!-- Barra de navegación -->
+                <ul class="nav nav-tabs nav-justified">
+
+                    <li role="presentation"><a href="choferFormulario.xhtml">Iniciar nuevo formulario</a></li>
+
+                    <li role="presentation" class="active" ><a href="BuscadorChofer.xhtml">Editar</a></li>
+
+                    <h:form>
+                        <li role="presentation"> <h:commandLink id="cs" action="#{editarChoferETMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
+                    </h:form>
+                </ul>
+            </div>
+        </div>   	
+
+        <!-- Nav -->
+
+        <div align="center">
+            <div class="col-md-9">
+                <div class="thumbnail" style="width: 785px; padding: 15px;">
+                    <!-- Barra de navegación -->
+                    <h:form>
+                        <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
+                            <h:outputLabel  for="ruc" value="R.U.C.:" style="width:120px"></h:outputLabel>
+                            <p:inputText id="ruc" value="#{editarChoferETMB.formulario.ruc}" label="ruc" disabled="true" ></p:inputText>
+
+                            <h:outputLabel  for="rit" value="R.I.T.:" style="width:120px"></h:outputLabel>
+                            <p:inputText id="rit" value="#{editarChoferETMB.formulario.rit}" label="rit" disabled="true"></p:inputText>
+
+                            <h:outputLabel  for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
+                            <p:inputText id="nue" value="#{editarChoferETMB.formulario.nue}" label="nue" disabled="true"></p:inputText>                                   
+
+                            <h:outputLabel  for="del" value="Delito:" style="width:120px"></h:outputLabel>
+                            <p:inputText id="del" value="#{editarChoferETMB.formulario.delitoRef}" label="Delito" disabled="true"></p:inputText>
+
+                            <h:outputLabel  for="dir" value="Dirección:" style="width:120px"></h:outputLabel>
+                            <p:inputText id="dir" value="#{editarChoferETMB.formulario.direccionSS}" label="Dirección" disabled="true"></p:inputText>
+
+                            <h:outputLabel  for="lu" value="Lugar:" style="width:120px"></h:outputLabel>
+                            <p:inputText id="lu" value="#{editarChoferETMB.formulario.lugarLevantamiento}" label="Lugar" disabled="true"></p:inputText>
+
+                            <h:outputLabel  for="parte" value="N° Parte:" style="width:120px"></h:outputLabel>
+                            <p:inputText id="parte" value="#{editarChoferETMB.formulario.numeroParte}" label="N° Parte" disabled="true"></p:inputText>
+
+                            <h:outputLabel  for="uni" value="Unidad:" style="width:120px"></h:outputLabel>
+                            <p:inputText id="uni" value="#{editarChoferETMB.formulario.usuarioidUsuario1.unidad}" label="Unidad" disabled="true"></p:inputText>
+
+                            <h:outputLabel  for="lev" value="Levantada por:" style="width:120px"></h:outputLabel>
+                            <p:inputText id="lev" value="#{editarChoferETMB.formulario.usuarioidUsuario1.nombreUsuario}" label="Levantada por" disabled="true"></p:inputText>
+
+                            <h:outputLabel  for="run" value="R.U.N.:" style="width:120px"></h:outputLabel>
+                            <p:inputText id="run" value="#{editarChoferETMB.formulario.usuarioidUsuario1.rutUsuario}" label="R.U.N." disabled="true"></p:inputText>            
+
+                        </h:panelGrid> <br />
+
+
+                        <h:panelGrid columns="1" cellpadding="5" class="ui-grid">
+                            <h:outputLabel  for="fecha" value="Fecha:" style="width:120px"></h:outputLabel>
+                            <p:inputText id="fecha" value="#{editarChoferETMB.formulario.fechaOcurrido}" label="Fecha" disabled="true"/>
+
+                            <h:outputLabel  for="obs" value="Observaciones:" style="width:120px"></h:outputLabel>
+                            <p:inputTextarea id="Observaciones" rows="3" cols="90" value="#{editarChoferETMB.formulario.observaciones}" queryDelay="750" minQueryLength="4" disabled="true" />
+
+                            <h:outputLabel  for="des" value="Descripción:" style="width:120px"></h:outputLabel>
+                            <p:inputTextarea id="descripcion" rows="3" cols="90" value="#{editarChoferETMB.formulario.descripcionEspecieFormulario}" queryDelay="750" minQueryLength="4" disabled="true" />
+                        </h:panelGrid>  <br />
+                        <br />
+                        <h4> Mostrando Traslados</h4>
+                        <p:dataList value="#{editarChoferETMB.traslados}" var="traslado" emptyMessage="No se han registrado más participantes en esta cadena de custodia." >     
+                            <h:outputLabel value="Fecha: " for="feT" />
+                            <h:outputText id="feT" value="#{traslado.fechaEntrega}" />
+                            <h:outputLabel value="Motivo: " for="moT"/>
+                            <h:outputText id="moT" value="#{traslado.tipoMotivoidMotivo.tipoMotivo}"/>
+                            <h4>Entrega: </h4>
+                            <h:outputLabel value="Nombre: " for="nomTE" />
+                            <h:outputText id="nomTE" value="#{traslado.usuarioidUsuario1.nombreUsuario}" />
+                            <h:outputLabel value="Cargo: " for="carTE" />
+                            <h:outputText id="carTE" value="#{traslado.usuarioidUsuario1.cargoidCargo.nombreCargo}" />
+                            <h:outputLabel value="R.U.N.:"  for="ruTE" />
+                            <h:outputText id="ruTE" value="#{traslado.usuarioidUsuario1.rutUsuario}" />       
+                            <h4>Recibe: </h4>
+                            <h:outputLabel value="Nombre: " for="nomTR" />
+                            <h:outputText id="nomTR" value="#{traslado.usuarioidUsuario.nombreUsuario}" />
+                            <h:outputLabel value="Cargo: " for="carTR" />
+                            <h:outputText id="carTR" value="#{traslado.usuarioidUsuario.cargoidCargo.nombreCargo}" />
+                            <h:outputLabel value="R.U.N.: " for="ruTR" />
+                            <h:outputText id="ruTR" value="#{traslado.usuarioidUsuario.rutUsuario}" /> <br/>
+                            <h:outputLabel value="Observaciones: " for="obsTT" />
+                            <h:outputText id="obsTT" value="#{traslado.observaciones}" />
+                            <hr />
+                        </p:dataList>
+                        <hr />
+                        <h4> Mostrando Ediciones</h4>
+                        <p:dataList value="#{editarChoferETMB.ediciones}" var="ediciones" emptyMessage="No se han realizado ediciones en esta cadena de custodia.">     
+                            <h:outputLabel value="Edición: " for="ed" />
+                            <h:outputText id="ed" value="#{ediciones.observaciones}" />
+                            <hr />
+                        </p:dataList>
+
+                        <!-- panel para ingresar la observacion-->
+                        <div align="center">
+                            <div class="thumbnail" style="width: 785px; padding: 15px;">
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel  for="edicion" value="Edición:" style="width:120px"></h:outputLabel>
+                                    <p:inputTextarea id="edicion" rows="3" cols="90" value="#{editarChoferETMB.observacionEdicion}" queryDelay="750" minQueryLength="4" required="true" requiredMessage="Debe ingresar la observación"/>
+                                    <h:commandButton value="Aceptar" label="" action ="#{editarChoferETMB.editarFormulario()}" ></h:commandButton>  
+                                </h:panelGrid>
+                            </div>
+                        </div>
+                    </h:form> 
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
