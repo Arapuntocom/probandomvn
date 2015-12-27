@@ -11,30 +11,19 @@
     <module>sml4-web</module>
     <module>sml4-ejb</module>
   </modules>
-    <scm>
-    <connection>scm:git:https://github.com/Arapuntocom/probandomvn/</connection>
-</scm>
-<distributionManagement>
-    <repository>
-        <id>artifact-repository</id>
-        <url>https://github.com/Arapuntocom/probandomvn/tree/master/sml4</url>
-    </repository>
-</distributionManagement>
-
-<build>
+  <scm>
+    <developerConnection>scm:git:https://github.com/Arapuntocom/probandomvn/</developerConnection>
+  </scm>
+  
+  <build>
     <plugins>
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>versions-maven-plugin</artifactId>
-            <version>2.1</version>
-        </plugin>
-        <plugin>
-            <artifactId>maven-scm-plugin</artifactId>
-            <version>1.8.1</version>
-            <configuration>
-                <tag>${project.artifactId}-${project.version}</tag>
-            </configuration>
-        </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+      </plugin>
     </plugins>
-</build>
+    
+  </build>
+  
 </project>
