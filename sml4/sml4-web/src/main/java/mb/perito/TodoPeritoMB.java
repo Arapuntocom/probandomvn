@@ -53,6 +53,9 @@ public class TodoPeritoMB {
 
     private List<Traslado> trasladosList;
     private List<EdicionFormulario> edicionesList;
+    
+    private boolean bloqueada;
+    private boolean editable;
 
     static final Logger logger = Logger.getLogger(TodoPeritoMB.class.getName());
 
@@ -85,6 +88,13 @@ public class TodoPeritoMB {
         
         this.trasladosList = formularioEJB.traslados(this.formulario);
         this.edicionesList = formularioEJB.listaEdiciones(nue);
+        
+        this.bloqueada = formulario.getBloqueado();
+        this.editable = formularioEJB.esParticipanteCC(formulario, usuarioSesion);
+        logger.log(Level.INFO, "editable {0}", editable);
+        if(bloqueada){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Esta cadena de custodia se encuentra cerrada.", ""));
+        } 
         
         logger.log(Level.INFO, "formulario ruc {0}", this.formulario.getRuc());
         logger.log(Level.FINEST, "todos cant traslados {0}", this.trasladosList.size());
@@ -176,5 +186,21 @@ public class TodoPeritoMB {
 
     public void setUsuarioSesion(Usuario usuarioSesion) {
         this.usuarioSesion = usuarioSesion;
+    }
+    
+    public boolean isBloqueada() {
+        return bloqueada;
+    }
+
+    public void setBloqueada(boolean bloqueada) {
+        this.bloqueada = bloqueada;
+    }
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
 }

@@ -73,20 +73,23 @@ public class BuscadorJefeAreaMB {
     public String buscarFormulario() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "buscarFormularioJefeArea");
+        logger.log(Level.INFO, "NUE CAPTURADO:{0}", this.nue);
         Formulario formulario = formularioEJB.findFormularioByNue(this.nue);
-        httpServletRequest.getSession().setAttribute("nueF", this.nue);
-        httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);
+
         if (formulario != null) {
+            httpServletRequest.getSession().setAttribute("nueF", this.nue);
+            httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);
             logger.exiting(this.getClass().getName(), "buscarFormularioJefeArea", "buscadorJefeAreaResultTE");
             return "buscadorJefeAreaResultTE.xhtml?faces-redirect=true";
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "no existe", "Datos no válidos"));
+        logger.info("formulario no encontrado");
         logger.exiting(this.getClass().getName(), "buscarFormularioJefeArea", "buscadorJefeArea");
-        return "buscadorJefeArea.xhtml?faces-redirect=true";
+        return "";
     }
 
     //retorna a la vista para realizar busqueda
-    public String buscador(){
+    public String buscador() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "buscadorJefeArea");
         httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);
@@ -94,7 +97,7 @@ public class BuscadorJefeAreaMB {
         logger.exiting(this.getClass().getName(), "buscadorJefeArea", "buscadorJefeArea");
         return "buscadorJefeArea?faces-redirect=true";
     }
-    
+
     public String salir() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "salirJefeArea");

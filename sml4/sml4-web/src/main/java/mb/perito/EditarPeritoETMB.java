@@ -52,13 +52,23 @@ public class EditarPeritoETMB {
     private Usuario usuarioSesion;
 
     private String observacionEdicion;
-    
+
     //Listado de  ediciones realizadas
     List<EdicionFormulario> ediciones;
     List<Traslado> traslados;
     
+    //para habilitar la edicion de estos campos.
+    private boolean isRit;
+    private boolean isRuc;
+    private boolean isParte;
+
+    //para registrar contenido de la edicion
+    private int parte;
+    private String ruc;
+    private String rit;
+
     static final Logger logger = Logger.getLogger(EditarPeritoETMB.class.getName());
-    
+
     public EditarPeritoETMB() {
 
         logger.setLevel(Level.ALL);
@@ -81,6 +91,12 @@ public class EditarPeritoETMB {
             this.usuarioS = (String) httpServletRequest.getSession().getAttribute("cuentaUsuario");
             logger.log(Level.FINEST, "Cuenta Usuario recibido {0}", this.usuarioS);
         }
+        
+        
+
+        this.isRit = true;
+        this.isRuc = true;
+        this.isParte = true;
 
         logger.exiting(this.getClass().getName(), "EditarPeritoETMB");
     }
@@ -93,24 +109,52 @@ public class EditarPeritoETMB {
         this.usuarioSesion = usuarioEJB.findUsuarioSesionByCuenta(usuarioS);
         this.traslados = formularioEJB.traslados(formulario);
         this.ediciones = formularioEJB.listaEdiciones(this.nue);
+        
+        if (formulario.getNumeroParte() == 0) {
+            this.isParte = false;
+        }
+        if (formulario.getRuc() == null || formulario.getRuc().equals("")) {
+            this.isRuc = false;
+        }
+        if (formulario.getRit() == null || formulario.getRit().equals("")) {
+            this.isRit = false;
+        }
+
         logger.exiting(this.getClass().getName(), "cargarDatosPerito");
     }
-    
-    public String editarFormulario(){
+
+    public String editarFormulario() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "editarFormularioPerito");
-        String response = formularioEJB.edicionFormulario(formulario, observacionEdicion, usuarioSesion);
+        if (formulario.getNumeroParte() > 0 && this.isParte == false) {
+            parte = formulario.getNumeroParte();
+            logger.log(Level.INFO, "MB parte -> {0}", parte);
+            isParte = true;
+        }
+        if (formulario.getRuc() != null && !formulario.getRuc().equals("") && this.isRuc == false) {
+            ruc = formulario.getRuc();
+            logger.log(Level.INFO, "MB ruc -> {0}", ruc);
+            isRuc = true;
+        }
+        if (formulario.getRit() != null && !formulario.getRit().equals("") && this.isRit == false) {
+            rit = formulario.getRit();
+            logger.log(Level.INFO, "MB rit -> {0}", rit);
+            isRit = true;
+        }
+
+        String response = formularioEJB.edicionFormulario(formulario, observacionEdicion, usuarioSesion, parte, ruc, rit);
         httpServletRequest.getSession().setAttribute("nueF", this.nue);
         httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioS);
-        if(response.equals("Exito")){
-            logger.exiting(this.getClass().getName(), "editarFormularioPerito", "editarPeritoET");
-            return "editarPeritoET.xhtml?faces-redirect=true";
+        if (response.equals("Exito")) {
+            logger.exiting(this.getClass().getName(), "editarFormularioPerito", "todoPerito");
+            return "todoPerito.xhtml?faces-redirect=true";
         }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrió un problema al guardar los cambios, por favor intente más tarde.", "error al editar"));
+        //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrió un problema al guardar los cambios, por favor intente más tarde.", "error al editar"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, response, "error al editar"));
         logger.exiting(this.getClass().getName(), "editarFormularioPerito", "");
         return "";
     }
-    
+
     public String salir() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "salirPerito");
@@ -119,7 +163,7 @@ public class EditarPeritoETMB {
         logger.exiting(this.getClass().getName(), "salirPerito", "/indexListo");
         return "/indexListo.xhtml?faces-redirect=true";
     }
-    
+
     public int getNue() {
         return nue;
     }
@@ -167,4 +211,30 @@ public class EditarPeritoETMB {
     public void setTraslados(List<Traslado> traslados) {
         this.traslados = traslados;
     }
+
+    public boolean isIsRit() {
+        return isRit;
+    }
+
+    public void setIsRit(boolean isRit) {
+        this.isRit = isRit;
+    }
+
+    public boolean isIsRuc() {
+        return isRuc;
+    }
+
+    public void setIsRuc(boolean isRuc) {
+        this.isRuc = isRuc;
+    }
+
+    public boolean isIsParte() {
+        return isParte;
+    }
+
+    public void setIsParte(boolean isParte) {
+        this.isParte = isParte;
+    }
+
+    
 }

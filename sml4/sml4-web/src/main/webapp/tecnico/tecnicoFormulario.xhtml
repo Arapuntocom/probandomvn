@@ -44,13 +44,9 @@
                 <div class="col-md-9"> <!-- Barra de navegación -->
                     <h:form>
                         <ul class="nav nav-tabs nav-justified">
-
-                            <li role="presentation"><a href="peritoFormulario.xhtml">Iniciar nuevo formulario</a></li>
-
-                            <li role="presentation" class="active" ><a href="buscadorTecnico.xhtml">Buscar</a></li>
-
+                            <li role="presentation" class="active" ><a href="tecnicoFormulario.xhtml">Iniciar Cadena de Custodia</a></li> 
+                            <li role="presentation" class="active" ><a href="buscadorTecnico.xhtml">Buscar Cadena de Custodia</a></li>   
                             <li role="presentation"> <h:commandLink id="cs" action="#{crearFormularioTecnicoMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
-
                         </ul>
                     </h:form>
                 </div>
@@ -105,8 +101,7 @@
                                         <br />
 
                                         <h:outputLabel  for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="nue" value="#{crearFormularioTecnicoMB.nue}" label="nue" required="true" type="number" requiredMessage="Debe ingresar NUE">                                          
-                                        </p:inputText>
+                                        <p:inputText id="nue" value="#{crearFormularioTecnicoMB.nue}" label="nue" required="true" type="number" requiredMessage="Debe ingresar NUE"> </p:inputText>
                                         <p:message for="nue" display="text"/> 
                                         <br />
 
@@ -129,9 +124,6 @@
                                         <p:inputText id="lu" value="#{crearFormularioTecnicoMB.lugar}" label="Lugar" required="true" requiredMessage="Debe ingresar el lugar"></p:inputText>
                                         <p:message for="lu" display="text"/> 
                                         <br />
-
-
-
 
                                         <h:outputLabel  for="uni" value="Unidad:" style="width:120px"></h:outputLabel>
                                         <p:inputText id="uni" value="#{crearFormularioTecnicoMB.unidad}" label="Unidad" disabled="true"></p:inputText>

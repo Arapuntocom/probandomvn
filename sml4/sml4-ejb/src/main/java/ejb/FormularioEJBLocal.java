@@ -35,5 +35,9 @@ public interface FormularioEJBLocal {
     public Usuario obtenerPoseedorFormulario(Formulario formulario);
     
     public List<EdicionFormulario> listaEdiciones(int nue);
+    
+    public boolean esParticipanteCC(Formulario formulario, Usuario usuario);
+    
+    public String edicionFormulario(Formulario formulario, String obsEdicion, Usuario usuarioSesion, int parte, String ruc, String rit);
 }
 

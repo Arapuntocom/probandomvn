@@ -222,30 +222,30 @@
                                 <br />
 
                             </h:form> <br />
-                            <h4> Mostrando los traslados</h4>
-                            <p:dataList value="#{todoMB.trasladosList}" var="traslado" >     
-                                <h:outputLabel value="Fecha: " for="feT" />
-                                <h:outputText id="feT" value="#{traslado.fechaEntrega}     " />
-                                <h:outputLabel value="Motivo: " for="moT"/>
-                                <h:outputText id="moT" value="#{traslado.tipoMotivoidMotivo.tipoMotivo}"/>
-                                <h4>Entrega: </h4>
-                                <h:outputLabel value="Nombre: " for="nomTE" />
-                                <h:outputText id="nomTE" value="#{traslado.usuarioidUsuario1.nombreUsuario}     " />
-                                <h:outputLabel value="Cargo: " for="carTE" />
-                                <h:outputText id="carTE" value="#{traslado.usuarioidUsuario1.cargoidCargo.nombreCargo}     " />
-                                <h:outputLabel value="R.U.N.: " for="ruTE" />
-                                <h:outputText id="ruTE" value="#{traslado.usuarioidUsuario1.rutUsuario}     " />       
-                                <h4>Recibe: </h4>
-                                <h:outputLabel value="Nombre: " for="nomTR" />
-                                <h:outputText id="nomTR" value="#{traslado.usuarioidUsuario.nombreUsuario}     " />
-                                <h:outputLabel value="Cargo: " for="carTR" />
-                                <h:outputText id="carTR" value="#{traslado.usuarioidUsuario.cargoidCargo.nombreCargo}     " />
-                                <h:outputLabel value="R.U.N.: " for="ruTR" />
-                                <h:outputText id="ruTR" value="#{traslado.usuarioidUsuario.rutUsuario}     " /> <br/>
-                                <h:outputLabel value="Observaciones: " for="obsTT" />
-                                <h:outputText id="obsTT" value="#{traslado.observaciones}     " />
-                                <hr />
-                            </p:dataList>
+                           <h4> Mostrando Traslados</h4>
+                           <p:dataList value="#{todoMB.trasladosList}" var="traslado" emptyMessage="No se han registrado más participantes en esta cadena de custodia." style="width:785px;">     
+                                        <h:outputLabel value="Fecha: " for="feT" />&nbsp;
+                                        <h:outputText id="feT" value="#{traslado.fechaEntrega} "/>&nbsp;&nbsp;&nbsp;
+                                        
+                                        <h:outputLabel value="Motivo: " for="moT"/>&nbsp;
+                                        <h:outputText id="moT" value="#{traslado.tipoMotivoidMotivo.tipoMotivo}"/>&nbsp;&nbsp;&nbsp;
+                                        <h4>Entrega: </h4>
+                                        <h:outputLabel value="Nombre: " for="nomTE" />&nbsp;
+                                        <h:outputText id="nomTE" value="#{traslado.usuarioidUsuario1.nombreUsuario}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="Cargo: " for="carTE" />&nbsp;
+                                        <h:outputText id="carTE" value="#{traslado.usuarioidUsuario1.cargoidCargo.nombreCargo}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="R.U.N.:"  for="ruTE" />&nbsp;
+                                        <h:outputText id="ruTE" value="#{traslado.usuarioidUsuario1.rutUsuario}" />    &nbsp;   &nbsp;&nbsp;
+                                        <h4>Recibe: </h4>
+                                        <h:outputLabel value="Nombre: " for="nomTR" />&nbsp;
+                                        <h:outputText id="nomTR" value="#{traslado.usuarioidUsuario.nombreUsuario}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="Cargo: " for="carTR" />&nbsp;
+                                        <h:outputText id="carTR" value="#{traslado.usuarioidUsuario.cargoidCargo.nombreCargo}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="R.U.N.: " for="ruTR" />&nbsp;
+                                        <h:outputText id="ruTR" value="#{traslado.usuarioidUsuario.rutUsuario}" /> <br/>&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="Observaciones: " for="obsTT" />&nbsp;
+                                        <h:outputText id="obsTT" value="#{traslado.observaciones}" />&nbsp;&nbsp;&nbsp;
+                                    </p:dataList>                                    
                             <h:form>
                                 <h:commandButton id="btnvolver" value="Nueva Cadena de custodia" action="digitadorFormularioHU11.xhtml"/>
                             </h:form> 

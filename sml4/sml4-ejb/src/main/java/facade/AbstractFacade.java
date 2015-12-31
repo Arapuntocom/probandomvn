@@ -35,6 +35,7 @@ public abstract class AbstractFacade<T> {
         logger.entering(this.getClass().getName(), "edit", entity.getClass().getName());
         try{
             getEntityManager().merge(entity);
+            getEntityManager().flush();
         }catch(IllegalArgumentException | TransactionRequiredException iae){
             logger.log(Level.SEVERE, "problema al editar: {0}", iae);
         }
@@ -46,10 +47,12 @@ public abstract class AbstractFacade<T> {
     }
 
     public T find(Object id) {
+        getEntityManager().flush();
         return getEntityManager().find(entityClass, id);
     }
 
     public List<T> findAll() {
+        getEntityManager().flush();
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();

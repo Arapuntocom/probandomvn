@@ -4,12 +4,12 @@
     <parent>
     <artifactId>sml4</artifactId>
     <groupId>com.pingeso</groupId>
-    <version>4</version>
+    <version>3.4.4</version>
   </parent>
 
     <groupId>com.pingeso</groupId>
     <artifactId>sml4-ejb</artifactId>
-    <version>4</version>
+    <version>3.4.4</version>
     <packaging>ejb</packaging>
 
     <name>sml4-ejb</name>

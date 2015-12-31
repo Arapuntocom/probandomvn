@@ -316,14 +316,14 @@ public class FormularioEJB implements FormularioEJBLocal {
 
     private boolean soloCaracteres(String palabra) {
 
-        Pattern patron = Pattern.compile("[^A-Za-z ]");
+        Pattern patron = Pattern.compile("/^[a-zA-Z áéíóúAÉÍÓÚÑñ]+$/");
         Matcher encaja = patron.matcher(palabra);
 
         if (!encaja.find()) {
-            System.out.println("solo tiene letras y espacio!");
+            System.out.println(palabra + " -> solo tiene letras y espacio!");
             return true;
         } else {
-            System.out.println("tiene otra cosa");
+            System.out.println(palabra + " -> tiene otra cosa");
             return false;
         }
 
@@ -498,8 +498,10 @@ public class FormularioEJB implements FormularioEJBLocal {
                 return "No se pudo crear el nuevo usuario";
             }
         } else //Existe, y hay que verificar que los datos ingresador concuerdan con los que hay en la base de datos
-        if (!usuarioIngresar.getCargoidCargo().getNombreCargo().equals(cargo) || !usuarioIngresar.getUnidad().equals(unidad) || !usuarioIngresar.getNombreUsuario().equals(levantadoPor)) {
-            return "Datos nos coinciden con el rut";
+        {
+            if (!usuarioIngresar.getCargoidCargo().getNombreCargo().equals(cargo) || !usuarioIngresar.getUnidad().equals(unidad) || !usuarioIngresar.getNombreUsuario().equals(levantadoPor)) {
+                return "Datos nos coinciden con el rut";
+            }
         }
 
         Formulario nuevoFormulario = new Formulario();
@@ -541,11 +543,11 @@ public class FormularioEJB implements FormularioEJBLocal {
         }
 
         //verificando que el usuario que edita si haya participado en la cc.
-        if(!esParticipanteCC(formulario, usuarioSesion)){
+        if (!esParticipanteCC(formulario, usuarioSesion)) {
             logger.exiting(this.getClass().getName(), "edicionFormulario", "usuario no ha participado en cc");
             return "Ud no ha participado en esta cadena de custodia.";
         }
-        
+
         //Creando el objeto edicion
         EdicionFormulario edF = new EdicionFormulario();
 
@@ -559,13 +561,87 @@ public class FormularioEJB implements FormularioEJBLocal {
 
         edicionFormularioFacade.edit(edF);
         formularioFacade.edit(formulario);
-        
+
         logger.exiting(this.getClass().getName(), "edicionFormulario", "Exito");
         return "Exito";
     }
 
+    //se crea una nueva edicion para el formulario indicado.
+    //modificado Ara
+    @Override
+    public String edicionFormulario(Formulario formulario, String obsEdicion, Usuario usuarioSesion, int parte, String ruc, String rit) {
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "edicionFormulario");
+        System.out.println("EJB ruc " + ruc);
+        System.out.println("EJB rit " + rit);
+        System.out.println("EJB parte " + parte);
+        System.out.println("EJB obs " + obsEdicion);
+        if (parte > 0 || rit != null || rit != null || obsEdicion != null) {
+
+            //verificando que el usuario que edita si haya participado en la cc.
+            if (!esParticipanteCC(formulario, usuarioSesion)) {
+                logger.exiting(this.getClass().getName(), "edicionFormulario", "usuario no ha participado en cc");
+                return "Ud no ha participado en esta cadena de custodia.";
+            }
+
+            //Creando el objeto edicion
+            EdicionFormulario edF = new EdicionFormulario();
+
+            edF.setFormularioNUE(formulario);
+            edF.setUsuarioidUsuario(usuarioSesion);
+            edF.setObservaciones(obsEdicion);
+            edF.setFechaEdicion(new Date(System.currentTimeMillis()));
+
+            //Actualizando ultima edicion formulario
+            formulario.setUltimaEdicion(edF.getFechaEdicion());
+
+            if(obsEdicion != null && parte <=0 && ruc ==null && rit == null){
+                logger.exiting(this.getClass().getName(), "edicionFormulario", "falta observación.");
+                return "Se requiere la observación.";            
+            }
+            
+            if(obsEdicion != null){
+                edicionFormularioFacade.edit(edF);
+                formularioFacade.edit(formulario);
+                logger.log(Level.INFO, "se ha insertado observacion {0}", formulario.getObservaciones());
+            }          
+
+            if (parte > 0) {
+                edF.setObservaciones("Se ingresa número de parte: " + parte);
+                edicionFormularioFacade.edit(edF);
+                formulario.setNumeroParte(parte);
+                formularioFacade.edit(formulario);
+                logger.log(Level.INFO, "se ha insertado n Parte {0}", formulario.getNumeroParte());
+            }
+
+            if (rit != null &&  !rit.equals("") && checkRucOrRit(rit)) {
+                edF.setObservaciones("Se ingresa R.I.T: " + rit);
+                edicionFormularioFacade.edit(edF);
+                formulario.setRit(rit);
+                formularioFacade.edit(formulario);
+                logger.log(Level.INFO, "se ha insertado rit {0}", formulario.getRit());
+            }
+
+            if (ruc != null &&  !ruc.equals("") && checkRucOrRit(ruc)) {
+                edF.setObservaciones("Se ingresa R.U.C.: " + ruc);
+                edicionFormularioFacade.edit(edF);
+                formulario.setRuc(ruc);
+                formularioFacade.edit(formulario);
+                logger.log(Level.INFO, "se ha insertado ruc {0}", formulario.getRuc());
+            }
+
+            logger.exiting(this.getClass().getName(), "edicionFormulario", "Exito");
+            return "Exito";
+        } else {
+            logger.exiting(this.getClass().getName(), "edicionFormulario", "falta observación.");
+            return "Se requiere la observación.";
+        }
+
+    }
+
     //retorna true cuando el usuario si ha particiado en la cc.
-    private boolean esParticipanteCC(Formulario formulario, Usuario usuario) {
+    @Override
+    public boolean esParticipanteCC(Formulario formulario, Usuario usuario) {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "obtenerParticipantesCC");
         if (usuario.equals(formulario.getUsuarioidUsuario1())) {
@@ -573,6 +649,12 @@ public class FormularioEJB implements FormularioEJBLocal {
             return true;
         }
         List<Traslado> traslados = trasladoFacade.findByNue(formulario);
+        if (traslados == null || traslados.isEmpty()) {
+            logger.log(Level.INFO, "formulario ''{0}'' no registra traslados", formulario.getNue());
+            logger.exiting(this.getClass().getName(), "obtenerParticipantesCC", false);
+            return false;
+        }
+
         if (traslados.get(0).getUsuarioidUsuario().equals(usuario)) { //valida 1er traslado, útil para digitador.
             logger.exiting(this.getClass().getName(), "obtenerParticipantesCC", true);
             return true;

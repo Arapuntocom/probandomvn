@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.pingeso</groupId>
   <artifactId>sml4</artifactId>
-  <version>4</version>
+  <version>3.4.4</version>
   <packaging>pom</packaging>
   <name>sml4</name>
   <modules>
@@ -11,20 +11,4 @@
     <module>sml4-web</module>
     <module>sml4-ejb</module>
   </modules>
-  <scm>
-    <developerConnection>scm:git:https://github.com/Arapuntocom/probandomvn/</developerConnection>
-    <tag>sml4listo</tag>
-  </scm>
-  
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.3</version>
-      </plugin>
-    </plugins>
-    
-  </build>
-  
 </project>

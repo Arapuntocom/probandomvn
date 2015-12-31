@@ -38,23 +38,22 @@
             <hr />
             <!-- usuario logeado -->
             <!-- Nav -->
-            <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
-                <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
-                    <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
-                </div>
-                <div class="col-md-9"> <!-- Barra de navegación -->
-                    <ul class="nav nav-tabs nav-justified">
-
-                        <li role="presentation"><a href="choferFormulario.xhtml">Iniciar nuevo formulario</a></li>
-
-                        <li role="presentation"><a href="buscadorChofer.xhtml">Editar</a></li>
-
+            <h:form>
+                <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
+                    <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
+                        <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
+                    </div>
+                    <div class="col-md-9"> <!-- Barra de navegación -->
                         <h:form>
-                            <li role="presentation"> <h:commandLink id="cs" action="#{buscadorChoferMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
+                            <ul class="nav nav-tabs nav-justified">
+                                <li role="presentation" class="active" ><a href="choferFormulario.xhtml">Iniciar Cadena de Custodia</a></li> 
+                                <li role="presentation" class="active" ><a href="buscadorChofer.xhtml">Buscar Cadena de Custodia</a></li>   
+                                <li role="presentation"> <h:commandLink id="cs" action="#{crearFormularioChoferMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
+                            </ul>
                         </h:form>
-                    </ul>
+                    </div>
                 </div>
-            </div>   
+            </h:form>
 
             <!-- Nav -->
             <!-- Barra lateral izquierda -->
@@ -105,8 +104,7 @@
                                         <br />
 
                                         <h:outputLabel  for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="nue" value="#{crearFormularioChoferMB.nue}" label="nue" required="true" type="number" requiredMessage="Debe ingresar NUE">                                          
-                                        </p:inputText>
+                                        <p:inputText id="nue" value="#{crearFormularioChoferMB.nue}" label="nue" required="true" type="number" requiredMessage="Debe ingresar NUE"></p:inputText>
                                         <p:message for="nue" display="text"/> 
                                         <br />
 
@@ -129,9 +127,6 @@
                                         <p:inputText id="lu" value="#{crearFormularioChoferMB.lugar}" label="Lugar" required="true" requiredMessage="Debe ingresar el lugar"></p:inputText>
                                         <p:message for="lu" display="text"/> 
                                         <br />
-
-
-
 
                                         <h:outputLabel  for="uni" value="Unidad:" style="width:120px"></h:outputLabel>
                                         <p:inputText id="uni" value="#{crearFormularioChoferMB.unidad}" label="Unidad" disabled="true"></p:inputText>

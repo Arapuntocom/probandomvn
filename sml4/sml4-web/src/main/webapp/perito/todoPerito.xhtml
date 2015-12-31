@@ -30,8 +30,8 @@
                     <h:form>
                         <ul class="nav nav-tabs nav-justified">
 
-                            <li role="presentation" class="active" ><a href="buscadorPerito.xhtml">Buscar</a></li>   
-
+                            <li role="presentation" class="active" ><a href="peritoFormulario.xhtml">Iniciar Cadena de Custodia</a></li> 
+                            <li role="presentation" class="active" ><a href="buscadorPerito.xhtml">Buscar Cadena de Custodia</a></li>   
                             <li role="presentation"> <h:commandLink id="cs" action="#{todoPeritoMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
 
                         </ul>
@@ -72,9 +72,7 @@
                                         <p:inputText id="rit" value="#{todoPeritoMB.formulario.rit}" label="rit" disabled="true"></p:inputText>
 
                                         <h:outputLabel  for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="nue" value="#{todoPeritoMB.formulario.nue}" label="nue" disabled="true">
-                                            <f:validateDoubleRange minimum="1" maximum="99999"/>
-                                        </p:inputText>                                   
+                                        <p:inputText id="nue" value="#{todoPeritoMB.formulario.nue}" label="nue" disabled="true"></p:inputText>                                   
 
                                         <h:outputLabel  for="del" value="Delito:" style="width:120px"></h:outputLabel>
                                         <p:inputText id="del" value="#{todoPeritoMB.formulario.delitoRef}" label="Delito" disabled="true"></p:inputText>
@@ -111,45 +109,49 @@
                                         <p:inputTextarea id="descripcion" rows="3" cols="90" value="#{todoPeritoMB.formulario.descripcionEspecieFormulario}" queryDelay="750" minQueryLength="4" disabled="true" />
                                     </h:panelGrid>  <br />
                                     <br />
-                                    <p:dataList value="#{todoPeritoMB.trasladosList}" var="traslado" emptyMessage="No se han registrado más participantes en esta cadena de custodia." >     
-                                        <h:outputLabel value="Fecha: " for="feT" />
-                                        <h:outputText id="feT" value="#{traslado.fechaEntrega}" />
-                                        <h:outputLabel value="Motivo: " for="moT"/>
-                                        <h:outputText id="moT" value="#{traslado.tipoMotivoidMotivo.tipoMotivo}"/>
+                                    <h4> Mostrando Traslados</h4>
+                                    <p:dataList value="#{todoPeritoMB.trasladosList}" var="traslado" emptyMessage="No se han registrado más participantes en esta cadena de custodia." style="width:785px;">     
+                                        <h:outputLabel value="Fecha: " for="feT" />&nbsp;
+                                        <h:outputText id="feT" value="#{traslado.fechaEntrega} "/>&nbsp;&nbsp;&nbsp;
+                                        
+                                        <h:outputLabel value="Motivo: " for="moT"/>&nbsp;
+                                        <h:outputText id="moT" value="#{traslado.tipoMotivoidMotivo.tipoMotivo}"/>&nbsp;&nbsp;&nbsp;
                                         <h4>Entrega: </h4>
-                                        <h:outputLabel value="Nombre: " for="nomTE" />
-                                        <h:outputText id="nomTE" value="#{traslado.usuarioidUsuario1.nombreUsuario}" />
-                                        <h:outputLabel value="Cargo: " for="carTE" />
-                                        <h:outputText id="carTE" value="#{traslado.usuarioidUsuario1.cargoidCargo.nombreCargo}" />
-                                        <h:outputLabel value="R.U.N.:"  for="ruTE" />
-                                        <h:outputText id="ruTE" value="#{traslado.usuarioidUsuario1.rutUsuario}" />       
+                                        <h:outputLabel value="Nombre: " for="nomTE" />&nbsp;
+                                        <h:outputText id="nomTE" value="#{traslado.usuarioidUsuario1.nombreUsuario}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="Cargo: " for="carTE" />&nbsp;
+                                        <h:outputText id="carTE" value="#{traslado.usuarioidUsuario1.cargoidCargo.nombreCargo}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="R.U.N.:"  for="ruTE" />&nbsp;
+                                        <h:outputText id="ruTE" value="#{traslado.usuarioidUsuario1.rutUsuario}" />    &nbsp;   &nbsp;&nbsp;
                                         <h4>Recibe: </h4>
-                                        <h:outputLabel value="Nombre: " for="nomTR" />
-                                        <h:outputText id="nomTR" value="#{traslado.usuarioidUsuario.nombreUsuario}" />
-                                        <h:outputLabel value="Cargo: " for="carTR" />
-                                        <h:outputText id="carTR" value="#{traslado.usuarioidUsuario.cargoidCargo.nombreCargo}" />
-                                        <h:outputLabel value="R.U.N.: " for="ruTR" />
-                                        <h:outputText id="ruTR" value="#{traslado.usuarioidUsuario.rutUsuario}" /> <br/>
-                                        <h:outputLabel value="Observaciones: " for="obsTT" />
-                                        <h:outputText id="obsTT" value="#{traslado.observaciones}" />
-                                        <hr />
+                                        <h:outputLabel value="Nombre: " for="nomTR" />&nbsp;
+                                        <h:outputText id="nomTR" value="#{traslado.usuarioidUsuario.nombreUsuario}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="Cargo: " for="carTR" />&nbsp;
+                                        <h:outputText id="carTR" value="#{traslado.usuarioidUsuario.cargoidCargo.nombreCargo}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="R.U.N.: " for="ruTR" />&nbsp;
+                                        <h:outputText id="ruTR" value="#{traslado.usuarioidUsuario.rutUsuario}" /> <br/>&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="Observaciones: " for="obsTT" />&nbsp;
+                                        <h:outputText id="obsTT" value="#{traslado.observaciones}" />&nbsp;&nbsp;&nbsp;
                                     </p:dataList>
                                     <hr />
                                     <h4> Mostrando Ediciones</h4>
-                                    <p:dataList value="#{todoPeritoMB.edicionesList}" var="ediciones" emptyMessage="No se han realizado ediciones en esta cadena de custodia.">     
-                                        <h:outputLabel value="Edición: " for="ed" />
-                                        <h:outputText id="ed" value="#{ediciones.observaciones}" />
+                                    <p:dataList value="#{todoPeritoMB.edicionesList}" var="ediciones" emptyMessage="No se han realizado ediciones en esta cadena de custodia." style="width:785px;">
+                                        <h:outputLabel value="Fecha: " for="fed" />&nbsp;
+                                        <h:outputText id="fed" value="#{ediciones.fechaEdicion} " />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="Editada por: " for="edu" />&nbsp;
+                                        <h:outputText id="edu" value="#{ediciones.usuarioidUsuario.nombreUsuario}"/>&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="Edición: " for="ed" />&nbsp;
+                                        <h:outputText id="ed" value="#{ediciones.observaciones}" />&nbsp;&nbsp;&nbsp;
                                         <hr />
                                     </p:dataList>
 
                                     <div align="center">
                                         <h:panelGrid columns="4">
-                                            <!-- este boton me lleva a editor.xhtml -->
-                                            <h:commandButton value="Recibir Cadena" label="" action = "#{todoPeritoMB.recibirCadena()}" ></h:commandButton>  
-                                            <h:commandButton value="Nueva Cadena" label="" action = "#{todoPeritoMB.nuevaCadena()}" ></h:commandButton>  
-                                            <h:commandButton value="Editar" label="" action = "#{todoPeritoMB.editar()}"></h:commandButton>  
-
+                                            <h:commandButton value="Recibir Cadena de Custodia" label="" action = "#{todoPeritoMB.recibirCadena()}" disabled="#{todoPeritoMB.bloqueada}"  ></h:commandButton>  
+                                            <h:commandButton value="Iniciar Cadena de Custodia" label="" action = "#{todoPeritoMB.nuevaCadena()}" ></h:commandButton>  
+                                            <h:commandButton value="Editar Formulario" label="" action = "#{todoPeritoMB.editar()}" title="Solo para participantes de la cadena de custodia." disabled="#{!todoPeritoMB.editable}" />    
                                         </h:panelGrid>
+                                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                                     </div>
 
                                 </h:form> 

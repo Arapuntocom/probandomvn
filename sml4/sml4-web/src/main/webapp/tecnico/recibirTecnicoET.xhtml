@@ -95,9 +95,7 @@
                                     <p:inputText id="rit" value="#{recibirTecnicoMB.formulario.rit}" label="rit" disabled="true"></p:inputText>
 
                                     <h:outputLabel  for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
-                                    <p:inputText id="nue" value="#{recibirTecnicoMB.formulario.nue}" label="nue" disabled="true">
-                                        <f:validateDoubleRange minimum="10000" maximum="99999"/>
-                                    </p:inputText>                                   
+                                    <p:inputText id="nue" value="#{recibirTecnicoMB.formulario.nue}" label="nue" disabled="true"></p:inputText>                                   
 
                                     <h:outputLabel  for="del" value="Delito:" style="width:120px"></h:outputLabel>
                                     <p:inputText id="del" value="#{recibirTecnicoMB.formulario.delitoRef}" label="Delito" disabled="true"></p:inputText>
@@ -140,40 +138,41 @@
 
                                 <br />
                                 <!-- mostrando lista de traslados -->
-                                <h4>Traslados</h4>
-                                <p:dataList value="#{recibirTecnicoMB.trasladosList}" var="traslado" emptyMessage="No se han registrado más participantes en esta cadena de custodia." >     
-                                    <h:outputLabel value="Fecha: " for="feT" />
-                                    <h:outputText id="feT" value="#{traslado.fechaEntrega}" />
-                                    <h:outputLabel value="Motivo: " for="moT"/>
-                                    <h:outputText id="moT" value="#{traslado.tipoMotivoidMotivo.tipoMotivo}"/>
-                                    <h4>Entrega: </h4>
-                                    <h:outputLabel value="Nombre: " for="nomTE" />
-                                    <h:outputText id="nomTE" value="#{traslado.usuarioidUsuario1.nombreUsuario}" />
-                                    <h:outputLabel value="Cargo: " for="carTE" />
-                                    <h:outputText id="carTE" value="#{traslado.usuarioidUsuario1.cargoidCargo.nombreCargo}" />
-                                    <h:outputLabel value="R.U.N.:"  for="ruTE" />
-                                    <h:outputText id="ruTE" value="#{traslado.usuarioidUsuario1.rutUsuario}" />       
-                                    <h4>Recibe: </h4>
-                                    <h:outputLabel value="Nombre: " for="nomTR" />
-                                    <h:outputText id="nomTR" value="#{traslado.usuarioidUsuario.nombreUsuario}" />
-                                    <h:outputLabel value="Cargo: " for="carTR" />
-                                    <h:outputText id="carTR" value="#{traslado.usuarioidUsuario.cargoidCargo.nombreCargo}" />
-                                    <h:outputLabel value="R.U.N.: " for="ruTR" />
-                                    <h:outputText id="ruTR" value="#{traslado.usuarioidUsuario.rutUsuario}" /> <br/>
-                                    <h:outputLabel value="Observaciones: " for="obsTT" />
-                                    <h:outputText id="obsTT" value="#{traslado.observaciones}" />
+                               <h4> Mostrando Traslados</h4>
+                               <p:dataList value="#{recibirTecnicoMB.trasladosList}" var="traslado" emptyMessage="No se han registrado más participantes en esta cadena de custodia." style="width:785px;">     
+                                        <h:outputLabel value="Fecha: " for="feT" />&nbsp;
+                                        <h:outputText id="feT" value="#{traslado.fechaEntrega} "/>&nbsp;&nbsp;&nbsp;
+                                        
+                                        <h:outputLabel value="Motivo: " for="moT"/>&nbsp;
+                                        <h:outputText id="moT" value="#{traslado.tipoMotivoidMotivo.tipoMotivo}"/>&nbsp;&nbsp;&nbsp;
+                                        <h4>Entrega: </h4>
+                                        <h:outputLabel value="Nombre: " for="nomTE" />&nbsp;
+                                        <h:outputText id="nomTE" value="#{traslado.usuarioidUsuario1.nombreUsuario}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="Cargo: " for="carTE" />&nbsp;
+                                        <h:outputText id="carTE" value="#{traslado.usuarioidUsuario1.cargoidCargo.nombreCargo}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="R.U.N.:"  for="ruTE" />&nbsp;
+                                        <h:outputText id="ruTE" value="#{traslado.usuarioidUsuario1.rutUsuario}" />    &nbsp;   &nbsp;&nbsp;
+                                        <h4>Recibe: </h4>
+                                        <h:outputLabel value="Nombre: " for="nomTR" />&nbsp;
+                                        <h:outputText id="nomTR" value="#{traslado.usuarioidUsuario.nombreUsuario}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="Cargo: " for="carTR" />&nbsp;
+                                        <h:outputText id="carTR" value="#{traslado.usuarioidUsuario.cargoidCargo.nombreCargo}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="R.U.N.: " for="ruTR" />&nbsp;
+                                        <h:outputText id="ruTR" value="#{traslado.usuarioidUsuario.rutUsuario}" /> <br/>&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="Observaciones: " for="obsTT" />&nbsp;
+                                        <h:outputText id="obsTT" value="#{traslado.observaciones}" />&nbsp;&nbsp;&nbsp;
+                                    </p:dataList>
                                     <hr />
-                                </p:dataList>
-                                <hr />
-                                <!-- mostrando la lista de ediciones -->
-                                <h4>Ediciones</h4>
-                                <p:dataList value="#{recibirTecnicoMB.edicionesList}" var="ediciones" emptyMessage="No se han realizado ediciones en esta cadena de custodia.">     
-                                    <h:outputLabel value="Fecha: " for="fed" />
-                                    <h:outputText id="fed" value="#{ediciones.fechaEdicion}" />
-                                    <h:outputLabel value="Edición: " for="ed" />
-                                    <h:outputText id="ed" value="#{ediciones.observaciones}" />
-                                    <hr />
-                                </p:dataList>                                    
+                                    <h4> Mostrando Ediciones</h4>
+                                    <p:dataList value="#{recibirTecnicoMB.edicionesList}" var="ediciones" emptyMessage="No se han realizado ediciones en esta cadena de custodia." style="width:785px;">
+                                        <h:outputLabel value="Fecha: " for="fed" />&nbsp;
+                                        <h:outputText id="fed" value="#{ediciones.fechaEdicion} " />&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="Editada por: " for="edu" />&nbsp;
+                                        <h:outputText id="edu" value="#{ediciones.usuarioidUsuario.nombreUsuario}"/>&nbsp;&nbsp;&nbsp;
+                                        <h:outputLabel value="Edición: " for="ed" />&nbsp;
+                                        <h:outputText id="ed" value="#{ediciones.observaciones}" />&nbsp;&nbsp;&nbsp;
+                                        <hr />
+                                    </p:dataList>                                   
 
                                 <!-- recibir cadena  -->
                                 <h4 class="pull-center">Cadena de Custodia</h4><br />

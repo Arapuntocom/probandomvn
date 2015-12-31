@@ -55,6 +55,16 @@ public class EditarChoferETMB {
     List<EdicionFormulario> ediciones;
     List<Traslado> traslados;
     
+    //para habilitar la edicion de estos campos.
+    private boolean isRit;
+    private boolean isRuc;
+    private boolean isParte;
+    
+    //para registrar contenido de la edicion
+    private int parte;
+    private String ruc;
+    private String rit;
+    
     static final Logger logger = Logger.getLogger(EditarChoferETMB.class.getName());
     
     public EditarChoferETMB() {
@@ -79,6 +89,10 @@ public class EditarChoferETMB {
             this.usuarioS = (String) httpServletRequest.getSession().getAttribute("cuentaUsuario");
             logger.log(Level.FINEST, "Cuenta Usuario recibido {0}", this.usuarioS);
         }
+        
+        this.isRit = true;
+        this.isRuc = true;
+        this.isParte = true;
 
         logger.exiting(this.getClass().getName(), "editarChoferETMB");
     }
@@ -91,6 +105,17 @@ public class EditarChoferETMB {
         this.usuarioSesion = usuarioEJB.findUsuarioSesionByCuenta(usuarioS);
         this.traslados = formularioEJB.traslados(formulario);
         this.ediciones = formularioEJB.listaEdiciones(this.nue);
+        
+        if(formulario.getNumeroParte() == 0){
+            this.isParte = false;
+        }
+        if(formulario.getRuc()==null || formulario.getRuc().equals("")){
+            this.isRuc = false;
+        }
+        if(formulario.getRit()==null || formulario.getRit().equals("")){
+            this.isRit = false;
+        }  
+        
         logger.exiting(this.getClass().getName(), "cargarDatosChofer");
     }
 
@@ -98,7 +123,23 @@ public class EditarChoferETMB {
     public String editarFormulario(){
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "editarFormularioChofer");
-        String response = formularioEJB.edicionFormulario(formulario, observacionEdicion, usuarioSesion);
+        if(formulario.getNumeroParte() > 0 && this.isParte == false){  
+            parte = formulario.getNumeroParte();
+            logger.log(Level.INFO, "MB parte -> {0}", parte);
+            isParte = true;
+        }
+        if(formulario.getRuc() != null && !formulario.getRuc().equals("") && this.isRuc == false){
+            ruc = formulario.getRuc();
+            logger.log(Level.INFO, "MB ruc -> {0}", ruc);
+            isRuc = true;
+        }
+        if(formulario.getRit() != null && !formulario.getRit().equals("") && this.isRit == false){            
+            rit = formulario.getRit();
+            logger.log(Level.INFO, "MB rit -> {0}", rit);
+            isRit = true;
+        }  
+               
+        String response = formularioEJB.edicionFormulario(formulario, observacionEdicion, usuarioSesion, parte, ruc, rit);
         httpServletRequest.getSession().setAttribute("nueF", this.nue);
         httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioS);
         if(response.equals("Exito")){
@@ -165,6 +206,30 @@ public class EditarChoferETMB {
 
     public void setTraslados(List<Traslado> traslados) {
         this.traslados = traslados;
+    }
+
+    public boolean isIsRit() {
+        return isRit;
+    }
+
+    public void setIsRit(boolean isRit) {
+        this.isRit = isRit;
+    }
+
+    public boolean isIsRuc() {
+        return isRuc;
+    }
+
+    public void setIsRuc(boolean isRuc) {
+        this.isRuc = isRuc;
+    }
+
+    public boolean isIsParte() {
+        return isParte;
+    }
+
+    public void setIsParte(boolean isParte) {
+        this.isParte = isParte;
     }
     
     
