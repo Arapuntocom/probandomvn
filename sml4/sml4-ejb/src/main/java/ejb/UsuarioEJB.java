@@ -5,10 +5,15 @@
  */
 package ejb;
 
+import entity.Area;
+import entity.Cargo;
 import entity.Usuario;
+import facade.TipoUsuarioFacadeLocal;
 import facade.UsuarioFacadeLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -20,39 +25,18 @@ import javax.ejb.Stateless;
 public class UsuarioEJB implements UsuarioEJBLocal {
 
     @EJB
+    private TipoUsuarioFacadeLocal tipoUsuarioFacade;
+
+
+    @EJB
     private UsuarioFacadeLocal usuarioFacade;
+  
+    
+    @EJB
+    private ValidacionEJBLocal valdicionEJB;
 
     static final Logger logger = Logger.getLogger(UsuarioEJB.class.getName());
 
-    //Función para verificar la existencia del usuario en el sistema
-    @Override
-    public String verificarUsuario(String user, String pass) {
-
-        logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "Función verificarUsuario", user);
-        //Buscamos al usuario segun su cuenta usuario
-        Usuario foundUser = usuarioFacade.findByCuentaUsuario(user);
-        String direccion = "";
-        //Si lo encuentro verifico si la contraseña es igual a la que se ingreso
-        if (foundUser != null) {
-            if (foundUser.getPassUsuario().equals(pass)) {
-                //Redirecciono según el cargo a su respectiva vista
-                if (foundUser.getCargoidCargo().getNombreCargo().equals("Perito")) {
-                    direccion = "/perito/peritoFormulario.xhtml?faces-redirect=true";
-                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Chofer")) {
-                    direccion = "/chofer/choferFormulario.xhtml?faces-redirect=true";
-                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Digitador")) {
-                    direccion = "/digitador/digitadorFormularioHU11.xhtml?faces-redirect=true";
-                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Tecnico")) {
-                    direccion = "/tecnico/buscadorTecnico.xhtml?faces-redirect=true";
-                } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Jefe de area")){
-                    direccion = "/jefeArea/buscadorJefeArea.xhtml?faces-redirect=true";
-                }
-            }
-        }
-        logger.exiting(this.getClass().getName(), "Función verificarUsuario", direccion);
-        return direccion;
-    }
 
     @Override
     public Usuario findUsuarioSesionByCuenta(String cuentaUsuario) {
@@ -67,5 +51,100 @@ public class UsuarioEJB implements UsuarioEJBLocal {
             return null;
         }
     }
+    
+
+    /*
+     OJO CON LA UNIDAD HAY QUE ACTUALIZAR LA UNIDAD
+     A ESTE EJB HAY QUE AGREGAR LAS FUNCIONES VALIDAR CUENTA,PASS, EL EMAIL, RUT Y SOLO CARACTERES
+     ADEMAS CREE UNA QUERY EN EL FACADE DE USUARIO BUSCANDO POR EL EMAIL
+     DISCUTIR EL TEMA DE LA VERIFICACION DE LA PASS Y CUENTA DE USUARIO
+     */
+    @Override
+    public String crearUsuario(String nombreUsuario, String apellidoUsuario, String rut, String pass, String mail, String cuentaUsuario, String estado, Cargo cargo, Area area) {
+
+        //Verifico el rut
+        if (!valdicionEJB.val(rut)) {
+            return "Rut inválido";
+        }
+
+        //Verifico si existe ese rut en la BD
+        if (usuarioFacade.findByRUN(rut) != null) {
+            return "Rut existente";
+        }
+
+        //Verifico el nombreUsuario
+        if (!valdicionEJB.soloCaracteres(nombreUsuario)) {
+            return "Nombre ingresado incorrecto";
+        }
+        //Verifico el apellido
+        if (!valdicionEJB.soloCaracteres(apellidoUsuario)) {
+            return "Apellido ingresado incorrecto";
+        }
+
+        //Tengo que verificar si el email existe
+        //Verifico el email
+        if (!valdicionEJB.validarEmail(mail) || usuarioFacade.findByEmail(mail) != null) {
+            return "Email inválido";
+        }
+        
+        
+        //Tengo que verificar si la cuenta de usuario existe
+        //Validar cuenta de usuario
+        if(!valdicionEJB.validarCuentaUsuario(cuentaUsuario) || usuarioFacade.findByCuentaUsuario(cuentaUsuario) != null){
+            return "Cuenta de usuario inválida";
+        }
+        
+        if(!valdicionEJB.validarPassUsuario(pass)){
+            return "Contraseña inválida";
+        }
+        
+        
+        Usuario nuevoUsuario = new Usuario();
+        nuevoUsuario.setNombreUsuario(nombreUsuario);
+        nuevoUsuario.setApellidoUsuario(apellidoUsuario);
+        nuevoUsuario.setRutUsuario(rut);
+        nuevoUsuario.setPassUsuario(pass);
+        nuevoUsuario.setMailUsuario(mail);
+        nuevoUsuario.setCuentaUsuario(cuentaUsuario);
+        if(estado.equals("Activo")){
+             nuevoUsuario.setEstadoUsuario(Boolean.TRUE);
+        }else{
+            nuevoUsuario.setEstadoUsuario(Boolean.FALSE);
+        }
+        nuevoUsuario.setCargoidCargo(cargo);
+        nuevoUsuario.setAreaidArea(area);
+        
+        /*}TipoUsuario tu = new TipoUsuario();
+        /tu = tipoUsuarioFacade.findByTipo("SML");
+        if(tu == null){
+            return "Tipo de usuario no existe";
+        }
+        nuevoUsuario.setTipoUsuarioidTipoUsuario(tu);
+       */
+
+        return "Exito";
+    }
+
+
+    //OJO ARREGLAR EL INICIO DE SESION SI EL USUARIO ESTA INACTIVO NO PUEDE INGRESAR EN SU CUENTA OJOJOJOJOJOJOJOJO !!!!!!!!!!!!
+    @Override
+    public boolean edicionEstadoUsuario(String rut, String estado){
+    
+        Usuario usuario = new Usuario();
+        usuario = usuarioFacade.findByRUN(rut);
+        if(usuario == null){
+            return false;
+        }
+        if(estado.equals("Activo")){
+            usuario.setEstadoUsuario(Boolean.TRUE);
+        }
+        else{
+            usuario.setEstadoUsuario(Boolean.FALSE);
+        }
+        
+        usuarioFacade.edit(usuario);
+        return true;
+    }
+    
 
 }

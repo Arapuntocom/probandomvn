@@ -56,6 +56,8 @@ public class CrearFormularioChoferMB {
     private String descripcion;
     private int parte;
 
+    private String motivo;
+    
     //Guardamos la cuenta del usuario que entrego la vista del login
     private String usuarioSis;
 
@@ -94,7 +96,6 @@ public class CrearFormularioChoferMB {
         this.cargo = uSesion.getCargoidCargo().getNombreCargo();
         this.levantadaPor = uSesion.getNombreUsuario();
         this.rut = uSesion.getRutUsuario();
-        this.unidad = uSesion.getUnidad(); 
         
         GregorianCalendar c = new GregorianCalendar();
         this.fecha = c.getTime();        
@@ -109,7 +110,7 @@ public class CrearFormularioChoferMB {
         logger.log(Level.FINEST, "usuario inicia rut {0}", this.rut);
         logger.log(Level.FINEST, "formulario fecha {0}", this.fecha);
         logger.log(Level.FINEST, "usuario inicia cargo {0}", this.cargo);
-        String resultado = formularioEJB.crearFormulario(ruc, rit, nue, parte, cargo, delito, direccionSS, lugar, unidad, levantadaPor, rut, fecha, observacion, descripcion, uSesion);
+        String resultado = formularioEJB.crearFormulario(motivo, ruc, rit, nue, parte, cargo, delito, direccionSS, lugar, unidad, levantadaPor, rut, fecha, observacion, descripcion, uSesion);
        
         if (resultado.equals("Exito")) {            
             //Enviando nue
@@ -133,6 +134,14 @@ public class CrearFormularioChoferMB {
         httpServletRequest1.removeAttribute("cuentaUsuario");
         logger.exiting(this.getClass().getName(), "salirChofer", "/indexListo");
         return "/indexListo?faces-redirect=true";
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
     }
 
     public Usuario getuSesion() {

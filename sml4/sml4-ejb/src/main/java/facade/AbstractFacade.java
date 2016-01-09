@@ -5,12 +5,9 @@
  */
 package facade;
 
-import ejb.FormularioEJB;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.TransactionRequiredException;
 
 /**
  *
@@ -18,8 +15,7 @@ import javax.persistence.TransactionRequiredException;
  */
 public abstract class AbstractFacade<T> {
     private Class<T> entityClass;
-    static final Logger logger = Logger.getLogger(AbstractFacade.class.getName());
-
+    static final Logger logger = Logger.getLogger(facade.AbstractFacade.class.getName());
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
@@ -31,15 +27,7 @@ public abstract class AbstractFacade<T> {
     }
 
     public void edit(T entity) {
-        logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "edit", entity.getClass().getName());
-        try{
-            getEntityManager().merge(entity);
-            getEntityManager().flush();
-        }catch(IllegalArgumentException | TransactionRequiredException iae){
-            logger.log(Level.SEVERE, "problema al editar: {0}", iae);
-        }
-        logger.exiting(this.getClass().getName(), "edit", entity.getClass().getName());
+        getEntityManager().merge(entity);
     }
 
     public void remove(T entity) {
@@ -47,12 +35,10 @@ public abstract class AbstractFacade<T> {
     }
 
     public T find(Object id) {
-        getEntityManager().flush();
         return getEntityManager().find(entityClass, id);
     }
 
     public List<T> findAll() {
-        getEntityManager().flush();
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();

@@ -5,6 +5,8 @@
  */
 package ejb;
 
+import entity.Area;
+import entity.Cargo;
 import entity.Usuario;
 import javax.ejb.Local;
 
@@ -16,7 +18,8 @@ import javax.ejb.Local;
 public interface UsuarioEJBLocal {
 
     public Usuario findUsuarioSesionByCuenta(String cuentaUsuario);
-    
-    public String verificarUsuario(String user, String pass);
-    
+
+    public String crearUsuario(String nombreUsuario, String apellidoUsuario, String rut, String pass, String mail, String cuentaUsuario, String estado, Cargo cargo, Area area);
+
+    public boolean edicionEstadoUsuario(String rut, String estado);
 }

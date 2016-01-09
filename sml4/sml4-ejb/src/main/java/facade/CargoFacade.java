@@ -4,9 +4,8 @@
  * and open the template in the editor.
  */
 package facade;
- 
+
 import entity.Cargo;
-import static facade.AbstractFacade.logger;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,33 +18,33 @@ import javax.persistence.PessimisticLockException;
 import javax.persistence.Query;
 import javax.persistence.QueryTimeoutException;
 import javax.persistence.TransactionRequiredException;
- 
+
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 @Stateless
 public class CargoFacade extends AbstractFacade<Cargo> implements CargoFacadeLocal {
+
     @PersistenceContext(unitName = "com.pingeso_sml4-ejb_ejb_3.0-SNAPSHOTPU")
     private EntityManager em;
- 
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
- 
+
     public CargoFacade() {
         super(Cargo.class);
     }
- 
-    //@NamedQuery(name = "Cargo.findByNombreCargo", query = "SELECT c FROM Cargo c WHERE c.nombreCargo = :nombreCargo")
+
     @Override
     public Cargo findByCargo(String cargo) {
-       logger.setLevel(Level.ALL);
+        logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "findByCargo", cargo);
         Cargo retorno = null;
         try {
-            Query q = em.createNamedQuery("Cargo.findByNombreCargo", CargoFacade.class).setParameter("nombreCargo", cargo);
+            Query q = em.createNamedQuery("Cargo.findByNombreCargo", Cargo.class).setParameter("nombreCargo", cargo);
             retorno = new Cargo();
             retorno = (Cargo) q.getSingleResult();
         } catch (IllegalArgumentException e) {
@@ -77,5 +76,5 @@ public class CargoFacade extends AbstractFacade<Cargo> implements CargoFacadeLoc
             return retorno;
         }
     }
-   
+
 }

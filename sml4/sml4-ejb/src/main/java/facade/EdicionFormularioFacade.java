@@ -25,7 +25,6 @@ import javax.persistence.TransactionRequiredException;
  */
 @Stateless
 public class EdicionFormularioFacade extends AbstractFacade<EdicionFormulario> implements EdicionFormularioFacadeLocal {
-
     @PersistenceContext(unitName = "com.pingeso_sml4-ejb_ejb_3.0-SNAPSHOTPU")
     private EntityManager em;
 
@@ -37,9 +36,7 @@ public class EdicionFormularioFacade extends AbstractFacade<EdicionFormulario> i
     public EdicionFormularioFacade() {
         super(EdicionFormulario.class);
     }
-
-    //Buscando ediciones realizadas a un formulario
-    //@NamedQuery(name = "EdicionFormulario.findByFormulario", query = "SELECT e FROM EdicionFormulario e WHERE e.formularioNUE = :formularioNUE")
+    
     @Override
     public List<EdicionFormulario> listaEdiciones(Formulario formulario) {
         logger.setLevel(Level.ALL);
@@ -79,5 +76,5 @@ public class EdicionFormularioFacade extends AbstractFacade<EdicionFormulario> i
             return retorno;
         }
     }
-
+    
 }

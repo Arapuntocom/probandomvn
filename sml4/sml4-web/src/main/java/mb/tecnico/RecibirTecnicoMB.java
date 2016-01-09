@@ -50,11 +50,9 @@ public class RecibirTecnicoMB {
     private FacesContext facesContext1;
 
     private String usuarioEntrega;
-    private String usuarioEntregaUnidad;
     private String usuarioEntregaCargo;
     private String usuarioEntregaRut;
     private String usuarioRecibe;
-    private String usuarioRecibeUnidad;
     private String usuarioRecibeCargo;
     private String usuarioRecibeRut;
     private String motivo;
@@ -112,14 +110,12 @@ public class RecibirTecnicoMB {
         this.usuarioRecibe = usuarioSesion.getNombreUsuario();
         this.usuarioRecibeCargo = usuarioSesion.getCargoidCargo().getNombreCargo();
         this.usuarioRecibeRut = usuarioSesion.getRutUsuario();
-        this.usuarioRecibeUnidad = usuarioSesion.getUnidad();
         
         this.userEntrega = formularioEJB.obtenerPoseedorFormulario(formulario);
         
         this.usuarioEntrega = userEntrega.getNombreUsuario();
         this.usuarioEntregaCargo = userEntrega.getCargoidCargo().getNombreCargo();
         this.usuarioEntregaRut = userEntrega.getRutUsuario();
-        this.usuarioEntregaUnidad = userEntrega.getUnidad();
         
         logger.exiting(this.getClass().getName(), "cargarDatosTecnico");
     }
@@ -130,7 +126,7 @@ public class RecibirTecnicoMB {
         logger.log(Level.FINEST, "rut usuario entrega {0}", this.usuarioEntrega);
         logger.log(Level.FINEST, "rut usuario recibe {0}", this.usuarioRecibe);
         logger.log(Level.FINEST, "rut motivo {0}", this.motivo);
-        String resultado = formularioEJB.crearTraslado(formulario, usuarioEntrega, usuarioEntregaUnidad, usuarioEntregaCargo, usuarioEntregaRut, usuarioRecibe, usuarioRecibeUnidad, usuarioRecibeCargo, usuarioRecibeRut, fechaT, observacionesT, motivo, usuarioSesion);
+        String resultado = formularioEJB.crearTraslado(formulario, usuarioEntrega, usuarioEntregaCargo, usuarioEntregaRut, usuarioRecibe, usuarioRecibeCargo, usuarioRecibeRut, fechaT, observacionesT, motivo, usuarioSesion);
         if (resultado.equals("Exito")) {
             httpServletRequest.getSession().setAttribute("nueF", this.nue);
             logger.exiting(this.getClass().getName(), "agregarTrasladoTecnico", "todoTecnico?faces-redirect=true");
@@ -174,14 +170,6 @@ public class RecibirTecnicoMB {
         this.usuarioEntrega = usuarioEntrega;
     }
 
-    public String getUsuarioEntregaUnidad() {
-        return usuarioEntregaUnidad;
-    }
-
-    public void setUsuarioEntregaUnidad(String usuarioEntregaUnidad) {
-        this.usuarioEntregaUnidad = usuarioEntregaUnidad;
-    }
-
     public String getUsuarioEntregaCargo() {
         return usuarioEntregaCargo;
     }
@@ -204,14 +192,6 @@ public class RecibirTecnicoMB {
 
     public void setUsuarioRecibe(String usuarioRecibe) {
         this.usuarioRecibe = usuarioRecibe;
-    }
-
-    public String getUsuarioRecibeUnidad() {
-        return usuarioRecibeUnidad;
-    }
-
-    public void setUsuarioRecibeUnidad(String usuarioRecibeUnidad) {
-        this.usuarioRecibeUnidad = usuarioRecibeUnidad;
     }
 
     public String getUsuarioRecibeCargo() {

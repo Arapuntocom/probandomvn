@@ -5,7 +5,11 @@
  */
 package facade;
 
-import entity.TipoUsuario;
+import facade.SemaforoFacadeLocal;
+import entity.Semaforo;
+import entity.Usuario;
+import facade.AbstractFacade;
+import static facade.AbstractFacade.logger;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -24,8 +28,7 @@ import javax.persistence.TransactionRequiredException;
  * @author sebastian
  */
 @Stateless
-public class TipoUsuarioFacade extends AbstractFacade<TipoUsuario> implements TipoUsuarioFacadeLocal {
-
+public class SemaforoFacade extends AbstractFacade<Semaforo> implements SemaforoFacadeLocal {
     @PersistenceContext(unitName = "com.pingeso_sml4-ejb_ejb_3.0-SNAPSHOTPU")
     private EntityManager em;
 
@@ -34,54 +37,54 @@ public class TipoUsuarioFacade extends AbstractFacade<TipoUsuario> implements Ti
         return em;
     }
 
-    public TipoUsuarioFacade() {
-        super(TipoUsuario.class);
+    public SemaforoFacade() {
+        super(Semaforo.class);
     }
 
     @Override
-    public TipoUsuario findByTipo(String nombreTipo) {
+    public Semaforo findByColor(String color) {
         logger.setLevel(Level.ALL);
-        logger.entering(this.getClass().getName(), "findByTipo", nombreTipo);
-        TipoUsuario retorno = null;
+        logger.entering(this.getClass().getName(), "findByColor", color);
+        Semaforo retorno = null;
         try {
-            Query q = em.createNamedQuery("TipoUsuario.findByNombreTipo", TipoUsuario.class).setParameter("nombreTipo", nombreTipo);
-            //retorno = new Usuario();
-            retorno = (TipoUsuario) q.getSingleResult();
+            Query q = em.createNamedQuery("Semaforo.findBySemaforo", Semaforo.class).setParameter("semaforo", color);
+            
+            retorno = (Semaforo) q.getSingleResult();
         } catch (IllegalArgumentException e) {
-            logger.severe("TipoUsuarioFacade: el nombre o el parametro de la Query no existe -> " + e);
+            logger.severe("SemaforoFacade: el nombre o el parametro de la Query no existe -> " + e);
             retorno = null;
         } catch (NoResultException e) {
-            logger.severe("TipoUsuarioFacade: No hay resultados -> " + e);
+            logger.severe("SemaforoFacade: No hay resultados -> " + e);
             retorno = null;
         } catch (NonUniqueResultException e) {
-            logger.severe("TipoUsuarioFacade: hay mas de un resulado -> " + e);
+            logger.severe("SemaforoFacade: hay mas de un resulado -> " + e);
             retorno = null;
         } catch (IllegalStateException e) {
-            logger.severe("TipoUsuarioFacade: ocurrio un problema con la consulta -> " + e);
+            logger.severe("SemaforoFacade: ocurrio un problema con la consulta -> " + e);
             retorno = null;
         } catch (QueryTimeoutException e) {
-            logger.severe("TipoUsuarioFacade: ocurrio un problema con la consulta -> " + e);
+            logger.severe("SemaforoFacade: ocurrio un problema con la consulta -> " + e);
             retorno = null;
         } catch (TransactionRequiredException e) {
-            logger.severe("TipoUsuarioFacade: ocurrio un problema con la consulta -> " + e);
+            logger.severe("SemaforoFacade: ocurrio un problema con la consulta -> " + e);
             retorno = null;
         } catch (PessimisticLockException e) {
-            logger.severe("TipoUsuarioFacade: ocurrio un problema con la consulta -> " + e);
+            logger.severe("SemaforoFacade: ocurrio un problema con la consulta -> " + e);
             retorno = null;
         } catch (LockTimeoutException e) {
-            logger.severe("TipoUsuarioFacade: ocurrio un problema con la consulta -> " + e);
+            logger.severe("SemaforoFacade: ocurrio un problema con la consulta -> " + e);
             retorno = null;
         } catch (PersistenceException e) {
-            logger.severe("TipoUsuarioFacade: ocurrio un problema con la consulta -> " + e);
+            logger.severe("SemaforoFacade: ocurrio un problema con la consulta -> " + e);
             retorno = null;
         }
         if (retorno == null) {
-            logger.exiting(this.getClass().getName(), "findByTipo", null);
+            logger.exiting(this.getClass().getName(), "findByCuentaUsuario", null);
             return null;
         } else {
-            logger.exiting(this.getClass().getName(), "findByTipo", retorno.toString());
+            logger.exiting(this.getClass().getName(), "findByCuentaUsuario", retorno.toString());
             return retorno;
         }
     }
-
+    
 }

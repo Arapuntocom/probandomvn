@@ -99,7 +99,7 @@ public class TodoMB {
         logger.exiting(this.getClass().getName(), "cargarDatosDigitador");
     }
 
-   public String agregarTraslado() {
+   /*public String agregarTraslado() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "agregarTrasladoDigitador");
         logger.log(Level.FINEST, "rut usuario entrega {0}", this.usuarioEntrega);
@@ -114,7 +114,7 @@ public class TodoMB {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, resultado, "Uno o más datos inválidos"));
         logger.exiting(this.getClass().getName(), "agregarTrasladoDigitador", "");
         return "";
-    }
+    }*/
    
    public String salir() {
         logger.setLevel(Level.ALL);

@@ -30,6 +30,6 @@ public interface CargoFacadeLocal {
 
     int count();
     
-     Cargo findByCargo(String cargo);
+    Cargo findByCargo(String cargo);
     
 }

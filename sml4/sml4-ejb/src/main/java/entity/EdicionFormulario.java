@@ -26,20 +26,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Alan
+ * @author sebastian
  */
 @Entity
-@Table(name = "edicion_formulario")
+@Table(name = "Edicion_Formulario")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EdicionFormulario.findAll", query = "SELECT e FROM EdicionFormulario e"),
     @NamedQuery(name = "EdicionFormulario.findByIdEdicion", query = "SELECT e FROM EdicionFormulario e WHERE e.idEdicion = :idEdicion"),
     @NamedQuery(name = "EdicionFormulario.findByFechaEdicion", query = "SELECT e FROM EdicionFormulario e WHERE e.fechaEdicion = :fechaEdicion"),
-    @NamedQuery(name = "EdicionFormulario.findByObservaciones", query = "SELECT e FROM EdicionFormulario e WHERE e.observaciones = :observaciones"),
-    @NamedQuery(name = "EdicionFormulario.findByFormulario", query = "SELECT e FROM EdicionFormulario e WHERE e.formularioNUE = :formularioNUE")
-})
+    @NamedQuery(name = "EdicionFormulario.findByObservaciones", query = "SELECT e FROM EdicionFormulario e WHERE e.observaciones = :observaciones")})
 public class EdicionFormulario implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -29,9 +29,11 @@ public interface UsuarioFacadeLocal {
     List<Usuario> findRange(int[] range);
 
     int count();
-
-    Usuario findByCuentaUsuario(String name);
-
+    
     Usuario findByRUN(String run);
-
+    
+    Usuario findByEmail(String email);
+    
+    Usuario findByCuentaUsuario(String name);
+    
 }

@@ -38,7 +38,7 @@ public class CrearFormularioPeritoMB {
     static final Logger logger = Logger.getLogger(CrearFormularioPeritoMB.class.getName());
 
     //Guardamos el usuario que inicia sesion
-    private Usuario uSesion;
+    private Usuario usuarioSesion;
 
     //Atributos del formulario
     private String ruc;
@@ -48,13 +48,14 @@ public class CrearFormularioPeritoMB {
     private String delito;
     private String direccionSS;
     private String lugar;
-    private String unidad;
+    private String unidadPolicial;
     private String levantadaPor;
     private String rut;
     private Date fecha;
     private String observacion;
     private String descripcion;
     private int parte;
+    private String motivo;
 
     //Guardamos la cuenta del usuario que entrego la vista del login
     private String usuarioSis;
@@ -70,7 +71,7 @@ public class CrearFormularioPeritoMB {
     public CrearFormularioPeritoMB() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "CrearFormularioPeritoMB");
-        this.uSesion = new Usuario();
+        this.usuarioSesion = new Usuario();
         this.facesContext1 = FacesContext.getCurrentInstance();
         this.httpServletRequest1 = (HttpServletRequest) facesContext1.getExternalContext().getRequest();
         this.facesContext = FacesContext.getCurrentInstance();
@@ -86,12 +87,11 @@ public class CrearFormularioPeritoMB {
     public void cargarDatos() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "cargarDatosPerito");
-        this.uSesion = (Usuario) usuarioEJB.findUsuarioSesionByCuenta(usuarioSis);
+        this.usuarioSesion = (Usuario) usuarioEJB.findUsuarioSesionByCuenta(usuarioSis);
 
-        this.cargo = this.uSesion.getCargoidCargo().getNombreCargo();
-        this.levantadaPor = this.uSesion.getNombreUsuario();
-        this.unidad = this.uSesion.getUnidad();
-        this.rut = this.uSesion.getRutUsuario();
+        this.cargo = this.usuarioSesion.getCargoidCargo().getNombreCargo();
+        this.levantadaPor = this.usuarioSesion.getNombreUsuario();
+        this.rut = this.usuarioSesion.getRutUsuario();
 
         GregorianCalendar c = new GregorianCalendar();
         this.fecha = c.getTime();
@@ -106,7 +106,7 @@ public class CrearFormularioPeritoMB {
         logger.log(Level.FINEST, "usuario inicia rut {0}", this.rut);
         logger.log(Level.FINEST, "formulario fecha {0}", this.fecha);
         logger.log(Level.FINEST, "usuario inicia cargo {0}", this.cargo);
-        String resultado = formularioEJB.crearFormulario(ruc, rit, nue, parte, cargo, delito, direccionSS, lugar, unidad, levantadaPor, rut, fecha, observacion, descripcion, uSesion);
+        String resultado = formularioEJB.crearFormulario(motivo, ruc, rit, nue, parte, cargo, delito, direccionSS, lugar, unidadPolicial, levantadaPor, rut, fecha, observacion, descripcion, usuarioSesion);
 
         //Enviando nue
         httpServletRequest.getSession().setAttribute("nueF", this.nue);
@@ -126,19 +126,20 @@ public class CrearFormularioPeritoMB {
     public String salir() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "salirPerito");
-        logger.log(Level.FINEST, "usuario saliente {0}", this.uSesion.getNombreUsuario());
+        logger.log(Level.FINEST, "usuario saliente {0}", this.usuarioSesion.getNombreUsuario());
         httpServletRequest1.removeAttribute("cuentaUsuario");
         logger.exiting(this.getClass().getName(), "salirPerito", "/indexListo");
         return "/indexListo?faces-redirect=true";
     }
 
-    public Usuario getuSesion() {
-        return uSesion;
+    public Usuario getUsuarioSesion() {
+        return usuarioSesion;
     }
 
-    public void setuSesion(Usuario uSesion) {
-        this.uSesion = uSesion;
+    public void setUsuarioSesion(Usuario usuarioSesion) {
+        this.usuarioSesion = usuarioSesion;
     }
+
 
     public String getRuc() {
         return ruc;
@@ -196,12 +197,12 @@ public class CrearFormularioPeritoMB {
         this.lugar = lugar;
     }
 
-    public String getUnidad() {
-        return unidad;
+    public String getUnidadPolicial() {
+        return unidadPolicial;
     }
 
-    public void setUnidad(String unidad) {
-        this.unidad = unidad;
+    public void setUnidadPolicial(String unidadPolicial) {
+        this.unidadPolicial = unidadPolicial;
     }
 
     public String getLevantadaPor() {
@@ -260,4 +261,12 @@ public class CrearFormularioPeritoMB {
         this.parte = parte;
     }
 
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+    
 }

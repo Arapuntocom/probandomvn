@@ -6,6 +6,7 @@
 package facade;
 
 import entity.TipoEvidencia;
+import entity.TipoMotivo;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +30,7 @@ public interface TipoEvidenciaFacadeLocal {
     List<TipoEvidencia> findRange(int[] range);
 
     int count();
+    
+    TipoMotivo findByTipoMotivo(String motivo);
     
 }

@@ -86,14 +86,14 @@
                                         <h:outputLabel  for="parte" value="N° Parte:" style="width:120px"></h:outputLabel>
                                         <p:inputText id="parte" value="#{todoPeritoMB.formulario.numeroParte}" label="N° Parte" disabled="true"></p:inputText>
 
-                                        <h:outputLabel  for="uni" value="Unidad:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="uni" value="#{todoPeritoMB.formulario.usuarioidUsuario1.unidad}" label="Unidad" disabled="true"></p:inputText>
+                                        <h:outputLabel  for="uni" value="Unidad Policial:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="uni" value="#{todoPeritoMB.formulario.unidadPolicial}" label="Unidad" disabled="true"></p:inputText>
 
                                         <h:outputLabel  for="lev" value="Levantada por:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="lev" value="#{todoPeritoMB.formulario.usuarioidUsuario1.nombreUsuario}" label="Levantada por" disabled="true"></p:inputText>
+                                        <p:inputText id="lev" value="#{todoPeritoMB.formulario.usuarioidUsuarioInicia.nombreUsuario}" label="Levantada por" disabled="true"></p:inputText>
 
                                         <h:outputLabel  for="run" value="R.U.N.:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="run" value="#{todoPeritoMB.formulario.usuarioidUsuario1.rutUsuario}" label="R.U.N." disabled="true"></p:inputText>            
+                                        <p:inputText id="run" value="#{todoPeritoMB.formulario.usuarioidUsuario.rutUsuario}" label="R.U.N." disabled="true"></p:inputText>            
 
                                     </h:panelGrid> <br />
 
@@ -118,18 +118,18 @@
                                         <h:outputText id="moT" value="#{traslado.tipoMotivoidMotivo.tipoMotivo}"/>&nbsp;&nbsp;&nbsp;
                                         <h4>Entrega: </h4>
                                         <h:outputLabel value="Nombre: " for="nomTE" />&nbsp;
-                                        <h:outputText id="nomTE" value="#{traslado.usuarioidUsuario1.nombreUsuario}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputText id="nomTE" value="#{traslado.usuarioidUsuarioEntrega.nombreUsuario}" />&nbsp;&nbsp;&nbsp;
                                         <h:outputLabel value="Cargo: " for="carTE" />&nbsp;
-                                        <h:outputText id="carTE" value="#{traslado.usuarioidUsuario1.cargoidCargo.nombreCargo}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputText id="carTE" value="#{traslado.usuarioidUsuarioEntrega.cargoidCargo.nombreCargo}" />&nbsp;&nbsp;&nbsp;
                                         <h:outputLabel value="R.U.N.:"  for="ruTE" />&nbsp;
-                                        <h:outputText id="ruTE" value="#{traslado.usuarioidUsuario1.rutUsuario}" />    &nbsp;   &nbsp;&nbsp;
+                                        <h:outputText id="ruTE" value="#{traslado.usuarioidUsuarioEntrega.rutUsuario}" />    &nbsp;   &nbsp;&nbsp;
                                         <h4>Recibe: </h4>
                                         <h:outputLabel value="Nombre: " for="nomTR" />&nbsp;
-                                        <h:outputText id="nomTR" value="#{traslado.usuarioidUsuario.nombreUsuario}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputText id="nomTR" value="#{traslado.usuarioidUsuarioRecibe.nombreUsuario}" />&nbsp;&nbsp;&nbsp;
                                         <h:outputLabel value="Cargo: " for="carTR" />&nbsp;
-                                        <h:outputText id="carTR" value="#{traslado.usuarioidUsuario.cargoidCargo.nombreCargo}" />&nbsp;&nbsp;&nbsp;
+                                        <h:outputText id="carTR" value="#{traslado.usuarioidUsuarioRecibe.cargoidCargo.nombreCargo}" />&nbsp;&nbsp;&nbsp;
                                         <h:outputLabel value="R.U.N.: " for="ruTR" />&nbsp;
-                                        <h:outputText id="ruTR" value="#{traslado.usuarioidUsuario.rutUsuario}" /> <br/>&nbsp;&nbsp;&nbsp;
+                                        <h:outputText id="ruTR" value="#{traslado.usuarioidUsuarioRecibe.rutUsuario}" /> <br/>&nbsp;&nbsp;&nbsp;
                                         <h:outputLabel value="Observaciones: " for="obsTT" />&nbsp;
                                         <h:outputText id="obsTT" value="#{traslado.observaciones}" />&nbsp;&nbsp;&nbsp;
                                     </p:dataList>

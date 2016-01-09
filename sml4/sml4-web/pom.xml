@@ -4,12 +4,12 @@
     <parent>
     <artifactId>sml4</artifactId>
     <groupId>com.pingeso</groupId>
-    <version>3.4.4</version>
+    <version>4.0-SNAPSHOT</version>
   </parent>
 
     <groupId>com.pingeso</groupId>
     <artifactId>sml4-web</artifactId>
-    <version>3.4.4</version>
+    <version>4.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>sml4-web</name>

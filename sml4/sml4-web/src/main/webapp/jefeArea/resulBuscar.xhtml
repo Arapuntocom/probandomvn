@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <title>Buscar por RUC, RIT, Parte</title>
+        <link href=".../css/bootstrap.min.css" rel="stylesheet" />
+        <link href=".../css/shop-item.css" rel="stylesheet" />
+    </h:head>
+    <h:body>
+        <div class="container">
+            <h:form>
+                <div class="thumbnail">
+                    <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{buscadorJefeAreaMB.usuarioSesion.nombreUsuario}"></h:outputLabel></div>
+                </div>
+            </h:form> 
+
+            <hr />
+
+            <!-- Nav -->
+            <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
+                <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
+                    <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
+                </div>
+                <div class="col-md-9"> <!-- Barra de navegación -->
+                    <h:form>
+                        <ul class="nav nav-tabs nav-justified">
+
+                            <li role="presentation" class="active" ><a href="buscadorJefeArea.xhtml">Buscar Cadena de Custodia</a></li>   
+
+                            <li role="presentation"> <h:commandLink id="cs" action="#{buscadorJefeAreaMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
+
+                        </ul>
+                    </h:form>
+                </div>
+            </div>   	
+
+            <!-- Nav -->
+            <!-- Barra lateral izquierda -->
+
+            <div class="container-fluid">       
+                <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:10px">
+                    <div class="col-md-3">
+                        <p class="lead">
+                            <a href="http://www.sml.cl/sml/" target="_blank" ><img class="img-responsive" src=".../imagenes/logoSML.jpg" alt="" /> </a>
+                        </p><hr />
+                        <p class="lead">
+                            <img class="img-responsive" src=".../imagenes/camioneta.jpg" alt="" />
+                        </p><hr />
+
+                        <p class="lead">
+                            <a href="https://www.facebook.com/smlchile" target="_blank"><img class="img-responsive" src=".../imagenes/fb_logo1.png" alt=" "/></a>
+                        </p><hr />                       
+                    </div>
+
+                    <!-- Barra lateral izquierda -->
+
+
+                    <!-- inicio busqueda -->
+                    <div class="col-md-9">
+                        <div align="center">
+                            <div class="thumbnail" style="width: 785px; padding: 15px;">
+                                <h4>Inicie la búsqueda de su formulario</h4><br /><br />
+                                <h:form>
+                                    <br />
+                                    <div align="center">
+
+                                        <p:dataTable var="listaFormulario" value="#" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="100" style="margin-bottom:0">
+
+                                            <p:column headerText="N.U.E.">
+                                                <h:outputText value="#"/>                                                 
+                                            </p:column>
+                                            
+                                            <p:column headerText="Iniciador">
+                                                <h:outputText value="#"/>                                                 
+                                            </p:column>
+                                            
+                                            <p:column headerText="Fecha">
+                                                <h:outputText value="#"/>                                                 
+                                            </p:column>
+                                            
+                                            <p:column headerText="nose">
+                                                <h:outputText value="#"/>                                                 
+                                            </p:column>
+
+                                        </p:dataTable>
+                                        
+                                    </div>
+                                    <br />
+                                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                                </h:form> 
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fin de busqueda -->
+                    <!-- Footer -->
+
+                </div>
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="col-md-3" style="margin-top: 20px">
+                        <p class="lead">
+                            <img class="img-responsive" src=".../imagenes/footer2.jpg" alt="" />
+                        </p><br />
+                    </div>
+                    <div class="col-md-9">
+
+                        <h5 class="pull-right">
+                            Servicio Médico Legal - Avda. La Paz 1012, Independencia,
+                            Santiago - Teléfono Mesa Central:
+                        </h5>
+                        <h5 class="pull-right">
+                            (2) 27823500 Fono OIRS: (2) 2782 3662 - 2782 3663 - 2782 3664 - 800
+                            800 006
+                        </h5>
+                    </div>                    
+                </nav>        
+            </div>
+        </div>
+        <!-- Footer -->
+
+
+    </h:body>
+</html>
+

@@ -25,17 +25,16 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alan
+ * @author sebastian
  */
 @Entity
-@Table(name = "area")
+@Table(name = "Area")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Area.findAll", query = "SELECT a FROM Area a"),
     @NamedQuery(name = "Area.findByIdArea", query = "SELECT a FROM Area a WHERE a.idArea = :idArea"),
     @NamedQuery(name = "Area.findByNombreArea", query = "SELECT a FROM Area a WHERE a.nombreArea = :nombreArea")})
 public class Area implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +44,8 @@ public class Area implements Serializable {
     @Size(max = 45)
     @Column(name = "nombreArea")
     private String nombreArea;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaidArea", fetch = FetchType.EAGER)
+    private List<TipoEvidencia> tipoEvidenciaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areaidArea", fetch = FetchType.EAGER)
     private List<Usuario> usuarioList;
 
@@ -69,6 +70,15 @@ public class Area implements Serializable {
 
     public void setNombreArea(String nombreArea) {
         this.nombreArea = nombreArea;
+    }
+
+    @XmlTransient
+    public List<TipoEvidencia> getTipoEvidenciaList() {
+        return tipoEvidenciaList;
+    }
+
+    public void setTipoEvidenciaList(List<TipoEvidencia> tipoEvidenciaList) {
+        this.tipoEvidenciaList = tipoEvidenciaList;
     }
 
     @XmlTransient

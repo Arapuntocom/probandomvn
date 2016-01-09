@@ -6,9 +6,19 @@
 package facade;
 
 import entity.TipoEvidencia;
+import entity.TipoMotivo;
+import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockTimeoutException;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.persistence.PessimisticLockException;
+import javax.persistence.Query;
+import javax.persistence.QueryTimeoutException;
+import javax.persistence.TransactionRequiredException;
 
 /**
  *
@@ -27,5 +37,53 @@ public class TipoEvidenciaFacade extends AbstractFacade<TipoEvidencia> implement
     public TipoEvidenciaFacade() {
         super(TipoEvidencia.class);
     }
+    
+     //@NamedQuery(name = "TipoMotivo.findByTipoMotivo", query = "SELECT t FROM TipoMotivo t WHERE t.tipoMotivo = :tipoMotivo")
+    @Override
+    public TipoMotivo findByTipoMotivo(String motivo) {
+        logger.setLevel(Level.ALL);
+        logger.entering(this.getClass().getName(), "findByTipoMotivo", motivo);
+        TipoMotivo retorno = null;
+        try {
+            Query q = em.createNamedQuery("TipoMotivo.findByTipoMotivo", TipoMotivo.class).setParameter("tipoMotivo", motivo);
+            retorno = (TipoMotivo) q.getSingleResult();
+        } catch (IllegalArgumentException e) {
+            logger.severe("TipoMotivoFacade: el nombre o el parametro de la Query no existe -> " + e);
+            retorno = null;
+        } catch (NoResultException e) {
+            logger.severe("TipoMotivoFacade: No hay resultados -> " + e);
+            retorno = null;
+        } catch (NonUniqueResultException e) {
+            logger.severe("TipoMotivoFacade: hay mas de un resulado -> " + e);
+            retorno = null;
+        } catch (IllegalStateException e) {
+            logger.severe("TipoMotivoFacade: ocurrio un problema con la consulta -> " + e);
+            retorno = null;
+        } catch (QueryTimeoutException e) {
+            logger.severe("TipoMotivoFacade: ocurrio un problema con la consulta -> " + e);
+            retorno = null;
+        } catch (TransactionRequiredException e) {
+            logger.severe("TipoMotivoFacade: ocurrio un problema con la consulta -> " + e);
+            retorno = null;
+        } catch (PessimisticLockException e) {
+            logger.severe("TipoMotivoFacade: ocurrio un problema con la consulta -> " + e);
+            retorno = null;
+        } catch (LockTimeoutException e) {
+            logger.severe("TipoMotivoFacade: ocurrio un problema con la consulta -> " + e);
+            retorno = null;
+        } catch (PersistenceException e) {
+            logger.severe("TipoMotivoFacade: ocurrio un problema con la consulta -> " + e);
+            retorno = null;
+        }
+        if (retorno == null) {
+            logger.exiting(this.getClass().getName(), "findByTipoMotivo", null);
+            return null;
+        } else {
+            logger.exiting(this.getClass().getName(), "findByTipoMotivo", retorno.toString());
+            return retorno;
+        }
+   
+    }
+   
     
 }

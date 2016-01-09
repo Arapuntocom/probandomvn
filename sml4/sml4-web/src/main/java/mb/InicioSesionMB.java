@@ -6,6 +6,7 @@
 package mb;
 
 import ejb.UsuarioEJBLocal;
+import ejb.ValidacionEJBLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -27,6 +28,8 @@ public class InicioSesionMB {
 
     @EJB
     private UsuarioEJBLocal usuarioEJB;
+    @EJB
+    private ValidacionEJBLocal validacionEJB;
 
     static final Logger logger = Logger.getLogger(InicioSesionMB.class.getName());
     private HttpServletRequest httpServletRequest;
@@ -49,7 +52,7 @@ public class InicioSesionMB {
         logger.entering(this.getClass().getName(), "Función login");
         logger.log(Level.FINEST, "login1 usuario: {0}", this.user);
         logger.log(Level.FINEST, "login1 p: {0}", this.pass);
-        String response = usuarioEJB.verificarUsuario(user, pass);
+        String response = validacionEJB.verificarUsuario(user, pass);
 
         if (!response.equals("")) {
             httpServletRequest.getSession().setAttribute("cuentaUsuario", this.user);

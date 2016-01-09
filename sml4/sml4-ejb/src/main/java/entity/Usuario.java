@@ -27,10 +27,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alan
+ * @author sebastian
  */
 @Entity
-@Table(name = "usuario")
+@Table(name = "Usuario")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
@@ -41,10 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByPassUsuario", query = "SELECT u FROM Usuario u WHERE u.passUsuario = :passUsuario"),
     @NamedQuery(name = "Usuario.findByMailUsuario", query = "SELECT u FROM Usuario u WHERE u.mailUsuario = :mailUsuario"),
     @NamedQuery(name = "Usuario.findByCuentaUsuario", query = "SELECT u FROM Usuario u WHERE u.cuentaUsuario = :cuentaUsuario"),
-    @NamedQuery(name = "Usuario.findByEstadoUsuario", query = "SELECT u FROM Usuario u WHERE u.estadoUsuario = :estadoUsuario"),
-    @NamedQuery(name = "Usuario.findByUnidad", query = "SELECT u FROM Usuario u WHERE u.unidad = :unidad")})
+    @NamedQuery(name = "Usuario.findByEstadoUsuario", query = "SELECT u FROM Usuario u WHERE u.estadoUsuario = :estadoUsuario")})
 public class Usuario implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,26 +69,23 @@ public class Usuario implements Serializable {
     private String cuentaUsuario;
     @Column(name = "estadoUsuario")
     private Boolean estadoUsuario;
-    @Size(max = 45)
-    @Column(name = "unidad")
-    private String unidad;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioidUsuario", fetch = FetchType.EAGER)
-    private List<Traslado> trasladoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioidUsuario1", fetch = FetchType.EAGER)
-    private List<Traslado> trasladoList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioidUsuario1", fetch = FetchType.EAGER)
-    private List<Formulario> formularioList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioidUsuario", fetch = FetchType.EAGER)
-    private List<Formulario> formularioList1;
-    @JoinColumn(name = "Tipo_Usuario_idTipoUsuario", referencedColumnName = "idTipoUsuario")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private TipoUsuario tipoUsuarioidTipoUsuario;
     @JoinColumn(name = "Cargo_idCargo", referencedColumnName = "idCargo")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Cargo cargoidCargo;
     @JoinColumn(name = "Area_idArea", referencedColumnName = "idArea")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Area areaidArea;
+    @JoinColumn(name = "Tipo_Usuario_idTipoUsuario", referencedColumnName = "idTipoUsuario")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private TipoUsuario tipoUsuarioidTipoUsuario;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioidUsuarioEntrega", fetch = FetchType.EAGER)
+    private List<Traslado> trasladoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioidUsuarioRecibe", fetch = FetchType.EAGER)
+    private List<Traslado> trasladoList1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioidUsuario", fetch = FetchType.EAGER)
+    private List<Formulario> formularioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioidUsuarioInicia", fetch = FetchType.EAGER)
+    private List<Formulario> formularioList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioidUsuario", fetch = FetchType.EAGER)
     private List<EdicionFormulario> edicionFormularioList;
 
@@ -165,12 +160,28 @@ public class Usuario implements Serializable {
         this.estadoUsuario = estadoUsuario;
     }
 
-    public String getUnidad() {
-        return unidad;
+    public Cargo getCargoidCargo() {
+        return cargoidCargo;
     }
 
-    public void setUnidad(String unidad) {
-        this.unidad = unidad;
+    public void setCargoidCargo(Cargo cargoidCargo) {
+        this.cargoidCargo = cargoidCargo;
+    }
+
+    public Area getAreaidArea() {
+        return areaidArea;
+    }
+
+    public void setAreaidArea(Area areaidArea) {
+        this.areaidArea = areaidArea;
+    }
+
+    public TipoUsuario getTipoUsuarioidTipoUsuario() {
+        return tipoUsuarioidTipoUsuario;
+    }
+
+    public void setTipoUsuarioidTipoUsuario(TipoUsuario tipoUsuarioidTipoUsuario) {
+        this.tipoUsuarioidTipoUsuario = tipoUsuarioidTipoUsuario;
     }
 
     @XmlTransient
@@ -207,30 +218,6 @@ public class Usuario implements Serializable {
 
     public void setFormularioList1(List<Formulario> formularioList1) {
         this.formularioList1 = formularioList1;
-    }
-
-    public TipoUsuario getTipoUsuarioidTipoUsuario() {
-        return tipoUsuarioidTipoUsuario;
-    }
-
-    public void setTipoUsuarioidTipoUsuario(TipoUsuario tipoUsuarioidTipoUsuario) {
-        this.tipoUsuarioidTipoUsuario = tipoUsuarioidTipoUsuario;
-    }
-
-    public Cargo getCargoidCargo() {
-        return cargoidCargo;
-    }
-
-    public void setCargoidCargo(Cargo cargoidCargo) {
-        this.cargoidCargo = cargoidCargo;
-    }
-
-    public Area getAreaidArea() {
-        return areaidArea;
-    }
-
-    public void setAreaidArea(Area areaidArea) {
-        this.areaidArea = areaidArea;
     }
 
     @XmlTransient

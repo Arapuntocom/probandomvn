@@ -30,7 +30,6 @@ public interface EdicionFormularioFacadeLocal {
     List<EdicionFormulario> findRange(int[] range);
 
     int count();
-
-    public List<EdicionFormulario> listaEdiciones(Formulario formulario);
-
+    
+    List<EdicionFormulario> listaEdiciones(Formulario formulario);
 }

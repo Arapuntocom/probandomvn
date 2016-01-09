@@ -112,19 +112,17 @@ public class RecibirPeritoMB {
         this.usuarioRecibe = usuarioSesion.getNombreUsuario();
         this.usuarioRecibeCargo = usuarioSesion.getCargoidCargo().getNombreCargo();
         this.usuarioRecibeRut = usuarioSesion.getRutUsuario();
-        this.usuarioRecibeUnidad = usuarioSesion.getUnidad();
         
         this.userEntrega = formularioEJB.obtenerPoseedorFormulario(formulario);
         
         this.usuarioEntrega = userEntrega.getNombreUsuario();
         this.usuarioEntregaCargo = userEntrega.getCargoidCargo().getNombreCargo();
         this.usuarioEntregaRut = userEntrega.getRutUsuario();
-        this.usuarioEntregaUnidad = userEntrega.getUnidad();
         
         logger.exiting(this.getClass().getName(), "cargarDatosPerito");
     }
 
-    public String agregarTraslado() {
+    /*public String agregarTraslado() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "agregarTrasladoPerito");
         logger.log(Level.FINEST, "rut usuario entrega {0}", this.usuarioEntrega);
@@ -139,7 +137,7 @@ public class RecibirPeritoMB {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, resultado, "Uno o más datos inválidos"));
         logger.exiting(this.getClass().getName(), "agregarTrasladoPerito", "");
         return "";
-    }
+    }*/
 
     public String salir() {
         logger.setLevel(Level.ALL);

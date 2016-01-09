@@ -5,8 +5,8 @@
  */
 package facade;
 
-import entity.Formulario;
 import entity.Traslado;
+import entity.Formulario;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -30,7 +30,7 @@ public interface TrasladoFacadeLocal {
     List<Traslado> findRange(int[] range);
 
     int count();
-    
+
     List<Traslado> findByNue(Formulario formulario);
-    
+
 }

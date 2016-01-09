@@ -29,7 +29,13 @@ public interface FormularioFacadeLocal {
     List<Formulario> findRange(int[] range);
 
     int count();
-    
+
     Formulario findByNue(int nue);
     
+    List<Formulario> findByNParte(int nParte);
+    
+    List<Formulario> findByRuc(String ruc);
+    
+    List<Formulario> findByRit(String rit);
+
 }

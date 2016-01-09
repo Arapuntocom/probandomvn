@@ -12,39 +12,42 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alan
+ * @author sebastian
  */
 @Entity
-@Table(name = "tipo_evidencia")
+@Table(name = "Tipo_Evidencia")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TipoEvidencia.findAll", query = "SELECT t FROM TipoEvidencia t"),
     @NamedQuery(name = "TipoEvidencia.findByIdTipoEvidencia", query = "SELECT t FROM TipoEvidencia t WHERE t.idTipoEvidencia = :idTipoEvidencia"),
     @NamedQuery(name = "TipoEvidencia.findByNombreTipoEvidencia", query = "SELECT t FROM TipoEvidencia t WHERE t.nombreTipoEvidencia = :nombreTipoEvidencia")})
 public class TipoEvidencia implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "idTipoEvidencia")
     private Integer idTipoEvidencia;
     @Size(max = 45)
     @Column(name = "nombreTipoEvidencia")
     private String nombreTipoEvidencia;
+    @JoinColumn(name = "Area_idArea", referencedColumnName = "idArea")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Area areaidArea;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoEvidenciaidTipoEvidencia", fetch = FetchType.EAGER)
     private List<Evidencia> evidenciaList;
 
@@ -69,6 +72,14 @@ public class TipoEvidencia implements Serializable {
 
     public void setNombreTipoEvidencia(String nombreTipoEvidencia) {
         this.nombreTipoEvidencia = nombreTipoEvidencia;
+    }
+
+    public Area getAreaidArea() {
+        return areaidArea;
+    }
+
+    public void setAreaidArea(Area areaidArea) {
+        this.areaidArea = areaidArea;
     }
 
     @XmlTransient

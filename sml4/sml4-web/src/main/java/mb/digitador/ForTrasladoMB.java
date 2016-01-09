@@ -100,7 +100,7 @@ public class ForTrasladoMB {
         logger.log(Level.FINEST, "rut usuario entrega {0}", this.usuarioEntrega);
         logger.log(Level.FINEST, "rut usuario recibe {0}", this.usuarioRecibe);
         logger.log(Level.FINEST, "rut motivo {0}", this.motivo);
-        String resultado = formularioEJB.crearTraslado(formulario, usuarioEntrega, usuarioEntregaUnidad, usuarioEntregaCargo, usuarioEntregaRut, usuarioRecibe, usuarioRecibeUnidad, usuarioRecibeCargo, usuarioRecibeRut, fechaT, observacionesT, motivo, usuarioSesion);
+        String resultado = formularioEJB.crearTraslado(formulario, usuarioEntrega, usuarioEntregaCargo, usuarioEntregaRut, usuarioRecibe, usuarioRecibeCargo, usuarioRecibeRut, fechaT, observacionesT, motivo, usuarioSesion);
         if (resultado.equals("Exito")) {
             httpServletRequest.getSession().setAttribute("nueF", this.nue);
             logger.exiting(this.getClass().getName(), "agregarTrasladoDigitador", "todoHU11?faces-redirect=true");

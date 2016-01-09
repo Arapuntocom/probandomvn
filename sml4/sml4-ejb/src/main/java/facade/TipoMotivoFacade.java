@@ -4,9 +4,8 @@
  * and open the template in the editor.
  */
 package facade;
- 
+
 import entity.TipoMotivo;
-import static facade.AbstractFacade.logger;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,26 +18,26 @@ import javax.persistence.PessimisticLockException;
 import javax.persistence.Query;
 import javax.persistence.QueryTimeoutException;
 import javax.persistence.TransactionRequiredException;
- 
+
 /**
  *
- * @author Aracelly
+ * @author sebastian
  */
 @Stateless
 public class TipoMotivoFacade extends AbstractFacade<TipoMotivo> implements TipoMotivoFacadeLocal {
+
     @PersistenceContext(unitName = "com.pingeso_sml4-ejb_ejb_3.0-SNAPSHOTPU")
     private EntityManager em;
- 
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
- 
+
     public TipoMotivoFacade() {
         super(TipoMotivo.class);
     }
- 
-    //@NamedQuery(name = "TipoMotivo.findByTipoMotivo", query = "SELECT t FROM TipoMotivo t WHERE t.tipoMotivo = :tipoMotivo")
+
     @Override
     public TipoMotivo findByTipoMotivo(String motivo) {
         logger.setLevel(Level.ALL);
@@ -82,7 +81,7 @@ public class TipoMotivoFacade extends AbstractFacade<TipoMotivo> implements Tipo
             logger.exiting(this.getClass().getName(), "findByTipoMotivo", retorno.toString());
             return retorno;
         }
-   
+
     }
-   
+
 }

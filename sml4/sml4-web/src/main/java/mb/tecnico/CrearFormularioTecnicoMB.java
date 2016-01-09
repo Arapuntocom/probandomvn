@@ -56,6 +56,8 @@ public class CrearFormularioTecnicoMB {
     private String descripcion;
     private int parte;
 
+    private String motivo;
+    
     //Guardamos la cuenta del usuario que entrego la vista del login
     private String usuarioSis;
 
@@ -90,7 +92,6 @@ public class CrearFormularioTecnicoMB {
 
         this.cargo = this.uSesion.getCargoidCargo().getNombreCargo();
         this.levantadaPor = this.uSesion.getNombreUsuario();
-        this.unidad = this.uSesion.getUnidad();
         this.rut = this.uSesion.getRutUsuario();
 
         GregorianCalendar c = new GregorianCalendar();
@@ -106,7 +107,7 @@ public class CrearFormularioTecnicoMB {
         logger.log(Level.FINEST, "usuario inicia rut {0}", this.rut);
         logger.log(Level.FINEST, "formulario fecha {0}", this.fecha);
         logger.log(Level.FINEST, "usuario inicia cargo {0}", this.cargo);
-        String resultado = formularioEJB.crearFormulario(ruc, rit, nue, parte, cargo, delito, direccionSS, lugar, unidad, levantadaPor, rut, fecha, observacion, descripcion, uSesion);
+        String resultado = formularioEJB.crearFormulario(motivo, ruc, rit, nue, parte, cargo, delito, direccionSS, lugar, unidad, levantadaPor, rut, fecha, observacion, descripcion, uSesion);
 
         //Enviando nue
         httpServletRequest.getSession().setAttribute("nueF", this.nue);
@@ -258,6 +259,14 @@ public class CrearFormularioTecnicoMB {
 
     public void setParte(int parte) {
         this.parte = parte;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
     }
 
 }

@@ -26,57 +26,55 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Alan
+ * @author sebastian
  */
 @Entity
-@Table(name = "traslado")
+@Table(name = "Traslado")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Traslado.findAll", query = "SELECT t FROM Traslado t"),
-    @NamedQuery(name = "Traslado.findByIdInvolucrado", query = "SELECT t FROM Traslado t WHERE t.idInvolucrado = :idInvolucrado"),
+    @NamedQuery(name = "Traslado.findByIdTraslado", query = "SELECT t FROM Traslado t WHERE t.idTraslado = :idTraslado"),
     @NamedQuery(name = "Traslado.findByFechaEntrega", query = "SELECT t FROM Traslado t WHERE t.fechaEntrega = :fechaEntrega"),
-    @NamedQuery(name = "Traslado.findByObservaciones", query = "SELECT t FROM Traslado t WHERE t.observaciones = :observaciones"),
-    @NamedQuery(name = "Traslado.findByNue", query = "SELECT t FROM Traslado t WHERE t.formularioNUE = :nue")})
+    @NamedQuery(name = "Traslado.findByObservaciones", query = "SELECT t FROM Traslado t WHERE t.observaciones = :observaciones")})
 public class Traslado implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idInvolucrado")
-    private Integer idInvolucrado;
+    @Column(name = "idTraslado")
+    private Integer idTraslado;
     @Column(name = "fechaEntrega")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaEntrega;
     @Size(max = 300)
     @Column(name = "observaciones")
     private String observaciones;
-    @JoinColumn(name = "Usuario_idUsuario", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Usuario usuarioidUsuario;
-    @JoinColumn(name = "Usuario_idUsuario1", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Usuario usuarioidUsuario1;
     @JoinColumn(name = "Tipo_Motivo_idMotivo", referencedColumnName = "idMotivo")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private TipoMotivo tipoMotivoidMotivo;
+    @JoinColumn(name = "Usuario_idUsuarioEntrega", referencedColumnName = "idUsuario")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Usuario usuarioidUsuarioEntrega;
     @JoinColumn(name = "Formulario_NUE", referencedColumnName = "NUE")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Formulario formularioNUE;
+    @JoinColumn(name = "Usuario_idUsuarioRecibe", referencedColumnName = "idUsuario")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Usuario usuarioidUsuarioRecibe;
 
     public Traslado() {
     }
 
-    public Traslado(Integer idInvolucrado) {
-        this.idInvolucrado = idInvolucrado;
+    public Traslado(Integer idTraslado) {
+        this.idTraslado = idTraslado;
     }
 
-    public Integer getIdInvolucrado() {
-        return idInvolucrado;
+    public Integer getIdTraslado() {
+        return idTraslado;
     }
 
-    public void setIdInvolucrado(Integer idInvolucrado) {
-        this.idInvolucrado = idInvolucrado;
+    public void setIdTraslado(Integer idTraslado) {
+        this.idTraslado = idTraslado;
     }
 
     public Date getFechaEntrega() {
@@ -95,28 +93,20 @@ public class Traslado implements Serializable {
         this.observaciones = observaciones;
     }
 
-    public Usuario getUsuarioidUsuario() {
-        return usuarioidUsuario;
-    }
-
-    public void setUsuarioidUsuario(Usuario usuarioidUsuario) {
-        this.usuarioidUsuario = usuarioidUsuario;
-    }
-
-    public Usuario getUsuarioidUsuario1() {
-        return usuarioidUsuario1;
-    }
-
-    public void setUsuarioidUsuario1(Usuario usuarioidUsuario1) {
-        this.usuarioidUsuario1 = usuarioidUsuario1;
-    }
-
     public TipoMotivo getTipoMotivoidMotivo() {
         return tipoMotivoidMotivo;
     }
 
     public void setTipoMotivoidMotivo(TipoMotivo tipoMotivoidMotivo) {
         this.tipoMotivoidMotivo = tipoMotivoidMotivo;
+    }
+
+    public Usuario getUsuarioidUsuarioEntrega() {
+        return usuarioidUsuarioEntrega;
+    }
+
+    public void setUsuarioidUsuarioEntrega(Usuario usuarioidUsuarioEntrega) {
+        this.usuarioidUsuarioEntrega = usuarioidUsuarioEntrega;
     }
 
     public Formulario getFormularioNUE() {
@@ -127,10 +117,18 @@ public class Traslado implements Serializable {
         this.formularioNUE = formularioNUE;
     }
 
+    public Usuario getUsuarioidUsuarioRecibe() {
+        return usuarioidUsuarioRecibe;
+    }
+
+    public void setUsuarioidUsuarioRecibe(Usuario usuarioidUsuarioRecibe) {
+        this.usuarioidUsuarioRecibe = usuarioidUsuarioRecibe;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idInvolucrado != null ? idInvolucrado.hashCode() : 0);
+        hash += (idTraslado != null ? idTraslado.hashCode() : 0);
         return hash;
     }
 
@@ -141,7 +139,7 @@ public class Traslado implements Serializable {
             return false;
         }
         Traslado other = (Traslado) object;
-        if ((this.idInvolucrado == null && other.idInvolucrado != null) || (this.idInvolucrado != null && !this.idInvolucrado.equals(other.idInvolucrado))) {
+        if ((this.idTraslado == null && other.idTraslado != null) || (this.idTraslado != null && !this.idTraslado.equals(other.idTraslado))) {
             return false;
         }
         return true;
@@ -149,7 +147,7 @@ public class Traslado implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Traslado[ idInvolucrado=" + idInvolucrado + " ]";
+        return "entity.Traslado[ idTraslado=" + idTraslado + " ]";
     }
     
 }

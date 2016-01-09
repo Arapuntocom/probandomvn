@@ -8,48 +8,49 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alan
+ * @author sebastian
  */
 @Entity
-@Table(name = "evidencia")
+@Table(name = "Evidencia")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Evidencia.findAll", query = "SELECT e FROM Evidencia e"),
     @NamedQuery(name = "Evidencia.findByIdEvidencia", query = "SELECT e FROM Evidencia e WHERE e.idEvidencia = :idEvidencia"),
     @NamedQuery(name = "Evidencia.findByNombreEvidencia", query = "SELECT e FROM Evidencia e WHERE e.nombreEvidencia = :nombreEvidencia")})
 public class Evidencia implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "idEvidencia")
     private Integer idEvidencia;
     @Size(max = 45)
     @Column(name = "nombreEvidencia")
     private String nombreEvidencia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evidencia", fetch = FetchType.EAGER)
-    private List<FormularioEvidencia> formularioEvidenciaList;
-    @JoinColumn(name = "Tipo_Evidencia_idTipo_Evidencia", referencedColumnName = "idTipoEvidencia")
+    @JoinTable(name = "Formulario_Evidencia", joinColumns = {
+        @JoinColumn(name = "Evidencia_idEvidencia", referencedColumnName = "idEvidencia")}, inverseJoinColumns = {
+        @JoinColumn(name = "Formulario_NUE", referencedColumnName = "NUE")})
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Formulario> formularioList;
+    @JoinColumn(name = "Tipo_Evidencia_idTipoEvidencia", referencedColumnName = "idTipoEvidencia")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private TipoEvidencia tipoEvidenciaidTipoEvidencia;
 
@@ -77,12 +78,12 @@ public class Evidencia implements Serializable {
     }
 
     @XmlTransient
-    public List<FormularioEvidencia> getFormularioEvidenciaList() {
-        return formularioEvidenciaList;
+    public List<Formulario> getFormularioList() {
+        return formularioList;
     }
 
-    public void setFormularioEvidenciaList(List<FormularioEvidencia> formularioEvidenciaList) {
-        this.formularioEvidenciaList = formularioEvidenciaList;
+    public void setFormularioList(List<Formulario> formularioList) {
+        this.formularioList = formularioList;
     }
 
     public TipoEvidencia getTipoEvidenciaidTipoEvidencia() {
