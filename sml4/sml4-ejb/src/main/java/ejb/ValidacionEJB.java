@@ -184,6 +184,9 @@ public class ValidacionEJB implements ValidacionEJBLocal {
         //Si lo encuentro verifico si la contraseña es igual a la que se ingreso
         if (foundUser != null) {
             if (foundUser.getPassUsuario().equals(pass)) {
+                if(!foundUser.getEstadoUsuario()){
+                    return "off";
+                }
                 //Redirecciono según el cargo a su respectiva vista
                 if (foundUser.getCargoidCargo().getNombreCargo().equals("Perito")) {
                     direccion = "/perito/peritoFormulario.xhtml?faces-redirect=true";
@@ -192,7 +195,7 @@ public class ValidacionEJB implements ValidacionEJBLocal {
                 } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Digitador")) {
                     direccion = "/digitador/digitadorFormularioHU11.xhtml?faces-redirect=true";
                 } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Técnico")) {
-                    direccion = "/tecnico/buscadorTecnico.xhtml?faces-redirect=true";
+                    direccion = "/perito/buscadorPerito.xhtml?faces-redirect=true";
                 } else if (foundUser.getCargoidCargo().getNombreCargo().equals("Jefe de área")) {
                     direccion = "/jefeArea/buscadorJefeArea.xhtml?faces-redirect=true";
                 }

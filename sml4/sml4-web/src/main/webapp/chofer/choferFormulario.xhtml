@@ -26,34 +26,31 @@
 
         <div class="container">
 
-
             <!-- Usuario logeado -->
 
             <h:form>
                 <div class="thumbnail">
-                    <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{crearFormularioChoferMB.getuSesion().nombreUsuario}"></h:outputLabel></div>
+                    <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{crearFormularioChoferMB.usuarioS.nombreUsuario} #{crearFormularioChoferMB.usuarioS.apellidoUsuario}"></h:outputLabel></div>
                 </div>
             </h:form> 
 
             <hr />
             <!-- usuario logeado -->
             <!-- Nav -->
-            <h:form>
-                <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
-                    <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
-                        <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
-                    </div>
-                    <div class="col-md-9"> <!-- Barra de navegación -->
-                        <h:form>
-                            <ul class="nav nav-tabs nav-justified">
-                                <li role="presentation" class="active" ><a href="choferFormulario.xhtml">Iniciar Cadena de Custodia</a></li> 
-                                <li role="presentation" class="active" ><a href="buscadorChofer.xhtml">Buscar Cadena de Custodia</a></li>   
-                                <li role="presentation"> <h:commandLink id="cs" action="#{crearFormularioChoferMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
-                            </ul>
-                        </h:form>
-                    </div>
+            <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
+                <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
+                    <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
                 </div>
-            </h:form>
+                <div class="col-md-9"> <!-- Barra de navegación -->
+                    <h:form>
+                        <ul class="nav nav-tabs nav-justified">
+                            <li role="presentation" class="active"> <h:commandLink id="cs1" action="#{crearFormularioChoferMB.iniciarCadena()}" value="Iniciar Cadena de Custodia"></h:commandLink> </li>                             
+                            <li role="presentation"> <h:commandLink id="cs2" action="#{crearFormularioChoferMB.buscar()}" value="Buscar Cadena de Custodia"></h:commandLink> </li>
+                            <li role="presentation"> <h:commandLink id="cs3" action="#{crearFormularioChoferMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>                           
+                        </ul>
+                    </h:form>
+                </div>
+            </div>   	
 
             <!-- Nav -->
             <!-- Barra lateral izquierda -->
@@ -69,7 +66,7 @@
                         </p><hr />
 
                         <p class="lead">
-                            <a href="https://www.facebook.com/smlchile" target="_blank"><img class="img-responsive" src=".../imagenes/fb_logo1.png" alt=" "/></a>
+                            <a href="http://www.sml.cl/intranetsml/index.php" target="_blank"><img class="img-responsive" src=".../imagenes/intranet.jpg" alt=" "/></a>
                         </p><hr />                       
                     </div>
 
@@ -128,23 +125,23 @@
                                         <p:message for="lu" display="text"/> 
                                         <br />
 
-                                        <h:outputLabel  for="uni" value="Unidad:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="uni" value="#{crearFormularioChoferMB.unidad}" label="Unidad" disabled="true"></p:inputText>
+                                        <h:outputLabel  for="uni" value="Unidad Policial:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="uni" value="#{crearFormularioChoferMB.unidadPolicial}" label="Unidad" required="true" requiredMessage="Debe ingresar la unidad policial"></p:inputText>
                                         <p:message for="uni" display="text"/> 
                                         <br />
 
                                         <h:outputLabel  for="lev" value="Levantada por:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="lev" value="#{crearFormularioChoferMB.levantadaPor}" label="Levantada por" disabled="true"></p:inputText>
+                                        <p:inputText id="lev" value="#{crearFormularioChoferMB.levantadaPor} #{crearFormularioChoferMB.usuarioS.apellidoUsuario}" label="Levantada por" disabled="true"></p:inputText>
                                         <p:message for="lev" display="text"/> 
                                         <br />
 
                                         <h:outputLabel  for="run" value="R.U.N.:" style="width:120px"></h:outputLabel>
-                                        <p:inputText id="run" value="#{crearFormularioChoferMB.rut}" label="R.U.N." disabled="true"></p:inputText>
+                                        <p:inputText id="run" value="#{crearFormularioChoferMB.rut}" label="R.U.N." disabled="true" ></p:inputText>
                                         <p:message for="run" display="text"/> 
                                         <br />
 
                                         <h:outputLabel for="fecha" value="Fecha: " style="width:120px" />
-                                        <p:calendar id="fecha" pattern="dd/MM/yyyy HH:mm" locale="es" value="#{crearFormularioChoferMB.fecha}" disabled="true"/>
+                                        <p:calendar id="fecha" pattern="dd/MM/yyyy HH:mm" locale="es" value="#{crearFormularioChoferMB.fecha}" disabled="true" />
                                         <p:message for="fecha" display="text"/>
                                         <br />
 
@@ -156,15 +153,103 @@
                                         <h:outputLabel  for="Observaciones" value="Observaciones:" style="width:120px"></h:outputLabel>
                                         <p:inputTextarea id="Observaciones" rows="3" cols="90" value="#{crearFormularioChoferMB.observacion}" queryDelay="750" minQueryLength="4" />
 
-                                        <h:outputLabel  for="descripcion" value="Descripción:" style="width:120px"></h:outputLabel>
-                                        <p:inputTextarea id="descripcion" rows="3" cols="90" value="#{crearFormularioChoferMB.descripcion}" queryDelay="750" minQueryLength="4" />
-                                    </h:panelGrid>                                
+                                    </h:panelGrid>  
+                                    <br />  
 
-                                    <h:commandButton id="btnAceptar" value="Aceptar" action="#{crearFormularioChoferMB.iniciarFormulario()}" />
+                                    <!-- evidencia -->
+                                    <h:panelGrid columns="3">
+
+                                        <h:outputLabel for="tipoEvidencia" value="Tipo de evidencia: " />
+                                        <h:selectOneMenu id="tipoEvidencia" value="#{crearFormularioChoferMB.codTipoEvidencia}">
+                                            <f:selectItem itemValue="0" itemLabel="Seleccione" noSelectionOption="true"/>
+                                            <f:selectItem itemValue="1" itemLabel="Biológica (Clínica)"/>
+                                            <f:selectItem itemValue="2" itemLabel="Vestuario (Clínica)"/>
+                                            <f:selectItem itemValue="3" itemLabel="Artefacto (Clínica)"/>
+                                            <f:selectItem itemValue="4" itemLabel="otro (Clínica)"/>
+                                            <f:selectItem itemValue="5" itemLabel="Balística (Tanatología)"/>
+                                            <f:selectItem itemValue="6" itemLabel="Biológica (Tanatología)"/>
+                                            <f:selectItem itemValue="7" itemLabel="Vestuario (Tanatología)"/>
+                                            <f:selectItem itemValue="8" itemLabel="Artefacto (Tanatología)"/>
+                                            <f:selectItem itemValue="9" itemLabel="otro (Tanatología)"/>
+                                            <p:ajax event="change" listener="#{crearFormularioChoferMB.cargarEvidencias(event)}" update="evidencias"/>
+                                        </h:selectOneMenu>
+                                        <br />
+
+                                        <h:outputLabel for="evidencias" value="Evidencias:" />
+                                        
+                                        <h:selectOneMenu id="evidencias" value="#{crearFormularioChoferMB.evidencias}">    
+                                            <f:selectItem itemValue="0" itemLabel="Seleccione" noSelectionOption="true"/>
+                                            <f:selectItems value="#{crearFormularioChoferMB.listEvidenciasx}" var="evid" itemLabel="#{evid}" itemValue="#{evid}"/>                                           
+                                        </h:selectOneMenu>
+
+                                        <br />
+                                    </h:panelGrid>
+                                    
+                                    <!-- evidencia -->
+
+
+
+                                    <h:panelGrid columns="1" cellpadding="5" class="ui-grid">    
+
+                                        <h:outputLabel  for="descripcion" value="Descripción de la especie:" ></h:outputLabel>
+                                        <p:inputTextarea id="descripcion" rows="3" cols="90" value="#{crearFormularioChoferMB.descripcion}" queryDelay="750" minQueryLength="4" />
+                                    </h:panelGrid>                                                           
+
+
+                                    <!-- cosas nuevas-->
+                                    <br />
+                                    <h4 class="pull-center">Entrega:</h4> <br />
+
+                                    <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
+
+                                        <h:outputLabel  style="width:120px" for="UnE" value="Área:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                                        <p:inputText id="UnE" value="#{crearFormularioChoferMB.usuarioS.areaidArea.nombreArea}" label="Área" disabled="true">
+                                        </p:inputText>
+                                        <p:message for="UnE" display="text"/> 
+
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
+
+                                        <h:outputLabel  style="width:120px" for="CE" value="Cargo:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                                        <p:inputText id="CE" value="#{crearFormularioChoferMB.usuarioS.cargoidCargo.nombreCargo}" label="Cargo" required="true" disabled="true">
+                                        </p:inputText>
+                                        <p:message for="CE" display="text"/> 
+
+                                    </h:panelGrid>
+
+                                    <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
+
+                                        <h:outputLabel  style="width:120px" for="nomE" value="Nombre:"></h:outputLabel>
+                                        <p:inputText id="nomE" value="#{crearFormularioChoferMB.usuarioS.nombreUsuario} #{crearFormularioChoferMB.usuarioS.apellidoUsuario}" label="Nombre" disabled="true">
+                                        </p:inputText>
+                                        <p:message for="nomE" display="text"/> 
+
+                                    </h:panelGrid>
+
+                                    <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
+
+                                        <h:outputLabel  style="width:120px" for="runE" value="R.U.N.:"></h:outputLabel>
+                                        <p:inputText id="runE" value="#{crearFormularioChoferMB.usuarioS.rutUsuario}" label="R.U.N." disabled="true">
+                                        </p:inputText>
+                                        <p:message for="runE" display="text"/> 
+
+                                    </h:panelGrid>
+                                    <br />
+                                    <div align="center">
+                                        <h:selectOneRadio id="check" value="#{crearFormularioChoferMB.motivo}" required="true" requiredMessage="Ingrese que acción realizará con la evidencia">
+                                            <f:selectItem itemValue="Peritaje" itemLabel="Peritaje" /> <!-- agregar libreria arriba-->
+                                            <f:selectItem itemValue="Traslado" itemLabel="Traslado" />
+                                            <f:selectItem itemValue="Custodia" itemLabel="Custodia" />
+                                        </h:selectOneRadio><br />
+                                        <p:message for="check" display="text"/>
+                                    </div><br />
+
+                                    <!-- fin cosas nuevas-->
+
+
+                                    <h:commandButton id="btnAceptar" value="Aceptar" action="#{crearFormularioChoferMB.iniciarFormulario()}"  />
                                     <p:messages id="messages" closable="true" />
                                 </h:form> <br />
-
-
                             </div>
                         </div>
                     </div>

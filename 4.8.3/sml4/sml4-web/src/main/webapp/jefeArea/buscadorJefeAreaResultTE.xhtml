@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <title>Formulario</title>
+        <link href=".../css/bootstrap.min.css" rel="stylesheet" />
+        <link href=".../css/shop-item.css" rel="stylesheet" />
+    </h:head>
+    <h:body>
+        <div class="container">
+            <h:form>
+                <div class="thumbnail">
+                    <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{resultadoBuscadorTEJefeAreaMB.usuarioSesion.nombreUsuario}  #{resultadoBuscadorTEJefeAreaMB.usuarioSesion.apellidoUsuario}"></h:outputLabel></div>
+                </div>
+            </h:form> 
+
+            <hr />
+
+
+            <!-- Nav -->
+            <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
+                <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
+                    <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
+                </div>
+                <div class="col-md-9"> <!-- Barra de navegación -->
+                    <h:form>
+                        <ul class="nav nav-tabs nav-justified">                           
+
+                            <li role="presentation" class="active" > <h:commandLink id="nb" action="#{resultadoBuscadorTEJefeAreaMB.nuevaBusqueda()}" value="Buscar"></h:commandLink> </li>
+
+                            <li role="presentation"><h:commandLink id="cu" action="#{resultadoBuscadorTEJefeAreaMB.crearUsuario()}" value="Crear usuario"></h:commandLink> </li>                           
+
+                            <li role="presentation"><h:commandLink id="sem" action="#{resultadoBuscadorTEJefeAreaMB.semaforo()}" value="Semáforo"></h:commandLink> </li> 
+
+                            <!--<li role="presentation"> <h:commandLink id="cs4" action="{resultadoBuscadorTEJefeAreaMB.estadisticas()}" value="Estadísticas"></h:commandLink> </li>-->
+
+                            <li role="presentation"> <h:commandLink id="cs" action="#{resultadoBuscadorTEJefeAreaMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>   
+
+                        </ul>
+                    </h:form>
+                </div>
+            </div>   	
+
+            <!-- Nav -->
+            <!-- Barra lateral izquierda -->
+
+            <div class="container-fluid">       
+                <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:10px">
+                    <div class="col-md-3">
+                        <p class="lead">
+                            <a href="http://www.sml.cl/sml/" target="_blank" ><img class="img-responsive" src=".../imagenes/logoSML.jpg" alt="" /> </a>
+                        </p><hr />
+                        <p class="lead">
+                            <img class="img-responsive" src=".../imagenes/camioneta.jpg" alt="" />
+                        </p><hr />
+
+                        <p class="lead">
+                            <a href="http://www.sml.cl/intranetsml/index.php" target="_blank"><img class="img-responsive" src=".../imagenes/intranet.jpg" alt=" "/></a>
+                        </p><hr />                       
+                    </div>
+
+                    <!-- Barra lateral izquierda -->
+
+                    <div align="center">
+                        <div class="col-md-9">
+                            <div class="thumbnail" style="width: 785px; padding: 15px;">
+                                <!-- Barra de navegación -->
+                                <h:form>
+                                    <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
+                                        <h:outputLabel  for="ruc" value="R.U.C.:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="ruc" value="#{resultadoBuscadorTEJefeAreaMB.formulario.ruc}" label="ruc" disabled="true" ></p:inputText>
+
+                                        <h:outputLabel  for="rit" value="R.I.T.:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="rit" value="#{resultadoBuscadorTEJefeAreaMB.formulario.rit}" label="rit" disabled="true"></p:inputText>
+
+                                        <h:outputLabel  for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="nue" value="#{resultadoBuscadorTEJefeAreaMB.formulario.nue}" label="nue" disabled="true"></p:inputText>                                   
+
+                                        <h:outputLabel  for="del" value="Delito:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="del" value="#{resultadoBuscadorTEJefeAreaMB.formulario.delitoRef}" label="Delito" disabled="true"></p:inputText>
+
+                                        <h:outputLabel  for="dir" value="Dirección:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="dir" value="#{resultadoBuscadorTEJefeAreaMB.formulario.direccionSS}" label="Dirección" disabled="true"></p:inputText>
+
+                                        <h:outputLabel  for="lu" value="Lugar:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="lu" value="#{resultadoBuscadorTEJefeAreaMB.formulario.lugarLevantamiento}" label="Lugar" disabled="true"></p:inputText>
+
+                                        <h:outputLabel  for="parte" value="N° Parte:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="parte" value="#{resultadoBuscadorTEJefeAreaMB.formulario.numeroParte}" label="N° Parte" disabled="true"></p:inputText>
+
+                                        <h:outputLabel  for="uni" value="Unidad Policial:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="uni" value="#{resultadoBuscadorTEJefeAreaMB.formulario.unidadPolicial}" label="Unidad" disabled="true"></p:inputText>
+
+                                        <h:outputLabel  for="lev" value="Levantada por:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="lev" value="#{resultadoBuscadorTEJefeAreaMB.formulario.usuarioidUsuarioInicia.nombreUsuario}" label="Levantada por" disabled="true"></p:inputText>
+
+                                        <h:outputLabel  for="run" value="R.U.N.:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="run" value="#{resultadoBuscadorTEJefeAreaMB.formulario.usuarioidUsuarioInicia.rutUsuario}" label="R.U.N." disabled="true"></p:inputText>            
+
+                                    </h:panelGrid> <br />
+
+
+                                    <h:panelGrid columns="1" cellpadding="5" class="ui-grid">
+                                        <h:outputLabel  for="fecha" value="Fecha:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="fecha" value="#{resultadoBuscadorTEJefeAreaMB.formulario.fechaOcurrido}" label="Fecha" disabled="true"/>
+
+                                        <h:outputLabel  for="obs" value="Observaciones:" style="width:120px"></h:outputLabel>
+                                        <p:inputTextarea id="Observaciones" rows="3" cols="90" value="#{resultadoBuscadorTEJefeAreaMB.formulario.observaciones}" queryDelay="750" minQueryLength="4" disabled="true" />
+
+                                        <h:outputLabel  for="des" value="Descripción:" style="width:120px"></h:outputLabel>
+                                        <p:inputTextarea id="descripcion" rows="3" cols="90" value="#{resultadoBuscadorTEJefeAreaMB.formulario.descripcionEspecieFormulario}" queryDelay="750" minQueryLength="4" disabled="true" />
+                                    </h:panelGrid>  <br />
+                                    <br />
+
+
+                                    <h4> Mostrando Traslados</h4>
+
+                                    <div align="center">
+
+                                        <p:dataTable var="traslado" value="#{resultadoBuscadorTEJefeAreaMB.intercalado}" emptyMessage="No se han registrado más participantes en esta cadena de custodia." scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="150" style="margin-bottom:0">
+
+                                            <p:column headerText="">
+                                                <h:outputText value="#{resultadoBuscadorTEJefeAreaMB.cambio()}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Nombre">
+                                                <h:outputText value="#{traslado.usuarioidUsuarioEntrega.nombreUsuario}" />
+
+                                            </p:column>
+
+                                            <p:column headerText="Cargo">
+                                                <h:outputText value="#{traslado.usuarioidUsuarioEntrega.cargoidCargo.nombreCargo}" />
+
+                                            </p:column>
+
+                                            <p:column headerText="R.U.N.">
+                                                <h:outputText value="#{traslado.usuarioidUsuarioEntrega.rutUsuario}" />
+
+                                            </p:column>
+
+                                            <p:column headerText="Fecha" rowspan="2">
+                                                <h:outputText value="#{traslado.fechaEntrega}" />
+                                            </p:column>
+
+                                            <p:column headerText="Observación" rowspan="2">
+                                                <h:outputText value="#{traslado.observaciones}" />
+                                            </p:column>
+
+                                            <p:column headerText="Motivo" rowspan="2">
+                                                <h:outputText value="#{traslado.tipoMotivoidMotivo.tipoMotivo}" />
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div><br />
+
+                                    <!-- mostrar ediciones  -->
+                                    <h4> Mostrando Ediciones</h4>
+                                    <div align="center">
+
+                                        <p:dataTable  sortOrder="descending" var="ediciones" value="#{resultadoBuscadorTEJefeAreaMB.edicionesList}" emptyMessage="No se han realizado ediciones en esta cadena de custodia." scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="90" style="margin-bottom:0">
+
+                                            <p:column headerText="Editado por">
+                                                <h:outputText value="#{ediciones.usuarioidUsuario.nombreUsuario}" />
+                                            </p:column>
+
+                                            <p:column headerText="Fecha">
+                                                <h:outputText value="#{ediciones.fechaEdicion}" />
+                                            </p:column>
+
+                                            <p:column headerText="Observaciones">
+                                                <h:outputText value="#{ediciones.observaciones}" />
+                                            </p:column>
+
+                                        </p:dataTable>
+
+                                    </div><br />
+                                    <!-- fin mostrar ediciones -->
+
+
+
+                                    <div align="center">
+                                        <h:panelGrid columns="4">
+                                            <h:commandButton value="Buscar Cadena de Custodia" label="" action = "#{resultadoBuscadorTEJefeAreaMB.nuevaBusqueda()}" ></h:commandButton>  
+                                        </h:panelGrid>
+                                    </div>
+
+                                </h:form> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="col-md-3" style="margin-top: 20px">
+                        <p class="lead">
+                            <img class="img-responsive" src=".../imagenes/footer2.jpg" alt="" />
+                        </p><br />
+                    </div>
+                    <div class="col-md-9">
+
+                        <h5 class="pull-right">
+                            Servicio Médico Legal - Avda. La Paz 1012, Independencia,
+                            Santiago - Teléfono Mesa Central:
+                        </h5>
+                        <h5 class="pull-right">
+                            (2) 27823500 Fono OIRS: (2) 2782 3662 - 2782 3663 - 2782 3664 - 800
+                            800 006
+                        </h5>
+                    </div>                    
+                </nav>        
+            </div>
+        </div>
+
+    </h:body>
+</html>

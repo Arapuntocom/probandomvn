@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <title>Buscar por NUE</title>
+        <link href=".../css/bootstrap.min.css" rel="stylesheet" />
+        <link href=".../css/shop-item.css" rel="stylesheet" />
+    </h:head>
+    <h:body>
+        <div class="container">
+            <h:form>
+                <div class="thumbnail">
+                    <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{buscadorAdministradorMB.usuarioSesion.nombreUsuario} #{buscadorAdministradorMB.usuarioSesion.apellidoUsuario}"></h:outputLabel></div>
+                </div>
+            </h:form>
+
+            <hr />
+
+            <!-- Nav -->
+            <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
+                <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
+                    <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
+                </div>
+                <div class="col-md-9"> <!-- Barra de navegación -->
+                    <h:form>
+                        <ul class="nav nav-tabs nav-justified">
+
+                            <li role="presentation" class="active" > <h:commandLink id="cs" action="#{buscadorAdministradorMB.buscador()}" value="Buscar"></h:commandLink> </li>  
+
+                            <li role="presentation"><h:commandLink id="cs1" action="#{buscadorAdministradorMB.crearUsuario()}" value="Crear usuario"></h:commandLink></li>  
+
+                            <li role="presentation"> <h:commandLink id="cs4" action="#{buscadorAdministradorMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
+
+                        </ul>
+                    </h:form>
+                </div>
+            </div>      
+
+            <!-- Nav -->
+            <!-- Barra lateral izquierda -->
+
+            <div class="container-fluid">      
+                <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:10px">
+                    <div class="col-md-3">
+                        <p class="lead">
+                            <a href="http://www.sml.cl/sml/" target="_blank" ><img class="img-responsive" src=".../imagenes/logoSML.jpg" alt="" /> </a>
+                        </p><hr />
+                        <p class="lead">
+                            <img class="img-responsive" src=".../imagenes/camioneta.jpg" alt="" />
+                        </p><hr />
+
+                        <p class="lead">
+                            <a href="http://www.sml.cl/intranetsml/index.php" target="_blank"><img class="img-responsive" src=".../imagenes/intranet.jpg" alt=" "/></a>
+                        </p><hr />                      
+                    </div>
+
+                    <!-- Barra lateral izquierda -->
+                    
+                    <!-- inicio busqueda usuario -->
+                    <div class="col-md-9">
+                        <div align="center">
+                            <div class="thumbnail" style="width: 785px; padding: 15px;">
+                                <h4>Inicie la búsqueda de usuario</h4><br /><br />
+                                <h:form>
+                                    <br />
+                                    <div align="center">
+
+
+                                        <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
+
+                                            <p:outputLabel for="rut" value="R.U.T.:" style="width:90px"></p:outputLabel>
+                                            <h:inputText id="rut" style="margin-right:10px" value = "#{buscadorAdministradorMB.rut}" rendered="true" requiredMessage="Debe ingresar la búsqueda"/>
+
+                                            <h:commandButton value="Buscar" label="busca" action = "#{buscadorAdministradorMB.buscarUsuario()}" ></h:commandButton>  
+
+                                        </h:panelGrid>
+                                    </div>
+                                    <br />
+                                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fin de busqueda usuario-->
+
+
+                    <!-- Footer -->
+
+                </div>
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="col-md-3" style="margin-top: 20px">
+                        <p class="lead">
+                            <img class="img-responsive" src=".../imagenes/footer2.jpg" alt="" />
+                        </p><br />
+                    </div>
+                    <div class="col-md-9">
+
+                        <h5 class="pull-right">
+                            Servicio Médico Legal - Avda. La Paz 1012, Independencia,
+                            Santiago - Teléfono Mesa Central:
+                        </h5>
+                        <h5 class="pull-right">
+                            (2) 27823500 Fono OIRS: (2) 2782 3662 - 2782 3663 - 2782 3664 - 800
+                            800 006
+                        </h5>
+                    </div>                    
+                </nav>        
+            </div>
+        </div>
+        <!-- Footer -->
+
+
+    </h:body>
+</html>

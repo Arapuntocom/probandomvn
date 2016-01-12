@@ -26,17 +26,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author sebastian
+ * @author Alan
  */
 @Entity
-@Table(name = "Traslado")
+@Table(name = "traslado")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Traslado.findAll", query = "SELECT t FROM Traslado t"),
     @NamedQuery(name = "Traslado.findByIdTraslado", query = "SELECT t FROM Traslado t WHERE t.idTraslado = :idTraslado"),
     @NamedQuery(name = "Traslado.findByFechaEntrega", query = "SELECT t FROM Traslado t WHERE t.fechaEntrega = :fechaEntrega"),
-    @NamedQuery(name = "Traslado.findByObservaciones", query = "SELECT t FROM Traslado t WHERE t.observaciones = :observaciones")})
+    @NamedQuery(name = "Traslado.findByObservaciones", query = "SELECT t FROM Traslado t WHERE t.observaciones = :observaciones"),
+    @NamedQuery(name = "Traslado.findByNue", query = "SELECT t FROM Traslado t WHERE t.formularioNUE = :nue")
+})
 public class Traslado implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,18 +52,18 @@ public class Traslado implements Serializable {
     @Size(max = 300)
     @Column(name = "observaciones")
     private String observaciones;
-    @JoinColumn(name = "Tipo_Motivo_idMotivo", referencedColumnName = "idMotivo")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private TipoMotivo tipoMotivoidMotivo;
+    @JoinColumn(name = "Usuario_idUsuarioRecibe", referencedColumnName = "idUsuario")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Usuario usuarioidUsuarioRecibe;
     @JoinColumn(name = "Usuario_idUsuarioEntrega", referencedColumnName = "idUsuario")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario usuarioidUsuarioEntrega;
+    @JoinColumn(name = "Tipo_Motivo_idMotivo", referencedColumnName = "idMotivo")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private TipoMotivo tipoMotivoidMotivo;
     @JoinColumn(name = "Formulario_NUE", referencedColumnName = "NUE")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Formulario formularioNUE;
-    @JoinColumn(name = "Usuario_idUsuarioRecibe", referencedColumnName = "idUsuario")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Usuario usuarioidUsuarioRecibe;
 
     public Traslado() {
     }
@@ -93,12 +96,12 @@ public class Traslado implements Serializable {
         this.observaciones = observaciones;
     }
 
-    public TipoMotivo getTipoMotivoidMotivo() {
-        return tipoMotivoidMotivo;
+    public Usuario getUsuarioidUsuarioRecibe() {
+        return usuarioidUsuarioRecibe;
     }
 
-    public void setTipoMotivoidMotivo(TipoMotivo tipoMotivoidMotivo) {
-        this.tipoMotivoidMotivo = tipoMotivoidMotivo;
+    public void setUsuarioidUsuarioRecibe(Usuario usuarioidUsuarioRecibe) {
+        this.usuarioidUsuarioRecibe = usuarioidUsuarioRecibe;
     }
 
     public Usuario getUsuarioidUsuarioEntrega() {
@@ -109,20 +112,20 @@ public class Traslado implements Serializable {
         this.usuarioidUsuarioEntrega = usuarioidUsuarioEntrega;
     }
 
+    public TipoMotivo getTipoMotivoidMotivo() {
+        return tipoMotivoidMotivo;
+    }
+
+    public void setTipoMotivoidMotivo(TipoMotivo tipoMotivoidMotivo) {
+        this.tipoMotivoidMotivo = tipoMotivoidMotivo;
+    }
+
     public Formulario getFormularioNUE() {
         return formularioNUE;
     }
 
     public void setFormularioNUE(Formulario formularioNUE) {
         this.formularioNUE = formularioNUE;
-    }
-
-    public Usuario getUsuarioidUsuarioRecibe() {
-        return usuarioidUsuarioRecibe;
-    }
-
-    public void setUsuarioidUsuarioRecibe(Usuario usuarioidUsuarioRecibe) {
-        this.usuarioidUsuarioRecibe = usuarioidUsuarioRecibe;
     }
 
     @Override

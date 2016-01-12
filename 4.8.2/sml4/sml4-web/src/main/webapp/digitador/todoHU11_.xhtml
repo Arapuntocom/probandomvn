@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+    <!-- head -->
+    <h:head>
+        <meta content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>
+            Servicio Médico Legal
+        </title>
+        <!--  Bootstrap Core CSS -->
+        <link href=".../css/bootstrap.min.css" rel="stylesheet" />
+        <!--  Custom CSS -->
+        <link href=".../css/shop-item.css" rel="stylesheet" />
+    </h:head>
+    <!-- head -->
+
+    <h:body>
+
+        <div class="container">
+            <!-- Usuario logeado -->
+
+            <h:form>
+                <div class="thumbnail">
+                    <div align="center"><h:outputLabel class="input-group-lg"  for="NombreUsuario" style=" background-color: white" value="Bienvenido(a) #{todoMB.usuarioSesion.nombreUsuario} #{todoMB.usuarioSesion.apellidoUsuario}"></h:outputLabel></div>
+                </div>
+            </h:form> 
+
+            <hr />
+            <!-- usuario logeado -->
+            <!-- Nav -->
+            <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
+                <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
+                    <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
+                </div>
+                <div class="col-md-9"> <!-- Barra de navegación -->
+                    <h:form>
+                        <ul class="nav nav-tabs nav-justified">
+                            <li role="presentation" class="active"><a href="#">Cadena de Custodia</a></li>
+                            <li role="presentation"><a href="digitadorFormularioHU11.xhtml">Nueva Cadena de Custodia</a></li>                        
+                            <li role="presentation"> <h:commandLink id="cs" action="#{todoMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>                                </ul>
+                    </h:form>
+                </div>
+            </div>      
+
+            <!-- Nav -->
+            <!-- Barra lateral izquierda -->
+
+            <div class="container-fluid">       
+                <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:10px">
+                    <div class="col-md-3">
+                        <p class="lead">
+                            <a href="http://www.sml.cl/sml/" target="_blank" ><img class="img-responsive" src=".../imagenes/logoSML.jpg" alt="" /> </a>
+                        </p><hr />
+                        <p class="lead">
+                            <img class="img-responsive" src=".../imagenes/camioneta.jpg" alt="" />
+                        </p><hr />
+
+                        <p class="lead">
+                            <a href="https://www.facebook.com/smlchile" target="_blank"><img class="img-responsive" src=".../imagenes/fb_logo1.png" alt=" "/></a>
+                        </p><hr />                       
+                    </div>
+
+                    <!-- Barra lateral izquierda -->
+
+
+
+
+                    <!--fin usuario logeado --> 
+                    <div class="col-md-9">
+                        <div class="thumbnail" style="width: 785px; padding: 15px;">
+                            <h4 style="text-align: center;" >Formulario Único de cadena de custodia</h4><hr />
+                            <!-- Barra de navegación -->
+                            <h:form>
+                                <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
+                                    <h:outputLabel  for="ruc" value="R.U.C.:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="ruc" value="#{todoMB.formulario.ruc}" label="ruc" disabled="true" ></p:inputText>
+
+                                    <h:outputLabel  for="rit" value="R.I.T.:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="rit" value="#{todoMB.formulario.rit}" label="rit" disabled="true"></p:inputText>
+
+                                    <h:outputLabel  for="nue" value="N.U.E.:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="nue" value="#{todoMB.formulario.nue}" label="nue" disabled="true"></p:inputText>                                   
+
+                                    <h:outputLabel  for="del" value="Delito:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="del" value="#{todoMB.formulario.delitoRef}" label="Delito" disabled="true"></p:inputText>
+
+                                    <h:outputLabel  for="dir" value="Dirección:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="dir" value="#{todoMB.formulario.direccionSS}" label="Dirección" disabled="true"></p:inputText>
+
+                                    <h:outputLabel  for="lu" value="Lugar:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="lu" value="#{todoMB.formulario.lugarLevantamiento}" label="Lugar" disabled="true"></p:inputText>
+
+                                    <h:outputLabel  for="parte" value="N° Parte:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="parte" value="#{todoMB.formulario.numeroParte}" label="N° Parte" disabled="true"></p:inputText>
+
+                                    <h:outputLabel  for="uni" value="Unidad Policial:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="uni" value="#{todoMB.formulario.unidadPolicial}" label="Unidad" disabled="true"></p:inputText>
+
+                                    <h:outputLabel  for="lev" value="Levantada por:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="lev" value="#{todoMB.formulario.usuarioidUsuario.nombreUsuario} #{todoMB.formulario.usuarioidUsuario.apellidoUsuario}" label="Levantada por" disabled="true"></p:inputText>
+
+                                    <h:outputLabel  for="run" value="R.U.N.:" style="width:120px"></h:outputLabel>
+                                    <p:inputText id="run" value="#{todoMB.formulario.usuarioidUsuario.rutUsuario}" label="R.U.N." disabled="true"></p:inputText>            
+
+                                </h:panelGrid> <br />
+
+
+                                <h:panelGrid columns="1" cellpadding="5" class="ui-grid">
+                                    <h:outputLabel  for="fecha" value="Fecha:" style="width:120px"></h:outputLabel>
+                                    <p:calendar id="fecha" pattern="dd/MM/yyyy HH:mm" locale="es" value="#{todoMB.formulario.fechaOcurrido}" disabled="true"/>
+
+                                    <h:outputLabel  for="obs" value="Observaciones:" style="width:120px"></h:outputLabel>
+                                    <p:inputTextarea id="Observaciones" rows="3" cols="90" value="#{todoMB.formulario.observaciones}" queryDelay="750" minQueryLength="4" disabled="true" />
+
+                                    <h:outputLabel for="evi" value="Evidencia:" style="width:120px"/>
+                                    <p:inputText id="evi" value="#{todoMB.evidencia}" label="Evidencia" disabled="true"></p:inputText>    
+
+                                    <h:outputLabel  for="des" value="Descripción:" style="width:120px"></h:outputLabel>
+                                    <p:inputTextarea id="descripcion" rows="3" cols="90" value="#{todoMB.formulario.descripcionEspecieFormulario}" queryDelay="750" minQueryLength="4" disabled="true" />
+                                </h:panelGrid>   
+
+
+                                <h4> Mostrando Traslados</h4>
+                                <div align="center">
+
+                                    <p:dataTable var="traslado" value="#{todoMB.intercalado}" emptyMessage="No se han registrado más participantes en esta cadena de custodia." scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="150" style="margin-bottom:0">
+
+                                        <p:column headerText="">
+                                            <h:outputText value="#{todoMB.cambio()}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Nombre">
+                                            <h:outputText value="#{traslado.usuarioidUsuarioEntrega.nombreUsuario} #{traslado.usuarioidUsuarioEntrega.apellidoUsuario}" />
+                                        </p:column>
+
+                                        <p:column headerText="Cargo">
+                                            <h:outputText value="#{traslado.usuarioidUsuarioEntrega.cargoidCargo.nombreCargo}" />
+                                        </p:column>
+
+                                        <p:column headerText="R.U.N.">
+                                            <h:outputText value="#{traslado.usuarioidUsuarioEntrega.rutUsuario}" />
+                                        </p:column>
+
+                                        <p:column headerText="Fecha" rowspan="2">
+                                            <h:outputText value="#{traslado.fechaEntrega}" />
+                                        </p:column>
+
+                                        <p:column headerText="Observación" rowspan="2">
+                                            <h:outputText value="#{traslado.observaciones}" />
+                                        </p:column>
+
+                                        <p:column headerText="Motivo" rowspan="2">
+                                            <h:outputText value="#{traslado.tipoMotivoidMotivo.tipoMotivo}" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </div><br />
+
+
+
+
+                                <!-- traslado  -->
+                                <div class="center">
+                                    <h4 class="pull-center">Siguiente Traslado</h4><br />
+                                    <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
+                                        <h:outputLabel  style="width:120px" for="fech" value="Fecha:"></h:outputLabel> <!-- nose si poner la misma etiqueta -->
+                                        <p:calendar id="fech" pattern="dd/MM/yyyy HH:mm" locale="es" value="#{todoMB.fechaT}" required="true" requiredMessage="Debe ingresar la fecha"/>                                    
+                                        <p:message for="fech" display="text"/>
+                                    </h:panelGrid>
+
+                                    <br />
+
+                                    <h4 class="pull-center">Entrega:</h4> <br />
+                                    
+                                    <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
+                                        <h:outputLabel  for="nombre" value="Nombre:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="nombre" value="#{todoMB.usuarioInicia.nombreUsuario} #{todoMB.usuarioInicia.apellidoUsuario}" label="nombre" disabled="true"></p:inputText>
+                                    </h:panelGrid>
+
+                                    <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
+                                        <h:outputLabel  for="rut" value="R.U.T:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="rut" value="#{todoMB.usuarioInicia.rutUsuario}" label="rut" disabled="true"></p:inputText>
+                                    </h:panelGrid>
+                                    
+                                    <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
+                                        <h:outputLabel  for="area" value="Área:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="area" value="#{todoMB.usuarioInicia.areaidArea.nombreArea}" label="Área." disabled="true"></p:inputText>   
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
+                                        <h:outputLabel  for="cargo" value="Cargo:" style="width:120px"></h:outputLabel>
+                                        <p:inputText id="cargo" value="#{todoMB.usuarioInicia.cargoidCargo.nombreCargo}" label="Cargo" disabled="true"></p:inputText>
+                                    </h:panelGrid>
+
+
+                                    <br />
+
+                                    <h4 class="pull-center">Recibe:</h4><br />
+                                    <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
+                                        <h:outputLabel  style="width:120px" for="nomR" value="Nombre*:"></h:outputLabel>
+                                        <p:inputText id="nomR" value="#{todoMB.usuarioRecibe}" label="Nombre" required="true" requiredMessage="Debe ingresar el nombre"></p:inputText>
+                                        <p:message for="nomR" display="text"/>
+                                    </h:panelGrid>
+
+                                    <h:panelGrid columns="5" cellpadding="5" class="ui-grid">
+                                        <h:outputLabel  style="width:120px" for="runR" value="R.U.N.*:"></h:outputLabel>
+                                        <p:inputText id="runR" value="#{todoMB.usuarioRecibeRut}" label="R.U.N." required="true" requiredMessage="Debe ingresar el R.U.N."></p:inputText>
+                                        <p:message for="runR" display="text"/>
+                                    </h:panelGrid>
+
+                                    <h:outputLabel for="area1" value="Área*: " style="width:120px"/>
+                                    <h:selectOneMenu id="area1" value="#{todoMB.usuarioRecibeUnidad}" style="width:120px" required="true" requiredMessage="Debe ingresar el área">
+                                        <f:selectItem itemValue="0" itemLabel="Seleccione" noSelectionOption="true"/>
+                                        <f:selectItem itemValue="Laboratorio SML" itemLabel="Laboratorio SML"/>
+                                        <f:selectItem itemValue="LACRIM" itemLabel="LACRIM"/>
+                                        <f:selectItem itemValue="LABOCAR" itemLabel="LABOCAR"/>
+                                        <f:selectItem itemValue="Tanatología SML" itemLabel="Tanatología SML"/>
+                                        <f:selectItem itemValue="Clínica SML" itemLabel="Clínica SML"/>
+                                        <f:selectItem itemValue="Otro" itemLabel="Otro"/>
+                                    </h:selectOneMenu>
+                                    <br />
+
+                                    <h:outputLabel style="width:120px; align-left" for="cargo1" value="Cargo*: " />
+                                    <h:selectOneMenu id="cargo1" value="#{todoMB.usuarioRecibeCargo}" style="width:120px" required="true" requiredMessage="Debe ingresar el cargo">
+                                        <f:selectItem itemValue="0" itemLabel="Seleccione" noSelectionOption="true"/>
+                                        <f:selectItem itemValue="Técnico" itemLabel="Técnico"/>
+                                        <f:selectItem itemValue="Perito" itemLabel="Perito"/>
+                                        <f:selectItem itemValue="Chofer" itemLabel="Chofer"/>
+                                        <f:selectItem itemValue="Externo" itemLabel="Externo"/>
+                                    </h:selectOneMenu>
+                                    <br />
+
+                                    <br />
+
+                                    <div align="center">
+                                        <h:outputLabel for="mot" value="Motivo*: " style="width:120px"/>
+                                        <h:selectOneRadio id="mot" value="#{todoMB.motivo}" required="true" requiredMessage="Debe ingresar el motivo">
+                                            <f:selectItem itemValue="Peritaje" itemLabel="Peritaje" /> 
+                                            <f:selectItem itemValue="Traslado" itemLabel="Traslado" />
+                                            <f:selectItem itemValue="Custodia" itemLabel="Custodia" />
+                                        </h:selectOneRadio><br />
+                                        <p:message for="mot" display="text"/>
+                                    </div><br />
+
+                                    <h:outputLabel  for="obsCC" value="Observaciones:" style="width:120px"></h:outputLabel>
+                                    <p:inputTextarea id="ObsCC" rows="3" cols="90" value="#{todoMB.observacionesT}" queryDelay="750" minQueryLength="4" />
+                                    <br />    
+                                    <h:commandButton id="btnAceptar" value="Aceptar" action="#{todoMB.agregarTraslado()}" disabled="#{todoMB.bloqueada}"/>
+                                    <h:commandButton value="Iniciar Cadena de Custodia" label="" action = "#{todoMB.nuevaCadena()}" ></h:commandButton>   
+                                    <br />
+
+                                </div>
+                            </h:form>
+
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+
+                </div>
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="col-md-3" style="margin-top: 20px">
+                        <p class="lead">
+                            <img class="img-responsive" src=".../imagenes/footer2.jpg" alt="" />
+                        </p><br />
+                    </div>
+                    <div class="col-md-9">
+
+                        <h5 class="pull-right">
+                            Servicio Médico Legal - Avda. La Paz 1012, Independencia,
+                            Santiago - Teléfono Mesa Central:
+                        </h5>
+                        <h5 class="pull-right">
+                            (2) 27823500 Fono OIRS: (2) 2782 3662 - 2782 3663 - 2782 3664 - 800
+                            800 006
+                        </h5>
+                    </div>                    
+                </nav>        
+            </div>
+        </div>
+        <!-- Footer -->
+
+    </h:body>
+</html>
+

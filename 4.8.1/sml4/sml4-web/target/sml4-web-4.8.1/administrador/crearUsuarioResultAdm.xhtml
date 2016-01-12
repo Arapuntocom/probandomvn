@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <title>Crear Usuario</title>
+        <link href=".../css/bootstrap.min.css" rel="stylesheet" />
+        <link href=".../css/shop-item.css" rel="stylesheet" />
+    </h:head>
+    <h:body>
+        <div class="container">
+            <h:form>
+                <div class="thumbnail">
+                    <div align="center"><h:outputLabel class="input-group-lg" style=" background-color: white" value="Bienvenido(a) #{crearUsuarioResultAdmMB.usuarioSesion.nombreUsuario} #{crearUsuarioResultAdmMB.usuarioSesion.apellidoUsuario}"></h:outputLabel></div>
+                </div>
+            </h:form>
+ 
+            <hr />
+ 
+            <!-- Nav -->
+            <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:5px">
+                <div  class="col-md-3" align="center"> <!-- Barra de navegación -->
+                    <a class="navbar-brand" align="center" href="#">SERVICIO MÉDICO LEGAL</a>
+                </div>
+                <div class="col-md-9"> <!-- Barra de navegación -->
+                    <h:form>
+                        <ul class="nav nav-tabs nav-justified">
+ 
+                            <li role="presentation"> <h:commandLink id="cs1" action="#{crearUsuarioResultAdmMB.buscador()}" value="Buscar"></h:commandLink> </li>  
+ 
+                            <li role="presentation" class="active" ><h:commandLink id="cs2" action="#{crearUsuarioResultAdmMB.crearUsuario()}" value="Crear usuario"></h:commandLink></li>  
+ 
+                            <li role="presentation"> <h:commandLink id="cs5" action="#{crearUsuarioResultAdmMB.salir()}" value="Cerrar sesión"></h:commandLink> </li>
+ 
+                        </ul>
+                    </h:form>
+                </div>
+            </div>      
+ 
+            <!-- Nav -->
+            <!-- Barra lateral izquierda -->
+ 
+            <div class="container-fluid">      
+                <div class="row" style="background:rgba(255, 255, 255, 0.8); padding:5px; border-radius: 0 0 7px 7px; margin-top:10px">
+                    <div class="col-md-3">
+                        <p class="lead">
+                            <a href="http://www.sml.cl/sml/" target="_blank" ><img class="img-responsive" src=".../imagenes/logoSML.jpg" alt="" /> </a>
+                        </p><hr />
+                        <p class="lead">
+                            <img class="img-responsive" src=".../imagenes/camioneta.jpg" alt="" />
+                        </p><hr />
+ 
+                        <p class="lead">
+                            <a href="http://www.sml.cl/intranetsml/index.php" target="_blank"><img class="img-responsive" src=".../imagenes/intranet.jpg" alt=" "/></a>
+                        </p><hr />                      
+                    </div>
+ 
+                    <!-- Barra lateral izquierda -->
+ 
+ 
+                    <!-- inicio busqueda -->
+                    <div class="col-md-9">
+                        <div align="center">
+                            <p:panel header="Se ha creado el usuario con éxito">
+ 
+                                <h:form>
+                                    <br />
+                                    <div align="center">
+ 
+                                        <p:dataTable value = "#{crearUsuarioResultAdmMB.userCreado}" var = "user" emptyMessage="No se encuentra usuario" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="100" style="margin-bottom:0">
+ 
+ 
+                                            <p:column headerText="Cuenta">
+                                                <h:outputText value="#{user.cuentaUsuario}"/>                                                
+                                            </p:column>
+ 
+                                            <p:column headerText="Contraseña">
+                                                <h:outputText value="#{user.passUsuario}"/>                                                
+                                            </p:column>
+                                            <p:column headerText="Nombre">
+                                                <h:outputText value="#{user.nombreUsuario}"/>                                                
+                                            </p:column>
+ 
+                                            <p:column headerText="Apellido">
+                                                <h:outputText value="#{user.apellidoUsuario}"/>                                                
+                                            </p:column>
+ 
+                                            <p:column headerText="R.U.N.">
+                                                <h:outputText value="#{user.rutUsuario}"/>                                                
+                                            </p:column>
+ 
+                                            <p:column headerText="Correo">
+                                                <h:outputText value="#{user.mailUsuario}"/>                                                
+                                            </p:column>
+ 
+                                            <p:column headerText="Cargo">
+                                                <h:outputText value="#{user.cargoidCargo.nombreCargo}"/>                                                
+                                            </p:column>
+ 
+                                            <p:column headerText="Área">
+                                                <h:outputText value="#{user.areaidArea.nombreArea}"/>                                                
+                                            </p:column>
+ 
+ 
+                                        </p:dataTable>
+ 
+                                        <h:panelGrid columns="4" cellpadding="5" class="ui-grid">
+ 
+                                            <h:commandButton value= "Crear nuevo usuario" action = "#{crearUsuarioResultAdmMB.crearUsuario()}" ></h:commandButton>  
+ 
+                                        </h:panelGrid>
+                                       
+                                        <!--<h:panelGrid columns="4" cellpadding="5" class="ui-grid">
+                                            <p:outputLabel for="Nombre" value="Nombre:" style="width:90px"></p:outputLabel>
+                                            <h:inputText id="Nombre" style="margin-right:10px" value = "#" rendered="true" requiredMessage="Debe ingresar el nombre"/>
+                                            <p:outputLabel for="Apellido" value="Apellido:" style="width:90px"></p:outputLabel>
+                                            <h:inputText id="Apellido" style="margin-right:10px" value = "#" rendered="true" requiredMessage="Debe ingresar el apellido"/>
+                                            <p:outputLabel for="run" value="R.U.N:" style="width:90px"></p:outputLabel>
+                                            <h:inputText id="run" style="margin-right:10px" value = "#" rendered="true" requiredMessage="Debe ingresar el R.U.N."/>
+                                            <p:outputLabel for="mail" value="Correo:" style="width:90px"></p:outputLabel>
+                                            <h:inputText id="mail" style="margin-right:10px" value = "#" rendered="true" requiredMessage="Debe ingresar el correo del usuario"/>
+                                        </h:panelGrid>-->
+                                    </div>
+                                    <br />
+                                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                                </h:form>
+                            </p:panel>
+                        </div>
+                    </div>
+                    <!-- fin de busqueda -->
+                    <!-- Footer -->
+ 
+                </div>
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="col-md-3" style="margin-top: 20px">
+                        <p class="lead">
+                            <img class="img-responsive" src=".../imagenes/footer2.jpg" alt="" />
+                        </p><br />
+                    </div>
+                    <div class="col-md-9">
+ 
+                        <h5 class="pull-right">
+                            Servicio Médico Legal - Avda. La Paz 1012, Independencia,
+                            Santiago - Teléfono Mesa Central:
+                        </h5>
+                        <h5 class="pull-right">
+                            (2) 27823500 Fono OIRS: (2) 2782 3662 - 2782 3663 - 2782 3664 - 800
+                            800 006
+                        </h5>
+                    </div>                    
+                </nav>        
+            </div>
+        </div>
+        <!-- Footer -->
+ 
+ 
+    </h:body>
+</html>

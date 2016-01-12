@@ -9,6 +9,7 @@ import ejb.FormularioEJBLocal;
 import ejb.UsuarioEJBLocal;
 import entity.Usuario;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -63,6 +64,11 @@ public class CrearFormularioMB {
  
     private String motivo;
     
+    private String evidencias; //para capturar el nombre de la evidencia seleccionada
+    private String codTipoEvidencia;
+    private String depa;
+    private List<String> listEvidencias;
+    
     public CrearFormularioMB() {
         logger.setLevel(Level.ALL);
         logger.entering(this.getClass().getName(), "CrearFormularioMB");
@@ -100,7 +106,7 @@ public class CrearFormularioMB {
         httpServletRequest.getSession().setAttribute("nueF", this.nue);
         httpServletRequest1.getSession().setAttribute("cuentaUsuario", this.usuarioSis);
         
-        String resultado = formularioEJB.crearFormulario(motivo, ruc, rit, nue, parte, cargo, delito, direccionSS, lugar, unidad, levantadaPor, rut, fecha, observacion, descripcion, usuarioSesion);
+        String resultado = formularioEJB.crearFormulario(codTipoEvidencia, evidencias, motivo, ruc, rit, nue, parte, cargo, delito, direccionSS, lugar, unidad, levantadaPor, rut, fecha, observacion, descripcion, usuarioSesion);
 
         if(resultado.equals("Exito")){
             logger.exiting(this.getClass().getName(), "iniciarFormulario", "forAddTHU11");
